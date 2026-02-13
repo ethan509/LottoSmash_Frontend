@@ -1,0 +1,57 @@
+name: lottosmash
+description: "LottoSmash - 한국 로또 6/45 분석 서비스"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  flutter_riverpod: ^2.4.0
+  riverpod_annotation: ^2.3.0
+
+  # Routing
+  go_router: ^14.0.0
+
+  # Network
+  dio: ^5.4.0
+
+  # Storage
+  flutter_secure_storage: ^9.0.0
+  shared_preferences: ^2.2.0
+
+  # Serialization
+  json_annotation: ^4.8.0
+  freezed_annotation: ^2.4.0
+
+  # Internationalization
+  intl: ^0.19.0
+
+  # Charts
+  fl_chart: ^0.68.0
+
+  # UI
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.0
+  shimmer: ^3.0.0
+  pull_to_refresh_flutter3: ^2.0.0
+  lottie: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^2.4.0
+  freezed: ^2.4.0
+  json_serializable: ^6.7.0
+  riverpod_generator: ^2.3.0
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
