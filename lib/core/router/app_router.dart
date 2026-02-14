@@ -7,8 +7,11 @@ import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/register_screen.dart';
 import '../../features/auth/presentation/screens/profile_screen.dart';
 import '../../features/auth/providers/auth_provider.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/draws/presentation/screens/draw_list_screen.dart';
+import '../../features/draws/presentation/screens/draw_detail_screen.dart';
 
-// Placeholder screens - will be replaced in Phase 3+
+// Placeholder screens - will be replaced in Phase 4+
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
   const _PlaceholderScreen({required this.title});
@@ -76,20 +79,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/home',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: '홈'),
+            builder: (context, state) => const HomeScreen(),
           ),
           GoRoute(
             path: '/draws',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: '당첨번호'),
+            builder: (context, state) => const DrawListScreen(),
             routes: [
               GoRoute(
                 path: ':drawNo',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) {
-                  final drawNo = state.pathParameters['drawNo']!;
-                  return _PlaceholderScreen(title: '제 $drawNo회');
+                  final drawNo =
+                      int.parse(state.pathParameters['drawNo']!);
+                  return DrawDetailScreen(drawNo: drawNo);
                 },
               ),
             ],
