@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottosmash/shared/widgets/bottom_nav_bar.dart';
+import '../../features/auth/presentation/screens/splash_screen.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/auth/presentation/screens/register_screen.dart';
+import '../../features/auth/presentation/screens/profile_screen.dart';
+import '../../features/auth/providers/auth_provider.dart';
 
-// Placeholder screens - will be replaced in Phase 2+
+// Placeholder screens - will be replaced in Phase 3+
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
   const _PlaceholderScreen({required this.title});
@@ -21,26 +26,46 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authStateNotifierProvider);
+
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
+    redirect: (context, state) {
+      final isAuthenticated = authState.valueOrNull ?? false;
+      final isLoading = authState.isLoading;
+      final location = state.uri.path;
+
+      // 스플래시 화면은 항상 허용
+      if (location == '/splash') return null;
+
+      // 아직 로딩 중이면 스플래시로
+      if (isLoading) return '/splash';
+
+      final isPublicRoute = location == '/login' || location == '/register';
+
+      // 미인증 + 비공개 경로 → 로그인으로
+      if (!isAuthenticated && !isPublicRoute) return '/login';
+
+      // 인증됨 + 로그인/회원가입 → 홈으로
+      if (isAuthenticated && isPublicRoute) return '/home';
+
+      return null;
+    },
     routes: [
       // Splash
       GoRoute(
         path: '/splash',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: '스플래시'),
+        builder: (context, state) => const SplashScreen(),
       ),
       // Auth
       GoRoute(
         path: '/login',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: '로그인'),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: '/register',
-        builder: (context, state) =>
-            const _PlaceholderScreen(title: '회원가입'),
+        builder: (context, state) => const RegisterScreen(),
       ),
       // Main Shell (하단 네비게이션)
       ShellRoute(
@@ -125,8 +150,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: '내 정보'),
+            builder: (context, state) => const ProfileScreen(),
           ),
         ],
       ),
