@@ -19,20 +19,7 @@ import '../../features/stats/presentation/screens/ratio_stats_screen.dart';
 import '../../features/stats/presentation/screens/color_stats_screen.dart';
 import '../../features/stats/presentation/screens/grid_stats_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_screen.dart';
-
-// Placeholder screens - will be replaced in Phase 6+
-class _PlaceholderScreen extends StatelessWidget {
-  final String title;
-  const _PlaceholderScreen({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text(title)),
-    );
-  }
-}
+import '../../features/notifications/presentation/screens/notification_list_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -167,7 +154,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/notifications',
         builder: (context, state) =>
-            const _PlaceholderScreen(title: '알림'),
+            const NotificationListScreen(),
       ),
     ],
   );
