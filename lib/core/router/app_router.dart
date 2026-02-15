@@ -18,8 +18,9 @@ import '../../features/stats/presentation/screens/consecutive_screen.dart';
 import '../../features/stats/presentation/screens/ratio_stats_screen.dart';
 import '../../features/stats/presentation/screens/color_stats_screen.dart';
 import '../../features/stats/presentation/screens/grid_stats_screen.dart';
+import '../../features/recommend/presentation/screens/recommend_screen.dart';
 
-// Placeholder screens - will be replaced in Phase 5+
+// Placeholder screens - will be replaced in Phase 6+
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
   const _PlaceholderScreen({required this.title});
@@ -154,8 +155,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/recommend',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: '번호 추천'),
+            builder: (context, state) => const RecommendScreen(),
           ),
           GoRoute(
             path: '/profile',
