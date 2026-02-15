@@ -10,8 +10,16 @@ import '../../features/auth/providers/auth_provider.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/draws/presentation/screens/draw_list_screen.dart';
 import '../../features/draws/presentation/screens/draw_detail_screen.dart';
+import '../../features/stats/presentation/screens/stats_overview_screen.dart';
+import '../../features/stats/presentation/screens/number_frequency_screen.dart';
+import '../../features/stats/presentation/screens/bayesian_screen.dart';
+import '../../features/stats/presentation/screens/pair_stats_screen.dart';
+import '../../features/stats/presentation/screens/consecutive_screen.dart';
+import '../../features/stats/presentation/screens/ratio_stats_screen.dart';
+import '../../features/stats/presentation/screens/color_stats_screen.dart';
+import '../../features/stats/presentation/screens/grid_stats_screen.dart';
 
-// Placeholder screens - will be replaced in Phase 4+
+// Placeholder screens - will be replaced in Phase 5+
 class _PlaceholderScreen extends StatelessWidget {
   final String title;
   const _PlaceholderScreen({required this.title});
@@ -98,50 +106,49 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/stats',
-            builder: (context, state) =>
-                const _PlaceholderScreen(title: '통계'),
+            builder: (context, state) => const StatsOverviewScreen(),
             routes: [
               GoRoute(
                 path: 'frequency',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '번호 출현 빈도'),
+                    const NumberFrequencyScreen(),
               ),
               GoRoute(
                 path: 'bayesian',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '베이지안 분석'),
+                    const BayesianScreen(),
               ),
               GoRoute(
                 path: 'pairs',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '번호 쌍 통계'),
+                    const PairStatsScreen(),
               ),
               GoRoute(
                 path: 'consecutive',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '연속번호 패턴'),
+                    const ConsecutiveScreen(),
               ),
               GoRoute(
                 path: 'ratio',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '홀짝/고저 비율'),
+                    const RatioStatsScreen(),
               ),
               GoRoute(
                 path: 'colors',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '색상 패턴'),
+                    const ColorStatsScreen(),
               ),
               GoRoute(
                 path: 'grid',
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
-                    const _PlaceholderScreen(title: '행열 패턴'),
+                    const GridStatsScreen(),
               ),
             ],
           ),
