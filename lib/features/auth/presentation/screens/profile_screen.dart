@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/theme/theme_provider.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../../../shared/widgets/error_widget.dart';
 import '../../data/models/auth_models.dart';
@@ -242,6 +243,11 @@ class _ProfileBody extends ConsumerWidget {
               ],
             ),
           ),
+          const SizedBox(height: 16),
+
+          // 설정
+          _ThemeSettingsCard(),
+
           const SizedBox(height: 24),
 
           // 로그아웃
@@ -303,5 +309,48 @@ class _ProfileBody extends ConsumerWidget {
         context.go('/login');
       }
     }
+  }
+}
+
+class _ThemeSettingsCard extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeModeProvider);
+
+    return Card(
+      child: Column(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.dark_mode_outlined),
+            title: const Text('다크모드'),
+            trailing: SegmentedButton<ThemeMode>(
+              segments: const [
+                ButtonSegment(
+                  value: ThemeMode.system,
+                  icon: Icon(Icons.settings_suggest, size: 18),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.light,
+                  icon: Icon(Icons.light_mode, size: 18),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.dark,
+                  icon: Icon(Icons.dark_mode, size: 18),
+                ),
+              ],
+              selected: {themeMode},
+              onSelectionChanged: (selected) {
+                ref
+                    .read(themeModeProvider.notifier)
+                    .setThemeMode(selected.first);
+              },
+              style: ButtonStyle(
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
