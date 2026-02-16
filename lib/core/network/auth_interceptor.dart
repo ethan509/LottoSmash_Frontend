@@ -3,14 +3,46 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../constants/api_endpoints.dart';
 import '../config/app_config.dart';
 
+/// 인메모리 토큰 캐시 — Secure Storage 비동기 읽기 지연 문제 해결
+class TokenStore {
+  static String? _accessToken;
+  static String? _refreshToken;
+
+  static String? get accessToken => _accessToken;
+  static String? get refreshToken => _refreshToken;
+
+  /// 토큰 저장 (메모리 + Secure Storage)
+  static Future<void> save({
+    required String accessToken,
+    required String refreshToken,
+    required FlutterSecureStorage storage,
+  }) async {
+    _accessToken = accessToken;
+    _refreshToken = refreshToken;
+    await storage.write(key: 'access_token', value: accessToken);
+    await storage.write(key: 'refresh_token', value: refreshToken);
+  }
+
+  /// 토큰 삭제 (메모리 + Secure Storage)
+  static Future<void> clear(FlutterSecureStorage storage) async {
+    _accessToken = null;
+    _refreshToken = null;
+    await storage.delete(key: 'access_token');
+    await storage.delete(key: 'refresh_token');
+  }
+
+  /// 앱 시작 시 Secure Storage → 메모리로 로드
+  static Future<void> loadFromStorage(FlutterSecureStorage storage) async {
+    _accessToken = await storage.read(key: 'access_token');
+    _refreshToken = await storage.read(key: 'refresh_token');
+  }
+}
+
 class AuthInterceptor extends Interceptor {
   final Dio _dio;
   final FlutterSecureStorage _storage;
   bool _isRefreshing = false;
   final List<({RequestOptions options, ErrorInterceptorHandler handler})> _queue = [];
-
-  static const _accessTokenKey = 'access_token';
-  static const _refreshTokenKey = 'refresh_token';
 
   // 인증이 필요 없는 경로들
   static const _publicPaths = [
@@ -28,11 +60,11 @@ class AuthInterceptor extends Interceptor {
         _storage = storage;
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // Public 경로는 토큰 주입 생략
     final isPublic = _publicPaths.any((path) => options.path.contains(path));
     if (!isPublic) {
-      final token = await _storage.read(key: _accessTokenKey);
+      final token = TokenStore.accessToken;
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
@@ -49,7 +81,7 @@ class AuthInterceptor extends Interceptor {
 
     // refresh 요청 자체가 401이면 로그아웃
     if (err.requestOptions.path.contains(ApiEndpoints.refresh)) {
-      await _clearTokens();
+      await TokenStore.clear(_storage);
       handler.next(err);
       return;
     }
@@ -62,9 +94,9 @@ class AuthInterceptor extends Interceptor {
     _isRefreshing = true;
 
     try {
-      final refreshToken = await _storage.read(key: _refreshTokenKey);
+      final refreshToken = TokenStore.refreshToken;
       if (refreshToken == null) {
-        await _clearTokens();
+        await TokenStore.clear(_storage);
         handler.next(err);
         return;
       }
@@ -79,7 +111,11 @@ class AuthInterceptor extends Interceptor {
 
       final newAccessToken = response.data['access_token'] as String;
       final newRefreshToken = response.data['refresh_token'] as String;
-      await _saveTokens(newAccessToken, newRefreshToken);
+      await TokenStore.save(
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+        storage: _storage,
+      );
 
       // 원래 요청 재시도
       err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
@@ -97,7 +133,7 @@ class AuthInterceptor extends Interceptor {
         }
       }
     } on DioException {
-      await _clearTokens();
+      await TokenStore.clear(_storage);
       handler.next(err);
       for (final entry in _queue) {
         entry.handler.reject(err);
@@ -106,15 +142,5 @@ class AuthInterceptor extends Interceptor {
       _isRefreshing = false;
       _queue.clear();
     }
-  }
-
-  Future<void> _saveTokens(String accessToken, String refreshToken) async {
-    await _storage.write(key: _accessTokenKey, value: accessToken);
-    await _storage.write(key: _refreshTokenKey, value: refreshToken);
-  }
-
-  Future<void> _clearTokens() async {
-    await _storage.delete(key: _accessTokenKey);
-    await _storage.delete(key: _refreshTokenKey);
   }
 }

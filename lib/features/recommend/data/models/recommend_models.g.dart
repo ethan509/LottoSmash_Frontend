@@ -101,16 +101,20 @@ Map<String, dynamic> _$$RecommendRequestImplToJson(
 
 _$MethodDetailImpl _$$MethodDetailImplFromJson(Map<String, dynamic> json) =>
     _$MethodDetailImpl(
-      numbers: (json['numbers'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
+      numbers: (json['numbers'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
           .toList(),
-      probability: (json['probability'] as num).toDouble(),
+      probability: (json['probability'] as num?)?.toDouble(),
+      method: json['method'] as String?,
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$$MethodDetailImplToJson(_$MethodDetailImpl instance) =>
     <String, dynamic>{
       'numbers': instance.numbers,
       'probability': instance.probability,
+      'method': instance.method,
+      'type': instance.type,
     };
 
 _$RecommendationImpl _$$RecommendationImplFromJson(Map<String, dynamic> json) =>
@@ -124,9 +128,12 @@ _$RecommendationImpl _$$RecommendationImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       combineMethod: json['combine_method'] as String,
       confidence: (json['confidence'] as num).toDouble(),
-      details: (json['details'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, MethodDetail.fromJson(e as Map<String, dynamic>)),
-      ),
+      details:
+          (json['details'] as Map<String, dynamic>?)?.map(
+            (k, e) =>
+                MapEntry(k, MethodDetail.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$RecommendationImplToJson(
@@ -146,8 +153,8 @@ _$RecommendResponseImpl _$$RecommendResponseImplFromJson(
   recommendations: (json['recommendations'] as List<dynamic>)
       .map((e) => Recommendation.fromJson(e as Map<String, dynamic>))
       .toList(),
-  generatedAt: json['generated_at'] as String,
-  latestDrawNo: (json['latest_draw_no'] as num).toInt(),
+  generatedAt: json['generated_at'] as String?,
+  latestDrawNo: (json['latest_draw_no'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$$RecommendResponseImplToJson(

@@ -59,11 +59,11 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
 
 _$UserTierImpl _$$UserTierImplFromJson(Map<String, dynamic> json) =>
     _$UserTierImpl(
-      id: (json['id'] as num).toInt(),
+      id: (json['id'] as num?)?.toInt(),
       code: json['code'] as String,
       name: json['name'] as String,
       level: (json['level'] as num).toInt(),
-      isActive: json['is_active'] as bool,
+      isActive: json['is_active'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$UserTierImplToJson(_$UserTierImpl instance) =>

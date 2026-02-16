@@ -40,11 +40,11 @@ class User with _$User {
 @freezed
 class UserTier with _$UserTier {
   const factory UserTier({
-    required int id,
+    int? id,
     required String code,
     required String name,
     required int level,
-    @JsonKey(name: 'is_active') required bool isActive,
+    @JsonKey(name: 'is_active') @Default(true) bool isActive,
   }) = _UserTier;
 
   factory UserTier.fromJson(Map<String, dynamic> json) =>

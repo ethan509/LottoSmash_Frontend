@@ -720,7 +720,7 @@ UserTier _$UserTierFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserTier {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
@@ -743,7 +743,7 @@ abstract class $UserTierCopyWith<$Res> {
       _$UserTierCopyWithImpl<$Res, UserTier>;
   @useResult
   $Res call({
-    int id,
+    int? id,
     String code,
     String name,
     int level,
@@ -766,7 +766,7 @@ class _$UserTierCopyWithImpl<$Res, $Val extends UserTier>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? code = null,
     Object? name = null,
     Object? level = null,
@@ -774,10 +774,10 @@ class _$UserTierCopyWithImpl<$Res, $Val extends UserTier>
   }) {
     return _then(
       _value.copyWith(
-            id: null == id
+            id: freezed == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
-                      as int,
+                      as int?,
             code: null == code
                 ? _value.code
                 : code // ignore: cast_nullable_to_non_nullable
@@ -810,7 +810,7 @@ abstract class _$$UserTierImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    int id,
+    int? id,
     String code,
     String name,
     int level,
@@ -832,7 +832,7 @@ class __$$UserTierImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? code = null,
     Object? name = null,
     Object? level = null,
@@ -840,10 +840,10 @@ class __$$UserTierImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$UserTierImpl(
-        id: null == id
+        id: freezed == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
-                  as int,
+                  as int?,
         code: null == code
             ? _value.code
             : code // ignore: cast_nullable_to_non_nullable
@@ -869,18 +869,18 @@ class __$$UserTierImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserTierImpl implements _UserTier {
   const _$UserTierImpl({
-    required this.id,
+    this.id,
     required this.code,
     required this.name,
     required this.level,
-    @JsonKey(name: 'is_active') required this.isActive,
+    @JsonKey(name: 'is_active') this.isActive = true,
   });
 
   factory _$UserTierImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserTierImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final String code;
   @override
@@ -929,18 +929,18 @@ class _$UserTierImpl implements _UserTier {
 
 abstract class _UserTier implements UserTier {
   const factory _UserTier({
-    required final int id,
+    final int? id,
     required final String code,
     required final String name,
     required final int level,
-    @JsonKey(name: 'is_active') required final bool isActive,
+    @JsonKey(name: 'is_active') final bool isActive,
   }) = _$UserTierImpl;
 
   factory _UserTier.fromJson(Map<String, dynamic> json) =
       _$UserTierImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   String get code;
   @override
