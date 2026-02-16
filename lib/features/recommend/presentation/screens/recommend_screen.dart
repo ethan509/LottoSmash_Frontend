@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/network/api_exception.dart';
 import '../../../../shared/widgets/error_widget.dart';
@@ -29,6 +30,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.recommend),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            tooltip: AppStrings.recommendHistory,
+            onPressed: () => context.go('/recommend/history'),
+          ),
+        ],
       ),
       body: methodsAsync.when(
         loading: () => const ShimmerList(itemCount: 4, itemHeight: 80),

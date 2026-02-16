@@ -931,6 +931,8 @@ mixin _$RecommendRequest {
   String? get minMaxMode => throw _privateConstructorUsedError;
   @JsonKey(name: 'include_bonus')
   bool get includeBonus => throw _privateConstructorUsedError;
+  @JsonKey(name: 'use_position_constraint')
+  bool get usePositionConstraint => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
 
   /// Serializes this RecommendRequest to a JSON map.
@@ -956,6 +958,7 @@ abstract class $RecommendRequestCopyWith<$Res> {
     Map<String, double>? weights,
     @JsonKey(name: 'min_max_mode') String? minMaxMode,
     @JsonKey(name: 'include_bonus') bool includeBonus,
+    @JsonKey(name: 'use_position_constraint') bool usePositionConstraint,
     int count,
   });
 }
@@ -980,6 +983,7 @@ class _$RecommendRequestCopyWithImpl<$Res, $Val extends RecommendRequest>
     Object? weights = freezed,
     Object? minMaxMode = freezed,
     Object? includeBonus = null,
+    Object? usePositionConstraint = null,
     Object? count = null,
   }) {
     return _then(
@@ -1003,6 +1007,10 @@ class _$RecommendRequestCopyWithImpl<$Res, $Val extends RecommendRequest>
             includeBonus: null == includeBonus
                 ? _value.includeBonus
                 : includeBonus // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            usePositionConstraint: null == usePositionConstraint
+                ? _value.usePositionConstraint
+                : usePositionConstraint // ignore: cast_nullable_to_non_nullable
                       as bool,
             count: null == count
                 ? _value.count
@@ -1029,6 +1037,7 @@ abstract class _$$RecommendRequestImplCopyWith<$Res>
     Map<String, double>? weights,
     @JsonKey(name: 'min_max_mode') String? minMaxMode,
     @JsonKey(name: 'include_bonus') bool includeBonus,
+    @JsonKey(name: 'use_position_constraint') bool usePositionConstraint,
     int count,
   });
 }
@@ -1052,6 +1061,7 @@ class __$$RecommendRequestImplCopyWithImpl<$Res>
     Object? weights = freezed,
     Object? minMaxMode = freezed,
     Object? includeBonus = null,
+    Object? usePositionConstraint = null,
     Object? count = null,
   }) {
     return _then(
@@ -1076,6 +1086,10 @@ class __$$RecommendRequestImplCopyWithImpl<$Res>
             ? _value.includeBonus
             : includeBonus // ignore: cast_nullable_to_non_nullable
                   as bool,
+        usePositionConstraint: null == usePositionConstraint
+            ? _value.usePositionConstraint
+            : usePositionConstraint // ignore: cast_nullable_to_non_nullable
+                  as bool,
         count: null == count
             ? _value.count
             : count // ignore: cast_nullable_to_non_nullable
@@ -1094,6 +1108,8 @@ class _$RecommendRequestImpl implements _RecommendRequest {
     final Map<String, double>? weights,
     @JsonKey(name: 'min_max_mode') this.minMaxMode,
     @JsonKey(name: 'include_bonus') this.includeBonus = false,
+    @JsonKey(name: 'use_position_constraint')
+    this.usePositionConstraint = false,
     this.count = 5,
   }) : _methodCodes = methodCodes,
        _weights = weights;
@@ -1130,12 +1146,15 @@ class _$RecommendRequestImpl implements _RecommendRequest {
   @JsonKey(name: 'include_bonus')
   final bool includeBonus;
   @override
+  @JsonKey(name: 'use_position_constraint')
+  final bool usePositionConstraint;
+  @override
   @JsonKey()
   final int count;
 
   @override
   String toString() {
-    return 'RecommendRequest(methodCodes: $methodCodes, combineCode: $combineCode, weights: $weights, minMaxMode: $minMaxMode, includeBonus: $includeBonus, count: $count)';
+    return 'RecommendRequest(methodCodes: $methodCodes, combineCode: $combineCode, weights: $weights, minMaxMode: $minMaxMode, includeBonus: $includeBonus, usePositionConstraint: $usePositionConstraint, count: $count)';
   }
 
   @override
@@ -1154,6 +1173,8 @@ class _$RecommendRequestImpl implements _RecommendRequest {
                 other.minMaxMode == minMaxMode) &&
             (identical(other.includeBonus, includeBonus) ||
                 other.includeBonus == includeBonus) &&
+            (identical(other.usePositionConstraint, usePositionConstraint) ||
+                other.usePositionConstraint == usePositionConstraint) &&
             (identical(other.count, count) || other.count == count));
   }
 
@@ -1166,6 +1187,7 @@ class _$RecommendRequestImpl implements _RecommendRequest {
     const DeepCollectionEquality().hash(_weights),
     minMaxMode,
     includeBonus,
+    usePositionConstraint,
     count,
   );
 
@@ -1193,6 +1215,7 @@ abstract class _RecommendRequest implements RecommendRequest {
     final Map<String, double>? weights,
     @JsonKey(name: 'min_max_mode') final String? minMaxMode,
     @JsonKey(name: 'include_bonus') final bool includeBonus,
+    @JsonKey(name: 'use_position_constraint') final bool usePositionConstraint,
     final int count,
   }) = _$RecommendRequestImpl;
 
@@ -1213,6 +1236,9 @@ abstract class _RecommendRequest implements RecommendRequest {
   @override
   @JsonKey(name: 'include_bonus')
   bool get includeBonus;
+  @override
+  @JsonKey(name: 'use_position_constraint')
+  bool get usePositionConstraint;
   @override
   int get count;
 
@@ -1994,4 +2020,580 @@ abstract class _RecommendResponse implements RecommendResponse {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RecommendResponseImplCopyWith<_$RecommendResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+RecommendationHistory _$RecommendationHistoryFromJson(
+  Map<String, dynamic> json,
+) {
+  return _RecommendationHistory.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RecommendationHistory {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
+  int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'method_codes')
+  List<String> get methodCodes => throw _privateConstructorUsedError;
+  @JsonKey(name: 'combine_method')
+  String get combineMethod => throw _privateConstructorUsedError;
+  List<int> get numbers => throw _privateConstructorUsedError;
+  @JsonKey(name: 'bonus_number')
+  int? get bonusNumber => throw _privateConstructorUsedError;
+  double get confidence => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this RecommendationHistory to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RecommendationHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RecommendationHistoryCopyWith<RecommendationHistory> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RecommendationHistoryCopyWith<$Res> {
+  factory $RecommendationHistoryCopyWith(
+    RecommendationHistory value,
+    $Res Function(RecommendationHistory) then,
+  ) = _$RecommendationHistoryCopyWithImpl<$Res, RecommendationHistory>;
+  @useResult
+  $Res call({
+    int id,
+    @JsonKey(name: 'user_id') int userId,
+    @JsonKey(name: 'method_codes') List<String> methodCodes,
+    @JsonKey(name: 'combine_method') String combineMethod,
+    List<int> numbers,
+    @JsonKey(name: 'bonus_number') int? bonusNumber,
+    double confidence,
+    @JsonKey(name: 'created_at') String createdAt,
+  });
+}
+
+/// @nodoc
+class _$RecommendationHistoryCopyWithImpl<
+  $Res,
+  $Val extends RecommendationHistory
+>
+    implements $RecommendationHistoryCopyWith<$Res> {
+  _$RecommendationHistoryCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RecommendationHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? userId = null,
+    Object? methodCodes = null,
+    Object? combineMethod = null,
+    Object? numbers = null,
+    Object? bonusNumber = freezed,
+    Object? confidence = null,
+    Object? createdAt = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            userId: null == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            methodCodes: null == methodCodes
+                ? _value.methodCodes
+                : methodCodes // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
+            combineMethod: null == combineMethod
+                ? _value.combineMethod
+                : combineMethod // ignore: cast_nullable_to_non_nullable
+                      as String,
+            numbers: null == numbers
+                ? _value.numbers
+                : numbers // ignore: cast_nullable_to_non_nullable
+                      as List<int>,
+            bonusNumber: freezed == bonusNumber
+                ? _value.bonusNumber
+                : bonusNumber // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            confidence: null == confidence
+                ? _value.confidence
+                : confidence // ignore: cast_nullable_to_non_nullable
+                      as double,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$RecommendationHistoryImplCopyWith<$Res>
+    implements $RecommendationHistoryCopyWith<$Res> {
+  factory _$$RecommendationHistoryImplCopyWith(
+    _$RecommendationHistoryImpl value,
+    $Res Function(_$RecommendationHistoryImpl) then,
+  ) = __$$RecommendationHistoryImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    int id,
+    @JsonKey(name: 'user_id') int userId,
+    @JsonKey(name: 'method_codes') List<String> methodCodes,
+    @JsonKey(name: 'combine_method') String combineMethod,
+    List<int> numbers,
+    @JsonKey(name: 'bonus_number') int? bonusNumber,
+    double confidence,
+    @JsonKey(name: 'created_at') String createdAt,
+  });
+}
+
+/// @nodoc
+class __$$RecommendationHistoryImplCopyWithImpl<$Res>
+    extends
+        _$RecommendationHistoryCopyWithImpl<$Res, _$RecommendationHistoryImpl>
+    implements _$$RecommendationHistoryImplCopyWith<$Res> {
+  __$$RecommendationHistoryImplCopyWithImpl(
+    _$RecommendationHistoryImpl _value,
+    $Res Function(_$RecommendationHistoryImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RecommendationHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? userId = null,
+    Object? methodCodes = null,
+    Object? combineMethod = null,
+    Object? numbers = null,
+    Object? bonusNumber = freezed,
+    Object? confidence = null,
+    Object? createdAt = null,
+  }) {
+    return _then(
+      _$RecommendationHistoryImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        userId: null == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        methodCodes: null == methodCodes
+            ? _value._methodCodes
+            : methodCodes // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
+        combineMethod: null == combineMethod
+            ? _value.combineMethod
+            : combineMethod // ignore: cast_nullable_to_non_nullable
+                  as String,
+        numbers: null == numbers
+            ? _value._numbers
+            : numbers // ignore: cast_nullable_to_non_nullable
+                  as List<int>,
+        bonusNumber: freezed == bonusNumber
+            ? _value.bonusNumber
+            : bonusNumber // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        confidence: null == confidence
+            ? _value.confidence
+            : confidence // ignore: cast_nullable_to_non_nullable
+                  as double,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RecommendationHistoryImpl implements _RecommendationHistory {
+  const _$RecommendationHistoryImpl({
+    required this.id,
+    @JsonKey(name: 'user_id') required this.userId,
+    @JsonKey(name: 'method_codes') required final List<String> methodCodes,
+    @JsonKey(name: 'combine_method') required this.combineMethod,
+    required final List<int> numbers,
+    @JsonKey(name: 'bonus_number') this.bonusNumber,
+    required this.confidence,
+    @JsonKey(name: 'created_at') required this.createdAt,
+  }) : _methodCodes = methodCodes,
+       _numbers = numbers;
+
+  factory _$RecommendationHistoryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RecommendationHistoryImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(name: 'user_id')
+  final int userId;
+  final List<String> _methodCodes;
+  @override
+  @JsonKey(name: 'method_codes')
+  List<String> get methodCodes {
+    if (_methodCodes is EqualUnmodifiableListView) return _methodCodes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_methodCodes);
+  }
+
+  @override
+  @JsonKey(name: 'combine_method')
+  final String combineMethod;
+  final List<int> _numbers;
+  @override
+  List<int> get numbers {
+    if (_numbers is EqualUnmodifiableListView) return _numbers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_numbers);
+  }
+
+  @override
+  @JsonKey(name: 'bonus_number')
+  final int? bonusNumber;
+  @override
+  final double confidence;
+  @override
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+
+  @override
+  String toString() {
+    return 'RecommendationHistory(id: $id, userId: $userId, methodCodes: $methodCodes, combineMethod: $combineMethod, numbers: $numbers, bonusNumber: $bonusNumber, confidence: $confidence, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RecommendationHistoryImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality().equals(
+              other._methodCodes,
+              _methodCodes,
+            ) &&
+            (identical(other.combineMethod, combineMethod) ||
+                other.combineMethod == combineMethod) &&
+            const DeepCollectionEquality().equals(other._numbers, _numbers) &&
+            (identical(other.bonusNumber, bonusNumber) ||
+                other.bonusNumber == bonusNumber) &&
+            (identical(other.confidence, confidence) ||
+                other.confidence == confidence) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    userId,
+    const DeepCollectionEquality().hash(_methodCodes),
+    combineMethod,
+    const DeepCollectionEquality().hash(_numbers),
+    bonusNumber,
+    confidence,
+    createdAt,
+  );
+
+  /// Create a copy of RecommendationHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RecommendationHistoryImplCopyWith<_$RecommendationHistoryImpl>
+  get copyWith =>
+      __$$RecommendationHistoryImplCopyWithImpl<_$RecommendationHistoryImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RecommendationHistoryImplToJson(this);
+  }
+}
+
+abstract class _RecommendationHistory implements RecommendationHistory {
+  const factory _RecommendationHistory({
+    required final int id,
+    @JsonKey(name: 'user_id') required final int userId,
+    @JsonKey(name: 'method_codes') required final List<String> methodCodes,
+    @JsonKey(name: 'combine_method') required final String combineMethod,
+    required final List<int> numbers,
+    @JsonKey(name: 'bonus_number') final int? bonusNumber,
+    required final double confidence,
+    @JsonKey(name: 'created_at') required final String createdAt,
+  }) = _$RecommendationHistoryImpl;
+
+  factory _RecommendationHistory.fromJson(Map<String, dynamic> json) =
+      _$RecommendationHistoryImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: 'user_id')
+  int get userId;
+  @override
+  @JsonKey(name: 'method_codes')
+  List<String> get methodCodes;
+  @override
+  @JsonKey(name: 'combine_method')
+  String get combineMethod;
+  @override
+  List<int> get numbers;
+  @override
+  @JsonKey(name: 'bonus_number')
+  int? get bonusNumber;
+  @override
+  double get confidence;
+  @override
+  @JsonKey(name: 'created_at')
+  String get createdAt;
+
+  /// Create a copy of RecommendationHistory
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RecommendationHistoryImplCopyWith<_$RecommendationHistoryImpl>
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+RecommendationHistoryResponse _$RecommendationHistoryResponseFromJson(
+  Map<String, dynamic> json,
+) {
+  return _RecommendationHistoryResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RecommendationHistoryResponse {
+  List<RecommendationHistory> get recommendations =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_count')
+  int get totalCount => throw _privateConstructorUsedError;
+
+  /// Serializes this RecommendationHistoryResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RecommendationHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RecommendationHistoryResponseCopyWith<RecommendationHistoryResponse>
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RecommendationHistoryResponseCopyWith<$Res> {
+  factory $RecommendationHistoryResponseCopyWith(
+    RecommendationHistoryResponse value,
+    $Res Function(RecommendationHistoryResponse) then,
+  ) =
+      _$RecommendationHistoryResponseCopyWithImpl<
+        $Res,
+        RecommendationHistoryResponse
+      >;
+  @useResult
+  $Res call({
+    List<RecommendationHistory> recommendations,
+    @JsonKey(name: 'total_count') int totalCount,
+  });
+}
+
+/// @nodoc
+class _$RecommendationHistoryResponseCopyWithImpl<
+  $Res,
+  $Val extends RecommendationHistoryResponse
+>
+    implements $RecommendationHistoryResponseCopyWith<$Res> {
+  _$RecommendationHistoryResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RecommendationHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? recommendations = null, Object? totalCount = null}) {
+    return _then(
+      _value.copyWith(
+            recommendations: null == recommendations
+                ? _value.recommendations
+                : recommendations // ignore: cast_nullable_to_non_nullable
+                      as List<RecommendationHistory>,
+            totalCount: null == totalCount
+                ? _value.totalCount
+                : totalCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$RecommendationHistoryResponseImplCopyWith<$Res>
+    implements $RecommendationHistoryResponseCopyWith<$Res> {
+  factory _$$RecommendationHistoryResponseImplCopyWith(
+    _$RecommendationHistoryResponseImpl value,
+    $Res Function(_$RecommendationHistoryResponseImpl) then,
+  ) = __$$RecommendationHistoryResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    List<RecommendationHistory> recommendations,
+    @JsonKey(name: 'total_count') int totalCount,
+  });
+}
+
+/// @nodoc
+class __$$RecommendationHistoryResponseImplCopyWithImpl<$Res>
+    extends
+        _$RecommendationHistoryResponseCopyWithImpl<
+          $Res,
+          _$RecommendationHistoryResponseImpl
+        >
+    implements _$$RecommendationHistoryResponseImplCopyWith<$Res> {
+  __$$RecommendationHistoryResponseImplCopyWithImpl(
+    _$RecommendationHistoryResponseImpl _value,
+    $Res Function(_$RecommendationHistoryResponseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RecommendationHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? recommendations = null, Object? totalCount = null}) {
+    return _then(
+      _$RecommendationHistoryResponseImpl(
+        recommendations: null == recommendations
+            ? _value._recommendations
+            : recommendations // ignore: cast_nullable_to_non_nullable
+                  as List<RecommendationHistory>,
+        totalCount: null == totalCount
+            ? _value.totalCount
+            : totalCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RecommendationHistoryResponseImpl
+    implements _RecommendationHistoryResponse {
+  const _$RecommendationHistoryResponseImpl({
+    required final List<RecommendationHistory> recommendations,
+    @JsonKey(name: 'total_count') this.totalCount = 0,
+  }) : _recommendations = recommendations;
+
+  factory _$RecommendationHistoryResponseImpl.fromJson(
+    Map<String, dynamic> json,
+  ) => _$$RecommendationHistoryResponseImplFromJson(json);
+
+  final List<RecommendationHistory> _recommendations;
+  @override
+  List<RecommendationHistory> get recommendations {
+    if (_recommendations is EqualUnmodifiableListView) return _recommendations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recommendations);
+  }
+
+  @override
+  @JsonKey(name: 'total_count')
+  final int totalCount;
+
+  @override
+  String toString() {
+    return 'RecommendationHistoryResponse(recommendations: $recommendations, totalCount: $totalCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RecommendationHistoryResponseImpl &&
+            const DeepCollectionEquality().equals(
+              other._recommendations,
+              _recommendations,
+            ) &&
+            (identical(other.totalCount, totalCount) ||
+                other.totalCount == totalCount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_recommendations),
+    totalCount,
+  );
+
+  /// Create a copy of RecommendationHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RecommendationHistoryResponseImplCopyWith<
+    _$RecommendationHistoryResponseImpl
+  >
+  get copyWith =>
+      __$$RecommendationHistoryResponseImplCopyWithImpl<
+        _$RecommendationHistoryResponseImpl
+      >(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RecommendationHistoryResponseImplToJson(this);
+  }
+}
+
+abstract class _RecommendationHistoryResponse
+    implements RecommendationHistoryResponse {
+  const factory _RecommendationHistoryResponse({
+    required final List<RecommendationHistory> recommendations,
+    @JsonKey(name: 'total_count') final int totalCount,
+  }) = _$RecommendationHistoryResponseImpl;
+
+  factory _RecommendationHistoryResponse.fromJson(Map<String, dynamic> json) =
+      _$RecommendationHistoryResponseImpl.fromJson;
+
+  @override
+  List<RecommendationHistory> get recommendations;
+  @override
+  @JsonKey(name: 'total_count')
+  int get totalCount;
+
+  /// Create a copy of RecommendationHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RecommendationHistoryResponseImplCopyWith<
+    _$RecommendationHistoryResponseImpl
+  >
+  get copyWith => throw _privateConstructorUsedError;
 }

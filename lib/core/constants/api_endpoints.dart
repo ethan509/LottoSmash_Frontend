@@ -37,6 +37,7 @@ class ApiEndpoints {
   static const String methods = '$_base/lotto/methods';
   static const String combineMethods = '$_base/lotto/combine-methods';
   static const String recommend = '$_base/lotto/recommend';
+  static const String recommendations = '$_base/lotto/recommendations';
 
   // Notifications
   static const String deviceToken = '$_base/notifications/device-token';
