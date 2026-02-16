@@ -61,6 +61,7 @@ class RecommendRequest with _$RecommendRequest {
     Map<String, double>? weights,
     @JsonKey(name: 'min_max_mode') String? minMaxMode,
     @JsonKey(name: 'include_bonus') @Default(false) bool includeBonus,
+    @JsonKey(name: 'use_position_constraint') @Default(false) bool usePositionConstraint,
     @Default(5) int count,
   }) = _RecommendRequest;
 
@@ -106,4 +107,32 @@ class RecommendResponse with _$RecommendResponse {
 
   factory RecommendResponse.fromJson(Map<String, dynamic> json) =>
       _$RecommendResponseFromJson(json);
+}
+
+@freezed
+class RecommendationHistory with _$RecommendationHistory {
+  const factory RecommendationHistory({
+    required int id,
+    @JsonKey(name: 'user_id') required int userId,
+    @JsonKey(name: 'method_codes') required List<String> methodCodes,
+    @JsonKey(name: 'combine_method') required String combineMethod,
+    required List<int> numbers,
+    @JsonKey(name: 'bonus_number') int? bonusNumber,
+    required double confidence,
+    @JsonKey(name: 'created_at') required String createdAt,
+  }) = _RecommendationHistory;
+
+  factory RecommendationHistory.fromJson(Map<String, dynamic> json) =>
+      _$RecommendationHistoryFromJson(json);
+}
+
+@freezed
+class RecommendationHistoryResponse with _$RecommendationHistoryResponse {
+  const factory RecommendationHistoryResponse({
+    required List<RecommendationHistory> recommendations,
+    @JsonKey(name: 'total_count') @Default(0) int totalCount,
+  }) = _RecommendationHistoryResponse;
+
+  factory RecommendationHistoryResponse.fromJson(Map<String, dynamic> json) =>
+      _$RecommendationHistoryResponseFromJson(json);
 }

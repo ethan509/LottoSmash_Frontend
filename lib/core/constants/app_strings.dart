@@ -71,6 +71,7 @@ class AppStrings {
   static const String setCount = '추천 세트 수';
   static const String generateRecommend = '번호 추천받기';
   static const String confidence = '신뢰도';
+  static const String recommendHistory = '추천 이력';
 
   // Zam
   static const String zamBalance = 'Zam 잔액';

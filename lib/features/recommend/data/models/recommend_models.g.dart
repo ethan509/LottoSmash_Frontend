@@ -85,6 +85,7 @@ _$RecommendRequestImpl _$$RecommendRequestImplFromJson(
   ),
   minMaxMode: json['min_max_mode'] as String?,
   includeBonus: json['include_bonus'] as bool? ?? false,
+  usePositionConstraint: json['use_position_constraint'] as bool? ?? false,
   count: (json['count'] as num?)?.toInt() ?? 5,
 );
 
@@ -96,6 +97,7 @@ Map<String, dynamic> _$$RecommendRequestImplToJson(
   'weights': instance.weights,
   'min_max_mode': instance.minMaxMode,
   'include_bonus': instance.includeBonus,
+  'use_position_constraint': instance.usePositionConstraint,
   'count': instance.count,
 };
 
@@ -163,4 +165,50 @@ Map<String, dynamic> _$$RecommendResponseImplToJson(
   'recommendations': instance.recommendations,
   'generated_at': instance.generatedAt,
   'latest_draw_no': instance.latestDrawNo,
+};
+
+_$RecommendationHistoryImpl _$$RecommendationHistoryImplFromJson(
+  Map<String, dynamic> json,
+) => _$RecommendationHistoryImpl(
+  id: (json['id'] as num).toInt(),
+  userId: (json['user_id'] as num).toInt(),
+  methodCodes: (json['method_codes'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
+  combineMethod: json['combine_method'] as String,
+  numbers: (json['numbers'] as List<dynamic>)
+      .map((e) => (e as num).toInt())
+      .toList(),
+  bonusNumber: (json['bonus_number'] as num?)?.toInt(),
+  confidence: (json['confidence'] as num).toDouble(),
+  createdAt: json['created_at'] as String,
+);
+
+Map<String, dynamic> _$$RecommendationHistoryImplToJson(
+  _$RecommendationHistoryImpl instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'user_id': instance.userId,
+  'method_codes': instance.methodCodes,
+  'combine_method': instance.combineMethod,
+  'numbers': instance.numbers,
+  'bonus_number': instance.bonusNumber,
+  'confidence': instance.confidence,
+  'created_at': instance.createdAt,
+};
+
+_$RecommendationHistoryResponseImpl
+_$$RecommendationHistoryResponseImplFromJson(Map<String, dynamic> json) =>
+    _$RecommendationHistoryResponseImpl(
+      recommendations: (json['recommendations'] as List<dynamic>)
+          .map((e) => RecommendationHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: (json['total_count'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$$RecommendationHistoryResponseImplToJson(
+  _$RecommendationHistoryResponseImpl instance,
+) => <String, dynamic>{
+  'recommendations': instance.recommendations,
+  'total_count': instance.totalCount,
 };
