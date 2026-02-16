@@ -131,8 +131,9 @@ class _RecommendationCard extends StatelessWidget {
               ...recommendation.details.entries.map((entry) {
                 final methodCode = entry.key;
                 final detail = entry.value;
-                final prob =
-                    (detail.probability * 100).toStringAsFixed(1);
+                final prob = detail.probability != null
+                    ? ((detail.probability! * 100).toStringAsFixed(1))
+                    : '-';
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Column(
@@ -155,12 +156,14 @@ class _RecommendationCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
-                      LottoBallRow(
-                        numbers: detail.numbers,
-                        ballSize: 30,
-                        spacing: 2,
-                      ),
+                      if (detail.numbers != null) ...[
+                        const SizedBox(height: 4),
+                        LottoBallRow(
+                          numbers: detail.numbers!,
+                          ballSize: 30,
+                          spacing: 2,
+                        ),
+                      ],
                     ],
                   ),
                 );

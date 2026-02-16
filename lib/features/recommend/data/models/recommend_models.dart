@@ -71,8 +71,10 @@ class RecommendRequest with _$RecommendRequest {
 @freezed
 class MethodDetail with _$MethodDetail {
   const factory MethodDetail({
-    required List<int> numbers,
-    required double probability,
+    List<int>? numbers,
+    double? probability,
+    String? method,
+    String? type,
   }) = _MethodDetail;
 
   factory MethodDetail.fromJson(Map<String, dynamic> json) =>
@@ -87,7 +89,7 @@ class Recommendation with _$Recommendation {
     @JsonKey(name: 'methods_used') required List<String> methodsUsed,
     @JsonKey(name: 'combine_method') required String combineMethod,
     required double confidence,
-    required Map<String, MethodDetail> details,
+    @Default({}) Map<String, MethodDetail> details,
   }) = _Recommendation;
 
   factory Recommendation.fromJson(Map<String, dynamic> json) =>
@@ -98,8 +100,8 @@ class Recommendation with _$Recommendation {
 class RecommendResponse with _$RecommendResponse {
   const factory RecommendResponse({
     required List<Recommendation> recommendations,
-    @JsonKey(name: 'generated_at') required String generatedAt,
-    @JsonKey(name: 'latest_draw_no') required int latestDrawNo,
+    @JsonKey(name: 'generated_at') String? generatedAt,
+    @JsonKey(name: 'latest_draw_no') int? latestDrawNo,
   }) = _RecommendResponse;
 
   factory RecommendResponse.fromJson(Map<String, dynamic> json) =>
