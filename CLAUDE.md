@@ -695,10 +695,34 @@ Response: { "message": "sync completed successfully" }
 19. 추천 결과 화면
 
 ### Phase 6: 부가 기능
-20. 알림
-21. Zam 시스템
-22. 오프라인 캐시
-23. 다크모드 마무리
+20. 알림 UI (FCM 제외)
+21. Zam 잔액 위젯
+22. 오프라인 캐시 (SharedPreferences + TTL)
+23. 다크모드 수동 전환 (시스템/라이트/다크)
+
+### Phase 7: FCM 푸시 알림 연동
+**사전 준비 (수동):**
+- Firebase Console에서 프로젝트 생성
+- `google-services.json` (Android) 다운로드 → `android/app/`에 배치
+- `GoogleService-Info.plist` (iOS) 다운로드 → `ios/Runner/`에 배치
+
+**구현 항목:**
+24. `pubspec.yaml`에 `firebase_core` + `firebase_messaging` 추가
+25. Android `build.gradle`에 google-services 플러그인 추가
+26. `main.dart`에서 `Firebase.initializeApp()` 호출
+27. FCM 서비스 생성 (`lib/core/services/fcm_service.dart`)
+    - FCM 토큰 획득 → `POST /api/notifications/device-token` 자동 등록
+    - 토큰 갱신 리스너 (`onTokenRefresh`)
+    - 포그라운드 알림 처리 (`FirebaseMessaging.onMessage`)
+    - 백그라운드 알림 처리 (`FirebaseMessaging.onBackgroundMessage`)
+    - 알림 탭 시 화면 이동 (`onMessageOpenedApp`)
+28. 로그아웃 시 `DELETE /api/notifications/device-token` 호출
+29. 프로필 화면에 알림 ON/OFF 토글 추가
+
+**이미 준비된 것:**
+- `NotificationRepository.registerDeviceToken()` / `deleteDeviceToken()` 구현됨
+- `NotificationListScreen` (알림 목록 + 당첨 확인 탭) 구현됨
+- API 엔드포인트 정의됨 (`ApiEndpoints.deviceToken`)
 
 ---
 

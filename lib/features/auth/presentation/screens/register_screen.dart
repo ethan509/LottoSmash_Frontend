@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/network/api_exception.dart';
+import '../../../../core/services/fcm_service.dart';
 import '../../../../core/utils/validators.dart';
 import '../../data/models/auth_models.dart';
 import '../../data/repositories/auth_repository.dart';
@@ -137,6 +138,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       );
 
       await ref.read(authStateNotifierProvider.notifier).register(request);
+      try {
+        await ref.read(fcmServiceProvider).initialize();
+      } catch (_) {}
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('회원가입이 완료되었습니다!')),

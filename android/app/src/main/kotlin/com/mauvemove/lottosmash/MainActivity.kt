@@ -1,4 +1,4 @@
-package com.lottosmash.lottosmash
+package com.mauvemove.lottosmash
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../core/network/dio_client.dart';
+import '../../../core/services/fcm_service.dart';
 import '../data/models/auth_models.dart';
 import '../data/repositories/auth_repository.dart';
 
@@ -86,6 +87,12 @@ class AuthStateNotifier extends AsyncNotifier<bool> {
 
   /// 로그아웃
   Future<void> logout() async {
+    // FCM 토큰 삭제 (best-effort)
+    try {
+      final fcm = ref.read(fcmServiceProvider);
+      await fcm.deleteToken();
+    } catch (_) {}
+
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: _refreshTokenKey);
 
