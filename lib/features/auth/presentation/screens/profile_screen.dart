@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/services/fcm_service.dart';
 import '../../../../core/theme/theme_provider.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../../../shared/widgets/error_widget.dart';
@@ -245,6 +247,10 @@ class _ProfileBody extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
 
+          // 알림 설정
+          const _NotificationSettingsCard(),
+          const SizedBox(height: 16),
+
           // 설정
           _ThemeSettingsCard(),
 
@@ -309,6 +315,51 @@ class _ProfileBody extends ConsumerWidget {
         context.go('/login');
       }
     }
+  }
+}
+
+/// 알림 ON/OFF 토글
+final _notificationEnabledProvider = FutureProvider<bool>((ref) async {
+  final settings = await FirebaseMessaging.instance.getNotificationSettings();
+  return settings.authorizationStatus == AuthorizationStatus.authorized;
+});
+
+class _NotificationSettingsCard extends ConsumerWidget {
+  const _NotificationSettingsCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifAsync = ref.watch(_notificationEnabledProvider);
+    final isEnabled = notifAsync.valueOrNull ?? false;
+
+    return Card(
+      child: Column(
+        children: [
+          SwitchListTile(
+            secondary: const Icon(Icons.notifications_outlined),
+            title: const Text('푸시 알림'),
+            subtitle: Text(isEnabled ? '알림이 활성화되어 있습니다' : '알림이 비활성화되어 있습니다'),
+            value: isEnabled,
+            onChanged: (value) async {
+              if (value) {
+                // 알림 권한 요청 + FCM 초기화
+                await ref.read(fcmServiceProvider).initialize();
+              } else {
+                // 토큰 삭제로 알림 비활성화
+                await ref.read(fcmServiceProvider).deleteToken();
+              }
+              ref.invalidate(_notificationEnabledProvider);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.list_alt_outlined),
+            title: const Text('알림 내역'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/notifications'),
+          ),
+        ],
+      ),
+    );
   }
 }
 

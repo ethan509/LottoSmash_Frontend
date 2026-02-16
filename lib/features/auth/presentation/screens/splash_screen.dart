@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/services/fcm_service.dart';
 import '../../providers/auth_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -29,6 +30,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final isAuthenticated = authState.valueOrNull ?? false;
 
     if (isAuthenticated) {
+      // FCM 초기화 (로그인 상태에서만)
+      try {
+        await ref.read(fcmServiceProvider).initialize();
+      } catch (_) {}
+      if (!mounted) return;
       context.go('/home');
     } else {
       context.go('/login');

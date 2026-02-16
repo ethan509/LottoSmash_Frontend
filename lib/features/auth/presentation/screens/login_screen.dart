@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/network/api_exception.dart';
+import '../../../../core/services/fcm_service.dart';
 import '../../../../core/utils/validators.dart';
 import '../../providers/auth_provider.dart';
 
@@ -32,6 +33,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isLoading = true);
     try {
       await ref.read(authStateNotifierProvider.notifier).guestLogin();
+      try {
+        await ref.read(fcmServiceProvider).initialize();
+      } catch (_) {}
       if (mounted) context.go('/home');
     } on ApiException catch (e) {
       if (mounted) {
@@ -59,6 +63,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             _emailController.text.trim(),
             _passwordController.text,
           );
+      try {
+        await ref.read(fcmServiceProvider).initialize();
+      } catch (_) {}
       if (mounted) context.go('/home');
     } on ApiException catch (e) {
       if (mounted) {
