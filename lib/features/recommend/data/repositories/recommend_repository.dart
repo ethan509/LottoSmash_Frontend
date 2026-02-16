@@ -40,4 +40,18 @@ class RecommendRepository {
       return RecommendResponse.fromJson(response.data);
     });
   }
+
+  /// 추천 이력 조회
+  Future<RecommendationHistoryResponse> getRecommendationHistory({
+    int limit = 20,
+    int offset = 0,
+  }) async {
+    return apiCall(() async {
+      final response = await _dio.get(
+        ApiEndpoints.recommendations,
+        queryParameters: {'limit': limit, 'offset': offset},
+      );
+      return RecommendationHistoryResponse.fromJson(response.data);
+    });
+  }
 }
