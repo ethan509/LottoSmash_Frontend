@@ -1230,8 +1230,10 @@ MethodDetail _$MethodDetailFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MethodDetail {
-  List<int> get numbers => throw _privateConstructorUsedError;
-  double get probability => throw _privateConstructorUsedError;
+  List<int>? get numbers => throw _privateConstructorUsedError;
+  double? get probability => throw _privateConstructorUsedError;
+  String? get method => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
 
   /// Serializes this MethodDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1250,7 +1252,12 @@ abstract class $MethodDetailCopyWith<$Res> {
     $Res Function(MethodDetail) then,
   ) = _$MethodDetailCopyWithImpl<$Res, MethodDetail>;
   @useResult
-  $Res call({List<int> numbers, double probability});
+  $Res call({
+    List<int>? numbers,
+    double? probability,
+    String? method,
+    String? type,
+  });
 }
 
 /// @nodoc
@@ -1267,17 +1274,30 @@ class _$MethodDetailCopyWithImpl<$Res, $Val extends MethodDetail>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? numbers = null, Object? probability = null}) {
+  $Res call({
+    Object? numbers = freezed,
+    Object? probability = freezed,
+    Object? method = freezed,
+    Object? type = freezed,
+  }) {
     return _then(
       _value.copyWith(
-            numbers: null == numbers
+            numbers: freezed == numbers
                 ? _value.numbers
                 : numbers // ignore: cast_nullable_to_non_nullable
-                      as List<int>,
-            probability: null == probability
+                      as List<int>?,
+            probability: freezed == probability
                 ? _value.probability
                 : probability // ignore: cast_nullable_to_non_nullable
-                      as double,
+                      as double?,
+            method: freezed == method
+                ? _value.method
+                : method // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            type: freezed == type
+                ? _value.type
+                : type // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -1293,7 +1313,12 @@ abstract class _$$MethodDetailImplCopyWith<$Res>
   ) = __$$MethodDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<int> numbers, double probability});
+  $Res call({
+    List<int>? numbers,
+    double? probability,
+    String? method,
+    String? type,
+  });
 }
 
 /// @nodoc
@@ -1309,17 +1334,30 @@ class __$$MethodDetailImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? numbers = null, Object? probability = null}) {
+  $Res call({
+    Object? numbers = freezed,
+    Object? probability = freezed,
+    Object? method = freezed,
+    Object? type = freezed,
+  }) {
     return _then(
       _$MethodDetailImpl(
-        numbers: null == numbers
+        numbers: freezed == numbers
             ? _value._numbers
             : numbers // ignore: cast_nullable_to_non_nullable
-                  as List<int>,
-        probability: null == probability
+                  as List<int>?,
+        probability: freezed == probability
             ? _value.probability
             : probability // ignore: cast_nullable_to_non_nullable
-                  as double,
+                  as double?,
+        method: freezed == method
+            ? _value.method
+            : method // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        type: freezed == type
+            ? _value.type
+            : type // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -1329,27 +1367,35 @@ class __$$MethodDetailImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MethodDetailImpl implements _MethodDetail {
   const _$MethodDetailImpl({
-    required final List<int> numbers,
-    required this.probability,
+    final List<int>? numbers,
+    this.probability,
+    this.method,
+    this.type,
   }) : _numbers = numbers;
 
   factory _$MethodDetailImpl.fromJson(Map<String, dynamic> json) =>
       _$$MethodDetailImplFromJson(json);
 
-  final List<int> _numbers;
+  final List<int>? _numbers;
   @override
-  List<int> get numbers {
+  List<int>? get numbers {
+    final value = _numbers;
+    if (value == null) return null;
     if (_numbers is EqualUnmodifiableListView) return _numbers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_numbers);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final double probability;
+  final double? probability;
+  @override
+  final String? method;
+  @override
+  final String? type;
 
   @override
   String toString() {
-    return 'MethodDetail(numbers: $numbers, probability: $probability)';
+    return 'MethodDetail(numbers: $numbers, probability: $probability, method: $method, type: $type)';
   }
 
   @override
@@ -1359,7 +1405,9 @@ class _$MethodDetailImpl implements _MethodDetail {
             other is _$MethodDetailImpl &&
             const DeepCollectionEquality().equals(other._numbers, _numbers) &&
             (identical(other.probability, probability) ||
-                other.probability == probability));
+                other.probability == probability) &&
+            (identical(other.method, method) || other.method == method) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1368,6 +1416,8 @@ class _$MethodDetailImpl implements _MethodDetail {
     runtimeType,
     const DeepCollectionEquality().hash(_numbers),
     probability,
+    method,
+    type,
   );
 
   /// Create a copy of MethodDetail
@@ -1386,17 +1436,23 @@ class _$MethodDetailImpl implements _MethodDetail {
 
 abstract class _MethodDetail implements MethodDetail {
   const factory _MethodDetail({
-    required final List<int> numbers,
-    required final double probability,
+    final List<int>? numbers,
+    final double? probability,
+    final String? method,
+    final String? type,
   }) = _$MethodDetailImpl;
 
   factory _MethodDetail.fromJson(Map<String, dynamic> json) =
       _$MethodDetailImpl.fromJson;
 
   @override
-  List<int> get numbers;
+  List<int>? get numbers;
   @override
-  double get probability;
+  double? get probability;
+  @override
+  String? get method;
+  @override
+  String? get type;
 
   /// Create a copy of MethodDetail
   /// with the given fields replaced by the non-null parameter values.
@@ -1582,7 +1638,7 @@ class _$RecommendationImpl implements _Recommendation {
     @JsonKey(name: 'methods_used') required final List<String> methodsUsed,
     @JsonKey(name: 'combine_method') required this.combineMethod,
     required this.confidence,
-    required final Map<String, MethodDetail> details,
+    final Map<String, MethodDetail> details = const {},
   }) : _numbers = numbers,
        _methodsUsed = methodsUsed,
        _details = details;
@@ -1616,6 +1672,7 @@ class _$RecommendationImpl implements _Recommendation {
   final double confidence;
   final Map<String, MethodDetail> _details;
   @override
+  @JsonKey()
   Map<String, MethodDetail> get details {
     if (_details is EqualUnmodifiableMapView) return _details;
     // ignore: implicit_dynamic_type
@@ -1681,7 +1738,7 @@ abstract class _Recommendation implements Recommendation {
     @JsonKey(name: 'methods_used') required final List<String> methodsUsed,
     @JsonKey(name: 'combine_method') required final String combineMethod,
     required final double confidence,
-    required final Map<String, MethodDetail> details,
+    final Map<String, MethodDetail> details,
   }) = _$RecommendationImpl;
 
   factory _Recommendation.fromJson(Map<String, dynamic> json) =
@@ -1719,9 +1776,9 @@ mixin _$RecommendResponse {
   List<Recommendation> get recommendations =>
       throw _privateConstructorUsedError;
   @JsonKey(name: 'generated_at')
-  String get generatedAt => throw _privateConstructorUsedError;
+  String? get generatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'latest_draw_no')
-  int get latestDrawNo => throw _privateConstructorUsedError;
+  int? get latestDrawNo => throw _privateConstructorUsedError;
 
   /// Serializes this RecommendResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1742,8 +1799,8 @@ abstract class $RecommendResponseCopyWith<$Res> {
   @useResult
   $Res call({
     List<Recommendation> recommendations,
-    @JsonKey(name: 'generated_at') String generatedAt,
-    @JsonKey(name: 'latest_draw_no') int latestDrawNo,
+    @JsonKey(name: 'generated_at') String? generatedAt,
+    @JsonKey(name: 'latest_draw_no') int? latestDrawNo,
   });
 }
 
@@ -1763,8 +1820,8 @@ class _$RecommendResponseCopyWithImpl<$Res, $Val extends RecommendResponse>
   @override
   $Res call({
     Object? recommendations = null,
-    Object? generatedAt = null,
-    Object? latestDrawNo = null,
+    Object? generatedAt = freezed,
+    Object? latestDrawNo = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -1772,14 +1829,14 @@ class _$RecommendResponseCopyWithImpl<$Res, $Val extends RecommendResponse>
                 ? _value.recommendations
                 : recommendations // ignore: cast_nullable_to_non_nullable
                       as List<Recommendation>,
-            generatedAt: null == generatedAt
+            generatedAt: freezed == generatedAt
                 ? _value.generatedAt
                 : generatedAt // ignore: cast_nullable_to_non_nullable
-                      as String,
-            latestDrawNo: null == latestDrawNo
+                      as String?,
+            latestDrawNo: freezed == latestDrawNo
                 ? _value.latestDrawNo
                 : latestDrawNo // ignore: cast_nullable_to_non_nullable
-                      as int,
+                      as int?,
           )
           as $Val,
     );
@@ -1797,8 +1854,8 @@ abstract class _$$RecommendResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     List<Recommendation> recommendations,
-    @JsonKey(name: 'generated_at') String generatedAt,
-    @JsonKey(name: 'latest_draw_no') int latestDrawNo,
+    @JsonKey(name: 'generated_at') String? generatedAt,
+    @JsonKey(name: 'latest_draw_no') int? latestDrawNo,
   });
 }
 
@@ -1817,8 +1874,8 @@ class __$$RecommendResponseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? recommendations = null,
-    Object? generatedAt = null,
-    Object? latestDrawNo = null,
+    Object? generatedAt = freezed,
+    Object? latestDrawNo = freezed,
   }) {
     return _then(
       _$RecommendResponseImpl(
@@ -1826,14 +1883,14 @@ class __$$RecommendResponseImplCopyWithImpl<$Res>
             ? _value._recommendations
             : recommendations // ignore: cast_nullable_to_non_nullable
                   as List<Recommendation>,
-        generatedAt: null == generatedAt
+        generatedAt: freezed == generatedAt
             ? _value.generatedAt
             : generatedAt // ignore: cast_nullable_to_non_nullable
-                  as String,
-        latestDrawNo: null == latestDrawNo
+                  as String?,
+        latestDrawNo: freezed == latestDrawNo
             ? _value.latestDrawNo
             : latestDrawNo // ignore: cast_nullable_to_non_nullable
-                  as int,
+                  as int?,
       ),
     );
   }
@@ -1844,8 +1901,8 @@ class __$$RecommendResponseImplCopyWithImpl<$Res>
 class _$RecommendResponseImpl implements _RecommendResponse {
   const _$RecommendResponseImpl({
     required final List<Recommendation> recommendations,
-    @JsonKey(name: 'generated_at') required this.generatedAt,
-    @JsonKey(name: 'latest_draw_no') required this.latestDrawNo,
+    @JsonKey(name: 'generated_at') this.generatedAt,
+    @JsonKey(name: 'latest_draw_no') this.latestDrawNo,
   }) : _recommendations = recommendations;
 
   factory _$RecommendResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -1861,10 +1918,10 @@ class _$RecommendResponseImpl implements _RecommendResponse {
 
   @override
   @JsonKey(name: 'generated_at')
-  final String generatedAt;
+  final String? generatedAt;
   @override
   @JsonKey(name: 'latest_draw_no')
-  final int latestDrawNo;
+  final int? latestDrawNo;
 
   @override
   String toString() {
@@ -1915,8 +1972,8 @@ class _$RecommendResponseImpl implements _RecommendResponse {
 abstract class _RecommendResponse implements RecommendResponse {
   const factory _RecommendResponse({
     required final List<Recommendation> recommendations,
-    @JsonKey(name: 'generated_at') required final String generatedAt,
-    @JsonKey(name: 'latest_draw_no') required final int latestDrawNo,
+    @JsonKey(name: 'generated_at') final String? generatedAt,
+    @JsonKey(name: 'latest_draw_no') final int? latestDrawNo,
   }) = _$RecommendResponseImpl;
 
   factory _RecommendResponse.fromJson(Map<String, dynamic> json) =
@@ -1926,10 +1983,10 @@ abstract class _RecommendResponse implements RecommendResponse {
   List<Recommendation> get recommendations;
   @override
   @JsonKey(name: 'generated_at')
-  String get generatedAt;
+  String? get generatedAt;
   @override
   @JsonKey(name: 'latest_draw_no')
-  int get latestDrawNo;
+  int? get latestDrawNo;
 
   /// Create a copy of RecommendResponse
   /// with the given fields replaced by the non-null parameter values.

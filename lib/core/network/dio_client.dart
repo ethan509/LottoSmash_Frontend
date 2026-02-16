@@ -25,20 +25,21 @@ final dioProvider = Provider<Dio>((ref) {
     ),
   );
 
-  // 로깅 인터셉터 (디버그 모드만)
+  // 인증 인터셉터 (먼저 추가하여 토큰 주입 후 로깅)
+  dio.interceptors.add(AuthInterceptor(
+    dio: dio,
+    storage: storage,
+  ));
+
+  // 로깅 인터셉터 (디버그 모드만, Auth 이후에 실행되어 헤더 확인 가능)
   if (kDebugMode) {
     dio.interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
       error: true,
+      requestHeader: true,
     ));
   }
-
-  // 인증 인터셉터
-  dio.interceptors.add(AuthInterceptor(
-    dio: dio,
-    storage: storage,
-  ));
 
   return dio;
 });

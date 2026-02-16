@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
+import '../../../core/network/auth_interceptor.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../core/services/fcm_service.dart';
 import '../data/models/auth_models.dart';
 import '../data/repositories/auth_repository.dart';
 
-const _accessTokenKey = 'access_token';
-const _refreshTokenKey = 'refresh_token';
 const _deviceIdKey = 'device_id';
 
 /// 인증 상태 관리 (true = 로그인됨)
@@ -17,23 +16,26 @@ final authStateNotifierProvider =
 class AuthStateNotifier extends AsyncNotifier<bool> {
   @override
   Future<bool> build() async {
+    // 앱 시작 시 Secure Storage → 메모리로 토큰 로드
     final storage = ref.read(secureStorageProvider);
-    final token = await storage.read(key: _accessTokenKey);
-    return token != null;
+    await TokenStore.loadFromStorage(storage);
+    return TokenStore.accessToken != null;
   }
 
-  /// 토큰 저장
+  /// 토큰 저장 (메모리 + Secure Storage)
   Future<void> _saveTokens(AuthResponse auth) async {
     final storage = ref.read(secureStorageProvider);
-    await storage.write(key: _accessTokenKey, value: auth.accessToken);
-    await storage.write(key: _refreshTokenKey, value: auth.refreshToken);
+    await TokenStore.save(
+      accessToken: auth.accessToken,
+      refreshToken: auth.refreshToken,
+      storage: storage,
+    );
   }
 
-  /// 토큰 삭제
+  /// 토큰 삭제 (메모리 + Secure Storage)
   Future<void> _clearTokens() async {
     final storage = ref.read(secureStorageProvider);
-    await storage.delete(key: _accessTokenKey);
-    await storage.delete(key: _refreshTokenKey);
+    await TokenStore.clear(storage);
   }
 
   /// device_id 가져오기 (없으면 생성)
@@ -93,8 +95,7 @@ class AuthStateNotifier extends AsyncNotifier<bool> {
       await fcm.deleteToken();
     } catch (_) {}
 
-    final storage = ref.read(secureStorageProvider);
-    final refreshToken = await storage.read(key: _refreshTokenKey);
+    final refreshToken = TokenStore.refreshToken;
 
     // 서버에 로그아웃 요청 (실패해도 계속 진행)
     if (refreshToken != null) {
