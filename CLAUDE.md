@@ -749,3 +749,13 @@ feature/* → develop → main
 - `develop`에서 `main`으로 머지
 - feature 브랜치 삭제금지
 - BRANCH_POLICY.md 내용 참조
+
+
+## Shared Channel (세션 간 통신)
+
+- **내가 쓰는 파일** (Frontend가 읽음): `D:\Dev\git\git_ethan509\LottoSmash\SHARED_CHANNEL.md`
+- **내가 읽는 파일** (Frontend가 씀): `D:\Dev\git\git_ethan509\LottoSmash_Frontend\SHARED_CHANNEL.md`
+- **작업 시작 시**: Frontend 파일을 읽고 Backend에게 요청/질문이 있으면 반영
+- **작업 완료 시**: 내 SHARED_CHANNEL.md에 Frontend가 알아야 할 변경사항 기록
+- **규칙**: 내 파일에만 쓰기, Frontend 파일은 읽기만
+- 해결된 항목은 삭제

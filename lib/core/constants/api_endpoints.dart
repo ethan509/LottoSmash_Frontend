@@ -11,6 +11,7 @@ class ApiEndpoints {
   static const String me = '$_base/auth/me';
   static const String linkEmail = '$_base/auth/link-email';
   static const String changePassword = '$_base/auth/change-password';
+  static const String checkNickname = '$_base/auth/check-nickname';
 
   // Lotto Draws
   static const String draws = '$_base/lotto/draws';

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git merge:*)",
+      "Bash(ipconfig:*)",
+      "Read(//d/Dev/git/git_ethan509//**)",
+      "Bash(cmd /c \"dir D:\\\\Dev\\\\git\\\\git_ethan509\\\\LottoSmash_Frontend\\\\SHARED_CHANNEL.md 2>&1\")",
+      "Bash(cmd /c \"type nul > \"\"D:\\\\Dev\\\\git\\\\git_ethan509\\\\LottoSmash_Frontend\\\\SHARED_CHANNEL.md\"\"\")"
+    ]
+  }
+}

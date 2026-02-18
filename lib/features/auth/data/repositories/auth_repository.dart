@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/network/dio_client.dart';
@@ -20,7 +21,10 @@ class AuthRepository {
         ApiEndpoints.guestLogin,
         data: GuestLoginRequest(deviceId: deviceId).toJson(),
       );
-      return AuthResponse.fromJson(response.data);
+      debugPrint('[guestLogin] status: ${response.statusCode}');
+      debugPrint('[guestLogin] data type: ${response.data.runtimeType}');
+      debugPrint('[guestLogin] data: ${response.data}');
+      return AuthResponse.fromJson(response.data as Map<String, dynamic>);
     });
   }
 
@@ -92,6 +96,17 @@ class AuthRepository {
         ApiEndpoints.linkEmail,
         data: request.toJson(),
       );
+    });
+  }
+
+  /// 닉네임 중복 체크
+  Future<bool> checkNickname(String nickname) async {
+    return apiCall(() async {
+      final response = await _dio.get(
+        ApiEndpoints.checkNickname,
+        queryParameters: {'nickname': nickname},
+      );
+      return response.data['available'] as bool;
     });
   }
 

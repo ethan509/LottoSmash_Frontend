@@ -46,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(AppStrings.unknownError)),
+          SnackBar(content: Text('오류(${e.runtimeType}): $e')),
         );
       }
     } finally {

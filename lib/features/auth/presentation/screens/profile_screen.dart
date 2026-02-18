@@ -7,11 +7,9 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/services/fcm_service.dart';
 import '../../../../core/theme/theme_provider.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
-import '../../../../shared/widgets/error_widget.dart';
 import '../../data/models/auth_models.dart';
 import '../../providers/auth_provider.dart';
 import '../widgets/change_password_dialog.dart';
-import '../widgets/link_email_dialog.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -27,14 +25,101 @@ class ProfileScreen extends ConsumerWidget {
       body: userAsync.when(
         data: (user) {
           if (user == null) {
-            return const Center(child: Text('로그인이 필요합니다'));
+            final isAuth = ref.watch(authStateNotifierProvider).valueOrNull ?? false;
+            if (isAuth) {
+              // 인증됐지만 getMe 실패 → 재시도 UI
+              return _buildRetryPrompt(context, ref);
+            }
+            return _buildLoginPrompt(context);
           }
           return _ProfileBody(user: user);
         },
         loading: () => const LoadingIndicator(),
-        error: (error, _) => AppErrorWidget(
-          message: error.toString(),
-          onRetry: () => ref.invalidate(currentUserProvider),
+        error: (error, _) => _buildLoginPrompt(context),
+      ),
+    );
+  }
+
+  Widget _buildRetryPrompt(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.cloud_off_outlined,
+              size: 72,
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 16),
+            Text('정보를 불러올 수 없습니다', style: theme.textTheme.titleLarge),
+            const SizedBox(height: 8),
+            Text(
+              '네트워크 연결을 확인하고 다시 시도해주세요',
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 32),
+            FilledButton.icon(
+              onPressed: () => ref.invalidate(currentUserProvider),
+              icon: const Icon(Icons.refresh),
+              label: const Text('다시 시도'),
+              style: FilledButton.styleFrom(minimumSize: const Size(200, 48)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginPrompt(BuildContext context) {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.person_outline,
+              size: 80,
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '로그인이 필요합니다',
+              style: theme.textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '회원가입 또는 로그인 후 이용해주세요',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 32),
+            FilledButton.icon(
+              onPressed: () => context.go('/login'),
+              icon: const Icon(Icons.login),
+              label: const Text('로그인'),
+              style: FilledButton.styleFrom(
+                minimumSize: const Size(200, 48),
+              ),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => context.go('/register'),
+              icon: const Icon(Icons.person_add_outlined),
+              label: const Text('회원가입'),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(200, 48),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -224,27 +309,17 @@ class _ProfileBody extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // 액션 버튼들
-          Card(
-            child: Column(
-              children: [
-                if (_isGuest)
-                  ListTile(
-                    leading: const Icon(Icons.link),
-                    title: const Text(AppStrings.linkEmail),
-                    subtitle: const Text('이메일을 연동하여 데이터를 보호하세요'),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showLinkEmailDialog(context, ref),
-                  )
-                else
-                  ListTile(
-                    leading: const Icon(Icons.lock_outlined),
-                    title: const Text(AppStrings.changePassword),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _showChangePasswordDialog(context, ref),
-                  ),
-              ],
+          if (_isGuest)
+            _buildRegisterBanner(context, ref, theme)
+          else
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.lock_outlined),
+                title: const Text(AppStrings.changePassword),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => _showChangePasswordDialog(context, ref),
+              ),
             ),
-          ),
           const SizedBox(height: 16),
 
           // 알림 설정
@@ -256,27 +331,79 @@ class _ProfileBody extends ConsumerWidget {
 
           const SizedBox(height: 24),
 
-          // 로그아웃
-          OutlinedButton.icon(
-            onPressed: () => _handleLogout(context, ref),
-            icon: const Icon(Icons.logout),
-            label: const Text(AppStrings.logout),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: theme.colorScheme.error,
-              side: BorderSide(color: theme.colorScheme.error),
-              minimumSize: const Size.fromHeight(48),
+          // 로그아웃 (정회원 이상만 표시)
+          if (!_isGuest)
+            OutlinedButton.icon(
+              onPressed: () => _handleLogout(context, ref),
+              icon: const Icon(Icons.logout),
+              label: const Text(AppStrings.logout),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: theme.colorScheme.error,
+                side: BorderSide(color: theme.colorScheme.error),
+                minimumSize: const Size.fromHeight(48),
+              ),
             ),
-          ),
           const SizedBox(height: 16),
         ],
       ),
     );
   }
 
-  void _showLinkEmailDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (_) => const LinkEmailDialog(),
+  Widget _buildRegisterBanner(BuildContext context, WidgetRef ref, ThemeData theme) {
+    return InkWell(
+      onTap: () => context.push('/register'),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              theme.colorScheme.primary,
+              theme.colorScheme.primary.withValues(alpha: 0.75),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.person_add_outlined, color: Colors.white, size: 28),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '회원가입',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '지금 가입하면 Zam을 드려요!\n무료로 모든 기능을 이용하세요.',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.white),
+          ],
+        ),
+      ),
     );
   }
 
@@ -310,10 +437,14 @@ class _ProfileBody extends ConsumerWidget {
     );
 
     if (confirmed == true) {
+      // logout() 후 위젯이 트리에서 제거되므로 미리 참조 저장
+      final router = GoRouter.of(context); // ignore: use_build_context_synchronously
+      final messenger = ScaffoldMessenger.of(context); // ignore: use_build_context_synchronously
       await ref.read(authStateNotifierProvider.notifier).logout();
-      if (context.mounted) {
-        context.go('/login');
-      }
+      messenger.showSnackBar(
+        const SnackBar(content: Text('로그아웃되었습니다')),
+      );
+      router.go('/home');
     }
   }
 }

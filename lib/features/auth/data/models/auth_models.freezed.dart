@@ -1306,6 +1306,8 @@ mixin _$RegisterRequest {
   String? get nickname => throw _privateConstructorUsedError;
   @JsonKey(name: 'purchase_frequency')
   String? get purchaseFrequency => throw _privateConstructorUsedError;
+  @JsonKey(name: 'device_id')
+  String? get deviceId => throw _privateConstructorUsedError;
 
   /// Serializes this RegisterRequest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1333,6 +1335,7 @@ abstract class $RegisterRequestCopyWith<$Res> {
     String? region,
     String? nickname,
     @JsonKey(name: 'purchase_frequency') String? purchaseFrequency,
+    @JsonKey(name: 'device_id') String? deviceId,
   });
 }
 
@@ -1359,6 +1362,7 @@ class _$RegisterRequestCopyWithImpl<$Res, $Val extends RegisterRequest>
     Object? region = freezed,
     Object? nickname = freezed,
     Object? purchaseFrequency = freezed,
+    Object? deviceId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -1394,6 +1398,10 @@ class _$RegisterRequestCopyWithImpl<$Res, $Val extends RegisterRequest>
                 ? _value.purchaseFrequency
                 : purchaseFrequency // ignore: cast_nullable_to_non_nullable
                       as String?,
+            deviceId: freezed == deviceId
+                ? _value.deviceId
+                : deviceId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -1418,6 +1426,7 @@ abstract class _$$RegisterRequestImplCopyWith<$Res>
     String? region,
     String? nickname,
     @JsonKey(name: 'purchase_frequency') String? purchaseFrequency,
+    @JsonKey(name: 'device_id') String? deviceId,
   });
 }
 
@@ -1443,6 +1452,7 @@ class __$$RegisterRequestImplCopyWithImpl<$Res>
     Object? region = freezed,
     Object? nickname = freezed,
     Object? purchaseFrequency = freezed,
+    Object? deviceId = freezed,
   }) {
     return _then(
       _$RegisterRequestImpl(
@@ -1478,6 +1488,10 @@ class __$$RegisterRequestImplCopyWithImpl<$Res>
             ? _value.purchaseFrequency
             : purchaseFrequency // ignore: cast_nullable_to_non_nullable
                   as String?,
+        deviceId: freezed == deviceId
+            ? _value.deviceId
+            : deviceId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -1495,6 +1509,7 @@ class _$RegisterRequestImpl implements _RegisterRequest {
     this.region,
     this.nickname,
     @JsonKey(name: 'purchase_frequency') this.purchaseFrequency,
+    @JsonKey(name: 'device_id') this.deviceId,
   });
 
   factory _$RegisterRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -1518,10 +1533,13 @@ class _$RegisterRequestImpl implements _RegisterRequest {
   @override
   @JsonKey(name: 'purchase_frequency')
   final String? purchaseFrequency;
+  @override
+  @JsonKey(name: 'device_id')
+  final String? deviceId;
 
   @override
   String toString() {
-    return 'RegisterRequest(email: $email, password: $password, code: $code, gender: $gender, birthDate: $birthDate, region: $region, nickname: $nickname, purchaseFrequency: $purchaseFrequency)';
+    return 'RegisterRequest(email: $email, password: $password, code: $code, gender: $gender, birthDate: $birthDate, region: $region, nickname: $nickname, purchaseFrequency: $purchaseFrequency, deviceId: $deviceId)';
   }
 
   @override
@@ -1540,7 +1558,9 @@ class _$RegisterRequestImpl implements _RegisterRequest {
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
             (identical(other.purchaseFrequency, purchaseFrequency) ||
-                other.purchaseFrequency == purchaseFrequency));
+                other.purchaseFrequency == purchaseFrequency) &&
+            (identical(other.deviceId, deviceId) ||
+                other.deviceId == deviceId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1555,6 +1575,7 @@ class _$RegisterRequestImpl implements _RegisterRequest {
     region,
     nickname,
     purchaseFrequency,
+    deviceId,
   );
 
   /// Create a copy of RegisterRequest
@@ -1584,6 +1605,7 @@ abstract class _RegisterRequest implements RegisterRequest {
     final String? region,
     final String? nickname,
     @JsonKey(name: 'purchase_frequency') final String? purchaseFrequency,
+    @JsonKey(name: 'device_id') final String? deviceId,
   }) = _$RegisterRequestImpl;
 
   factory _RegisterRequest.fromJson(Map<String, dynamic> json) =
@@ -1607,6 +1629,9 @@ abstract class _RegisterRequest implements RegisterRequest {
   @override
   @JsonKey(name: 'purchase_frequency')
   String? get purchaseFrequency;
+  @override
+  @JsonKey(name: 'device_id')
+  String? get deviceId;
 
   /// Create a copy of RegisterRequest
   /// with the given fields replaced by the non-null parameter values.
