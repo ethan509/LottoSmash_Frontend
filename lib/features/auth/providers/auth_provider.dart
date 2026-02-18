@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
+import '../../../core/network/api_exception.dart';
 import '../../../core/network/auth_interceptor.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../core/services/fcm_service.dart';
@@ -52,39 +55,52 @@ class AuthStateNotifier extends AsyncNotifier<bool> {
   /// 게스트 로그인
   Future<void> guestLogin() async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
+    try {
       final deviceId = await _getOrCreateDeviceId();
       final repo = ref.read(authRepositoryProvider);
       final auth = await repo.guestLogin(deviceId);
       await _saveTokens(auth);
-      // currentUserProvider 갱신
       ref.invalidate(currentUserProvider);
-      return true;
-    });
+      state = const AsyncData(true);
+    } catch (e, st) {
+      debugPrint('[guestLogin] error type: ${e.runtimeType}');
+      debugPrint('[guestLogin] error: $e');
+      state = AsyncError(e, st);
+      rethrow;
+    }
+  }
+
+  /// 회원가입 + 자동 로그인 (device_id 자동 포함 → 게스트 → 정회원 업그레이드)
+  Future<void> register(RegisterRequest request) async {
+    state = const AsyncLoading();
+    try {
+      final deviceId = await _getOrCreateDeviceId();
+      final repo = ref.read(authRepositoryProvider);
+      final auth = await repo.register(request.copyWith(deviceId: deviceId));
+      await _saveTokens(auth);
+      ref.invalidate(currentUserProvider);
+      state = const AsyncData(true);
+    } catch (e, st) {
+      debugPrint('[register] error type: ${e.runtimeType}');
+      debugPrint('[register] error: $e');
+      state = AsyncError(e, st);
+      rethrow;
+    }
   }
 
   /// 이메일 로그인
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
+    try {
       final repo = ref.read(authRepositoryProvider);
       final auth = await repo.login(email, password);
       await _saveTokens(auth);
       ref.invalidate(currentUserProvider);
-      return true;
-    });
-  }
-
-  /// 회원가입
-  Future<void> register(RegisterRequest request) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() async {
-      final repo = ref.read(authRepositoryProvider);
-      final auth = await repo.register(request);
-      await _saveTokens(auth);
-      ref.invalidate(currentUserProvider);
-      return true;
-    });
+      state = const AsyncData(true);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
+    }
   }
 
   /// 로그아웃
@@ -118,6 +134,40 @@ final currentUserProvider = FutureProvider<User?>((ref) async {
   final isAuthenticated = ref.watch(authStateNotifierProvider).valueOrNull ?? false;
   if (!isAuthenticated) return null;
 
-  final repo = ref.read(authRepositoryProvider);
-  return await repo.getMe();
+  try {
+    final repo = ref.read(authRepositoryProvider);
+    return await repo.getMe();
+  } on ApiException catch (e) {
+    if (e.isUnauthorized) {
+      final storage = ref.read(secureStorageProvider);
+      await TokenStore.clear(storage);
+      return null;
+    }
+    // 네트워크 오류 등 → 게스트 토큰이면 폴백 User 반환
+    return _guestFallbackFromToken();
+  } catch (_) {
+    return _guestFallbackFromToken();
+  }
 });
+
+/// 저장된 JWT에서 GUEST 여부를 판단해 최소 User 반환
+User? _guestFallbackFromToken() {
+  final token = TokenStore.accessToken;
+  if (token == null) return null;
+  try {
+    final parts = token.split('.');
+    if (parts.length != 3) return null;
+    final payload = json.decode(
+      utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+    ) as Map<String, dynamic>;
+    if (payload['tier_code'] == 'GUEST') {
+      return const User(
+        id: 0,
+        tier: UserTier(code: 'GUEST', name: '게스트', level: 0),
+      );
+    }
+    return null;
+  } catch (_) {
+    return null;
+  }
+}

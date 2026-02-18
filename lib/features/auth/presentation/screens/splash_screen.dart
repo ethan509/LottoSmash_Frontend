@@ -27,17 +27,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (!mounted) return;
 
     final authState = ref.read(authStateNotifierProvider);
-    final isAuthenticated = authState.valueOrNull ?? false;
+    final hasToken = authState.valueOrNull ?? false;
 
-    if (isAuthenticated) {
-      // FCM 초기화 (로그인 상태에서만)
+    if (hasToken) {
+      // 토큰 있음 → 홈으로 (유효성 검증은 각 화면에서 처리)
       try {
         await ref.read(fcmServiceProvider).initialize();
       } catch (_) {}
       if (!mounted) return;
       context.go('/home');
     } else {
-      context.go('/login');
+      // 토큰 없음 → 자동 게스트 로그인
+      try {
+        await ref.read(authStateNotifierProvider.notifier).guestLogin();
+        try {
+          await ref.read(fcmServiceProvider).initialize();
+        } catch (_) {}
+        if (!mounted) return;
+        context.go('/home');
+      } catch (_) {
+        // 자동 게스트 로그인 실패 시에만 로그인 화면 표시
+        if (!mounted) return;
+        context.go('/login');
+      }
     }
   }
 

@@ -264,11 +264,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     try {
       final repo = ref.read(recommendRepositoryProvider);
       final result = await repo.generateRecommendation(request);
-      ref.read(recommendResultProvider.notifier).state =
-          AsyncData(result);
+      ref.read(recommendResultProvider.notifier).state = AsyncData(result);
     } on ApiException catch (e) {
+      final msg = e.isInsufficientZam
+          ? 'Zam 잔액이 부족합니다.\n추천 $count세트에 ${count * 10} Zam이 필요합니다.\n프로필에서 잔액을 확인해주세요.'
+          : e.message;
       ref.read(recommendResultProvider.notifier).state =
-          AsyncError(e.message, StackTrace.current);
+          AsyncError(msg, StackTrace.current);
     } catch (e) {
       ref.read(recommendResultProvider.notifier).state =
           AsyncError(e.toString(), StackTrace.current);

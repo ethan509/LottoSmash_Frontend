@@ -83,6 +83,7 @@ class RegisterRequest with _$RegisterRequest {
     String? region,
     String? nickname,
     @JsonKey(name: 'purchase_frequency') String? purchaseFrequency,
+    @JsonKey(name: 'device_id') String? deviceId,
   }) = _RegisterRequest;
 
   factory RegisterRequest.fromJson(Map<String, dynamic> json) =>

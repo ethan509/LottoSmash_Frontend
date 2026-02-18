@@ -103,6 +103,7 @@ _$RegisterRequestImpl _$$RegisterRequestImplFromJson(
   region: json['region'] as String?,
   nickname: json['nickname'] as String?,
   purchaseFrequency: json['purchase_frequency'] as String?,
+  deviceId: json['device_id'] as String?,
 );
 
 Map<String, dynamic> _$$RegisterRequestImplToJson(
@@ -116,6 +117,7 @@ Map<String, dynamic> _$$RegisterRequestImplToJson(
   'region': instance.region,
   'nickname': instance.nickname,
   'purchase_frequency': instance.purchaseFrequency,
+  'device_id': instance.deviceId,
 };
 
 _$SendCodeRequestImpl _$$SendCodeRequestImplFromJson(

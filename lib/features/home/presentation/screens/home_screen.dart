@@ -1,23 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/cache/cache_manager.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../../core/utils/number_format_utils.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../../../shared/widgets/lotto_ball.dart';
+import '../../../../shared/widgets/zam_received_dialog.dart';
 import '../../../auth/providers/auth_provider.dart';
 import '../../../draws/data/models/draw_models.dart';
 import '../../../draws/providers/draw_provider.dart';
 import '../../../stats/data/models/stats_models.dart';
 import '../../providers/home_provider.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _zamChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _tryZamCheck());
+  }
+
+  void _tryZamCheck() {
+    final user = ref.read(currentUserProvider).valueOrNull;
+    if (user != null && !_zamChecked) {
+      _zamChecked = true;
+      _checkAndShowZam(user.zamBalance);
+    }
+  }
+
+  Future<void> _checkAndShowZam(int currentZam) async {
+    final prefs = ref.read(sharedPreferencesProvider);
+    const key = 'last_zam_balance';
+    final lastZam = prefs.getInt(key);
+    await prefs.setInt(key, currentZam);
+
+    if (!mounted) return;
+
+    final gained = lastZam == null ? currentZam : currentZam - lastZam;
+    if (gained > 0) {
+      await ZamReceivedDialog.show(
+        context,
+        zamAmount: gained,
+        isWelcome: lastZam == null,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // 유저 데이터가 나중에 로드되는 경우 대비
+    ref.listen(currentUserProvider, (prev, next) {
+      final user = next.valueOrNull;
+      if (user != null && !_zamChecked) {
+        _zamChecked = true;
+        _checkAndShowZam(user.zamBalance);
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.appName),

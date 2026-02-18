@@ -25,30 +25,33 @@ import '../../features/notifications/presentation/screens/notification_list_scre
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
+/// auth 상태가 바뀔 때 GoRouter의 redirect를 재평가하는 Listenable
+class _AuthNotifier extends ChangeNotifier {
+  _AuthNotifier(Ref ref) {
+    ref.listen(authStateNotifierProvider, (prev, next) => notifyListeners());
+  }
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateNotifierProvider);
+  final authNotifier = _AuthNotifier(ref);
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
+    refreshListenable: authNotifier,
     redirect: (context, state) {
+      final authState = ref.read(authStateNotifierProvider);
       final isAuthenticated = authState.valueOrNull ?? false;
-      final isLoading = authState.isLoading;
       final location = state.uri.path;
 
-      // 스플래시 화면은 항상 허용
+      // 스플래시 화면은 항상 허용 (자체적으로 네비게이션 처리)
       if (location == '/splash') return null;
 
-      // 아직 로딩 중이면 스플래시로
-      if (isLoading) return '/splash';
+      // 인증됨 + 로그인 화면 → 홈으로 (회원가입은 게스트도 접근 가능)
+      if (isAuthenticated && location == '/login') return '/home';
 
-      final isPublicRoute = location == '/login' || location == '/register';
-
-      // 미인증 + 비공개 경로 → 로그인으로
-      if (!isAuthenticated && !isPublicRoute) return '/login';
-
-      // 인증됨 + 로그인/회원가입 → 홈으로
-      if (isAuthenticated && isPublicRoute) return '/home';
+      // 인증 필요 경로: 알림만 보호
+      if (!isAuthenticated && location == '/notifications') return '/login';
 
       return null;
     },

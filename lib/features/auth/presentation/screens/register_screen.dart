@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -9,6 +10,30 @@ import '../../../../core/utils/validators.dart';
 import '../../data/models/auth_models.dart';
 import '../../data/repositories/auth_repository.dart';
 import '../../providers/auth_provider.dart';
+
+/// 생년월일 입력 시 자동으로 YYYY.MM.DD 포맷을 적용하는 TextInputFormatter
+class _BirthDateFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll('.', '');
+    if (digits.length > 8) return oldValue;
+
+    final buffer = StringBuffer();
+    for (int i = 0; i < digits.length; i++) {
+      if (i == 4 || i == 6) buffer.write('.');
+      buffer.write(digits[i]);
+    }
+
+    final formatted = buffer.toString();
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -38,12 +63,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   // Step 3: 필수 프로필
   String? _selectedGender;
-  DateTime? _selectedBirthDate;
+  final _birthDateController = TextEditingController();
 
   // Step 4: 선택 프로필
-  final _regionController = TextEditingController();
+  String? _selectedRegion;
   final _nicknameController = TextEditingController();
-  String? _selectedFrequency;
+  bool _isCheckingNickname = false;
+  bool? _nicknameAvailable;
 
   static const _genderOptions = [
     ('M', AppStrings.genderMale),
@@ -51,11 +77,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     ('O', AppStrings.genderOther),
   ];
 
-  static const _frequencyOptions = [
-    ('WEEKLY', AppStrings.frequencyWeekly),
-    ('MONTHLY', AppStrings.frequencyMonthly),
-    ('BIMONTHLY', AppStrings.frequencyBimonthly),
-    ('IRREGULAR', AppStrings.frequencyIrregular),
+  static const _regionOptions = [
+    '서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종',
+    '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주',
   ];
 
   @override
@@ -65,7 +89,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     _codeController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _regionController.dispose();
+    _birthDateController.dispose();
     _nicknameController.dispose();
     super.dispose();
   }
@@ -117,8 +141,78 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
   }
 
+  /// 생년월일 텍스트(YYYY.MM.DD)를 DateTime으로 파싱
+  DateTime? _parseBirthDate() {
+    final text = _birthDateController.text.trim();
+    final digits = text.replaceAll('.', '');
+    if (digits.length != 8) return null;
+    final year = int.tryParse(digits.substring(0, 4));
+    final month = int.tryParse(digits.substring(4, 6));
+    final day = int.tryParse(digits.substring(6, 8));
+    if (year == null || month == null || day == null) return null;
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+    if (year < 1900 || year > DateTime.now().year) return null;
+    try {
+      final date = DateTime(year, month, day);
+      if (date.isAfter(DateTime.now())) return null;
+      return date;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// 닉네임 중복 체크
+  Future<void> _checkNickname() async {
+    final nickname = _nicknameController.text.trim();
+    if (nickname.isEmpty) return;
+    if (Validators.validateNickname(nickname) != null) return;
+
+    setState(() {
+      _isCheckingNickname = true;
+      _nicknameAvailable = null;
+    });
+    try {
+      final repo = ref.read(authRepositoryProvider);
+      final available = await repo.checkNickname(nickname);
+      if (mounted) {
+        setState(() => _nicknameAvailable = available);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(available ? '사용 가능한 닉네임입니다' : '이미 사용 중인 닉네임입니다'),
+            backgroundColor: available ? Colors.green : Colors.red,
+          ),
+        );
+      }
+    } on ApiException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message)),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isCheckingNickname = false);
+    }
+  }
+
   Future<void> _handleRegister() async {
     if (!_formKeys[3].currentState!.validate()) return;
+
+    // 닉네임 입력했는데 중복체크 안 한 경우
+    final nickname = _nicknameController.text.trim();
+    if (nickname.isNotEmpty && _nicknameAvailable == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('닉네임 중복 확인을 해주세요')),
+      );
+      return;
+    }
+    if (nickname.isNotEmpty && _nicknameAvailable == false) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요')),
+      );
+      return;
+    }
+
+    final birthDate = _parseBirthDate();
 
     setState(() => _isLoading = true);
     try {
@@ -127,26 +221,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         password: _passwordController.text,
         code: _codeController.text.trim(),
         gender: _selectedGender!,
-        birthDate: _selectedBirthDate!.toIso8601String().split('T')[0],
-        region: _regionController.text.trim().isNotEmpty
-            ? _regionController.text.trim()
-            : null,
-        nickname: _nicknameController.text.trim().isNotEmpty
-            ? _nicknameController.text.trim()
-            : null,
-        purchaseFrequency: _selectedFrequency,
+        birthDate: birthDate!.toIso8601String().split('T')[0],
+        region: _selectedRegion,
+        nickname: nickname.isNotEmpty ? nickname : null,
+        purchaseFrequency: null,
+        // deviceId는 AuthStateNotifier.register()에서 자동 주입
       );
 
+      // 회원가입 + 자동 로그인 (게스트 → 정회원 업그레이드 포함)
       await ref.read(authStateNotifierProvider.notifier).register(request);
       try {
         await ref.read(fcmServiceProvider).initialize();
       } catch (_) {}
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('회원가입이 완료되었습니다!')),
-        );
-        context.go('/home');
-      }
+      if (mounted) context.go('/home');
     } on ApiException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -179,9 +266,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           );
           return;
         }
-        if (_selectedBirthDate == null) {
+        if (_parseBirthDate() == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('생년월일을 선택해주세요')),
+            const SnackBar(content: Text('올바른 생년월일을 입력해주세요')),
           );
           return;
         }
@@ -395,29 +482,29 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
             const SizedBox(height: 24),
 
-            // 생년월일
-            Text(
-              AppStrings.birthDate,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            const SizedBox(height: 8),
-            InkWell(
-              onTap: _isLoading ? null : _pickBirthDate,
-              child: InputDecorator(
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.calendar_today_outlined),
-                ),
-                child: Text(
-                  _selectedBirthDate != null
-                      ? '${_selectedBirthDate!.year}.${_selectedBirthDate!.month.toString().padLeft(2, '0')}.${_selectedBirthDate!.day.toString().padLeft(2, '0')}'
-                      : '생년월일을 선택해주세요',
-                  style: TextStyle(
-                    color: _selectedBirthDate != null
-                        ? null
-                        : Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
+            // 생년월일 - 숫자 입력 → 자동 YYYY.MM.DD 포맷
+            TextFormField(
+              controller: _birthDateController,
+              decoration: const InputDecoration(
+                labelText: AppStrings.birthDate,
+                prefixIcon: Icon(Icons.calendar_today_outlined),
+                hintText: 'YYYY.MM.DD',
               ),
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
+                _BirthDateFormatter(),
+              ],
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return '생년월일을 입력해주세요';
+                }
+                if (_parseBirthDate() == null) {
+                  return '올바른 생년월일을 입력해주세요 (예: 19900115)';
+                }
+                return null;
+              },
+              enabled: !_isLoading,
             ),
           ],
         ),
@@ -434,58 +521,65 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         key: _formKeys[3],
         child: Column(
           children: [
-            TextFormField(
-              controller: _regionController,
+            // 거주지역 드롭다운
+            DropdownButtonFormField<String>(
+              initialValue: _selectedRegion,
               decoration: const InputDecoration(
                 labelText: AppStrings.region,
                 prefixIcon: Icon(Icons.location_on_outlined),
-                hintText: '예: 서울',
               ),
-              enabled: !_isLoading,
+              items: _regionOptions.map((region) {
+                return DropdownMenuItem(value: region, child: Text(region));
+              }).toList(),
+              onChanged:
+                  _isLoading ? null : (value) => setState(() => _selectedRegion = value),
             ),
             const SizedBox(height: 16),
+
+            // 닉네임 + 중복체크
             TextFormField(
               controller: _nicknameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: AppStrings.nickname,
-                prefixIcon: Icon(Icons.badge_outlined),
+                prefixIcon: const Icon(Icons.badge_outlined),
                 hintText: '최대 20자',
+                suffixIcon: _isCheckingNickname
+                    ? const Padding(
+                        padding: EdgeInsets.all(12),
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      )
+                    : TextButton(
+                        onPressed: _nicknameController.text.trim().isEmpty
+                            ? null
+                            : _checkNickname,
+                        child: Text(
+                          '중복확인',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _nicknameAvailable == true
+                                ? Colors.green
+                                : null,
+                          ),
+                        ),
+                      ),
               ),
               maxLength: 20,
               validator: Validators.validateNickname,
+              onChanged: (_) {
+                // 닉네임이 변경되면 중복체크 결과 초기화
+                if (_nicknameAvailable != null) {
+                  setState(() => _nicknameAvailable = null);
+                }
+              },
               enabled: !_isLoading,
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              initialValue: _selectedFrequency,
-              decoration: const InputDecoration(
-                labelText: AppStrings.purchaseFrequency,
-                prefixIcon: Icon(Icons.shopping_cart_outlined),
-              ),
-              items: _frequencyOptions.map((option) {
-                final (code, label) = option;
-                return DropdownMenuItem(value: code, child: Text(label));
-              }).toList(),
-              onChanged:
-                  _isLoading ? null : (value) => setState(() => _selectedFrequency = value),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _pickBirthDate() async {
-    final now = DateTime.now();
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedBirthDate ?? DateTime(1990, 1, 1),
-      firstDate: DateTime(1900),
-      lastDate: now,
-      locale: const Locale('ko', 'KR'),
-    );
-    if (picked != null) {
-      setState(() => _selectedBirthDate = picked);
-    }
   }
 }

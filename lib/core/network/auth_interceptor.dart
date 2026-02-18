@@ -51,6 +51,7 @@ class AuthInterceptor extends Interceptor {
     ApiEndpoints.register,
     ApiEndpoints.login,
     ApiEndpoints.refresh,
+    ApiEndpoints.checkNickname,
   ];
 
   AuthInterceptor({

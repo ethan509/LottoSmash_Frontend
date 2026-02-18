@@ -38,6 +38,15 @@ class ApiException implements Exception {
     final statusCode = response?.statusCode;
     final data = response?.data;
 
+    // 402: Zam 부족 — 서버 메시지 대신 한국어로 고정
+    if (statusCode == 402) {
+      return ApiException(
+        message: 'Zam 잔액이 부족합니다',
+        statusCode: 402,
+        data: data,
+      );
+    }
+
     String message;
     if (data is Map<String, dynamic> && data.containsKey('error')) {
       message = data['error'] as String;
@@ -70,6 +79,7 @@ class ApiException implements Exception {
   bool get isNetworkError => statusCode == null;
   bool get isUnauthorized => statusCode == 401;
   bool get isNotFound => statusCode == 404;
+  bool get isInsufficientZam => statusCode == 402;
   bool get isServerError => statusCode != null && statusCode! >= 500;
 
   @override
