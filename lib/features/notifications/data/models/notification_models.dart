@@ -21,8 +21,8 @@ class AppNotification with _$AppNotification {
 @freezed
 class NotificationListResponse with _$NotificationListResponse {
   const factory NotificationListResponse({
-    required List<AppNotification> notifications,
-    @JsonKey(name: 'total_count') required int totalCount,
+    @Default(<AppNotification>[]) List<AppNotification> notifications,
+    @JsonKey(name: 'total_count') @Default(0) int totalCount,
   }) = _NotificationListResponse;
 
   factory NotificationListResponse.fromJson(Map<String, dynamic> json) =>
@@ -48,8 +48,8 @@ class WinningResult with _$WinningResult {
 @freezed
 class WinningListResponse with _$WinningListResponse {
   const factory WinningListResponse({
-    required List<WinningResult> winnings,
-    @JsonKey(name: 'total_count') required int totalCount,
+    @Default(<WinningResult>[]) List<WinningResult> winnings,
+    @JsonKey(name: 'total_count') @Default(0) int totalCount,
   }) = _WinningListResponse;
 
   factory WinningListResponse.fromJson(Map<String, dynamic> json) =>

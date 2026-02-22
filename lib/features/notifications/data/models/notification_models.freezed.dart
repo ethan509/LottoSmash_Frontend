@@ -407,8 +407,8 @@ class __$$NotificationListResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NotificationListResponseImpl implements _NotificationListResponse {
   const _$NotificationListResponseImpl({
-    required final List<AppNotification> notifications,
-    @JsonKey(name: 'total_count') required this.totalCount,
+    final List<AppNotification> notifications = const <AppNotification>[],
+    @JsonKey(name: 'total_count') this.totalCount = 0,
   }) : _notifications = notifications;
 
   factory _$NotificationListResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -416,6 +416,7 @@ class _$NotificationListResponseImpl implements _NotificationListResponse {
 
   final List<AppNotification> _notifications;
   @override
+  @JsonKey()
   List<AppNotification> get notifications {
     if (_notifications is EqualUnmodifiableListView) return _notifications;
     // ignore: implicit_dynamic_type
@@ -471,8 +472,8 @@ class _$NotificationListResponseImpl implements _NotificationListResponse {
 
 abstract class _NotificationListResponse implements NotificationListResponse {
   const factory _NotificationListResponse({
-    required final List<AppNotification> notifications,
-    @JsonKey(name: 'total_count') required final int totalCount,
+    final List<AppNotification> notifications,
+    @JsonKey(name: 'total_count') final int totalCount,
   }) = _$NotificationListResponseImpl;
 
   factory _NotificationListResponse.fromJson(Map<String, dynamic> json) =
@@ -927,8 +928,8 @@ class __$$WinningListResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WinningListResponseImpl implements _WinningListResponse {
   const _$WinningListResponseImpl({
-    required final List<WinningResult> winnings,
-    @JsonKey(name: 'total_count') required this.totalCount,
+    final List<WinningResult> winnings = const <WinningResult>[],
+    @JsonKey(name: 'total_count') this.totalCount = 0,
   }) : _winnings = winnings;
 
   factory _$WinningListResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -936,6 +937,7 @@ class _$WinningListResponseImpl implements _WinningListResponse {
 
   final List<WinningResult> _winnings;
   @override
+  @JsonKey()
   List<WinningResult> get winnings {
     if (_winnings is EqualUnmodifiableListView) return _winnings;
     // ignore: implicit_dynamic_type
@@ -988,8 +990,8 @@ class _$WinningListResponseImpl implements _WinningListResponse {
 
 abstract class _WinningListResponse implements WinningListResponse {
   const factory _WinningListResponse({
-    required final List<WinningResult> winnings,
-    @JsonKey(name: 'total_count') required final int totalCount,
+    final List<WinningResult> winnings,
+    @JsonKey(name: 'total_count') final int totalCount,
   }) = _$WinningListResponseImpl;
 
   factory _WinningListResponse.fromJson(Map<String, dynamic> json) =
