@@ -40,6 +40,10 @@ class ApiEndpoints {
   static const String recommend = '$_base/lotto/recommend';
   static const String recommendations = '$_base/lotto/recommendations';
 
+  // Grid Pattern 시각화 (ROW_COL_DIST / GRID_ENTROPY)
+  static const String gridPattern = '$_base/lotto/grid-pattern';
+  static const String gridEntropyPattern = '$_base/lotto/grid-entropy-pattern';
+
   // Notifications
   static const String deviceToken = '$_base/notifications/device-token';
   static const String notifications = '$_base/notifications';

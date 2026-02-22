@@ -61,6 +61,12 @@ class StatsOverviewScreen extends StatelessWidget {
             description: '행/열 배분 패턴 분석',
             onTap: () => context.push('/stats/grid'),
           ),
+          StatCard(
+            icon: Icons.grid_view,
+            title: '행/열 분포 히트맵',
+            description: 'ROW_COL_DIST 격자 시각화',
+            onTap: () => context.push('/stats/grid-pattern'),
+          ),
         ],
       ),
     );

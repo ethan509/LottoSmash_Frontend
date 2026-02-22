@@ -310,6 +310,60 @@ Map<String, dynamic> _$$GridResponseImplToJson(_$GridResponseImpl instance) =>
       'top_col_patterns': instance.topColPatterns,
     };
 
+_$GridPatternCellImpl _$$GridPatternCellImplFromJson(
+  Map<String, dynamic> json,
+) => _$GridPatternCellImpl(
+  number: (json['number'] as num).toInt(),
+  row: (json['row'] as num).toInt(),
+  col: (json['col'] as num).toInt(),
+  rowProb: (json['row_prob'] as num).toDouble(),
+  colProb: (json['col_prob'] as num).toDouble(),
+  score: (json['score'] as num).toDouble(),
+  isEmpty: json['is_empty'] as bool,
+);
+
+Map<String, dynamic> _$$GridPatternCellImplToJson(
+  _$GridPatternCellImpl instance,
+) => <String, dynamic>{
+  'number': instance.number,
+  'row': instance.row,
+  'col': instance.col,
+  'row_prob': instance.rowProb,
+  'col_prob': instance.colProb,
+  'score': instance.score,
+  'is_empty': instance.isEmpty,
+};
+
+_$GridPatternResponseImpl _$$GridPatternResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$GridPatternResponseImpl(
+  cells: (json['cells'] as List<dynamic>)
+      .map(
+        (e) => (e as List<dynamic>)
+            .map((e) => GridPatternCell.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      )
+      .toList(),
+  rowScores: (json['row_scores'] as List<dynamic>)
+      .map((e) => (e as num).toDouble())
+      .toList(),
+  colScores: (json['col_scores'] as List<dynamic>)
+      .map((e) => (e as num).toDouble())
+      .toList(),
+  maxScore: (json['max_score'] as num).toDouble(),
+  latestDrawNo: (json['latest_draw_no'] as num).toInt(),
+);
+
+Map<String, dynamic> _$$GridPatternResponseImplToJson(
+  _$GridPatternResponseImpl instance,
+) => <String, dynamic>{
+  'cells': instance.cells,
+  'row_scores': instance.rowScores,
+  'col_scores': instance.colScores,
+  'max_score': instance.maxScore,
+  'latest_draw_no': instance.latestDrawNo,
+};
+
 _$BayesianNumberImpl _$$BayesianNumberImplFromJson(Map<String, dynamic> json) =>
     _$BayesianNumberImpl(
       number: (json['number'] as num).toInt(),
