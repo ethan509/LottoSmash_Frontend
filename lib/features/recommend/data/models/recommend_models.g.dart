@@ -200,9 +200,14 @@ Map<String, dynamic> _$$RecommendationHistoryImplToJson(
 _$RecommendationHistoryResponseImpl
 _$$RecommendationHistoryResponseImplFromJson(Map<String, dynamic> json) =>
     _$RecommendationHistoryResponseImpl(
-      recommendations: (json['recommendations'] as List<dynamic>)
-          .map((e) => RecommendationHistory.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      recommendations:
+          (json['recommendations'] as List<dynamic>?)
+              ?.map(
+                (e) =>
+                    RecommendationHistory.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          const [],
       totalCount: (json['count'] as num?)?.toInt() ?? 0,
     );
 

@@ -50,5 +50,8 @@ Future<T> apiCall<T>(Future<T> Function() call) async {
     return await call();
   } on DioException catch (e) {
     throw ApiException.fromDioException(e);
+  } catch (e) {
+    // JSON 파싱 오류 등 Dio 외 예외
+    throw ApiException(message: '데이터 처리 중 오류가 발생했습니다: ${e.runtimeType}');
   }
 }
