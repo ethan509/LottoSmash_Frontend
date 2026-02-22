@@ -364,6 +364,58 @@ Map<String, dynamic> _$$GridPatternResponseImplToJson(
   'latest_draw_no': instance.latestDrawNo,
 };
 
+_$GridEntropyCellImpl _$$GridEntropyCellImplFromJson(
+  Map<String, dynamic> json,
+) => _$GridEntropyCellImpl(
+  number: (json['number'] as num).toInt(),
+  row: (json['row'] as num).toInt(),
+  col: (json['col'] as num).toInt(),
+  entropyScore: (json['entropy_score'] as num).toDouble(),
+  isEmpty: json['is_empty'] as bool,
+);
+
+Map<String, dynamic> _$$GridEntropyCellImplToJson(
+  _$GridEntropyCellImpl instance,
+) => <String, dynamic>{
+  'number': instance.number,
+  'row': instance.row,
+  'col': instance.col,
+  'entropy_score': instance.entropyScore,
+  'is_empty': instance.isEmpty,
+};
+
+_$GridEntropyResponseImpl _$$GridEntropyResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$GridEntropyResponseImpl(
+  cells: (json['cells'] as List<dynamic>)
+      .map(
+        (e) => (e as List<dynamic>)
+            .map((e) => GridEntropyCell.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      )
+      .toList(),
+  rowScores: (json['row_scores'] as List<dynamic>)
+      .map((e) => (e as num).toDouble())
+      .toList(),
+  colScores: (json['col_scores'] as List<dynamic>)
+      .map((e) => (e as num).toDouble())
+      .toList(),
+  maxScore: (json['max_score'] as num).toDouble(),
+  avgEntropy: (json['avg_entropy'] as num).toDouble(),
+  latestDrawNo: (json['latest_draw_no'] as num).toInt(),
+);
+
+Map<String, dynamic> _$$GridEntropyResponseImplToJson(
+  _$GridEntropyResponseImpl instance,
+) => <String, dynamic>{
+  'cells': instance.cells,
+  'row_scores': instance.rowScores,
+  'col_scores': instance.colScores,
+  'max_score': instance.maxScore,
+  'avg_entropy': instance.avgEntropy,
+  'latest_draw_no': instance.latestDrawNo,
+};
+
 _$BayesianNumberImpl _$$BayesianNumberImplFromJson(Map<String, dynamic> json) =>
     _$BayesianNumberImpl(
       number: (json['number'] as num).toInt(),

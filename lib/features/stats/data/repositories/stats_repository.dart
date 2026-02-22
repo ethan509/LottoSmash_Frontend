@@ -133,6 +133,15 @@ class StatsRepository {
     );
   }
 
+  /// GRID_ENTROPY 엔트로피 히트맵
+  Future<GridEntropyResponse> getGridEntropyPattern() async {
+    return _cachedCall(
+      'grid_entropy_pattern',
+      () async => (await _dio.get(ApiEndpoints.gridEntropyPattern)).data,
+      (data) => GridEntropyResponse.fromJson(data),
+    );
+  }
+
   /// 베이지안 분석
   Future<BayesianResponse> getBayesianStats({int window = 50}) async {
     return _cachedCall(

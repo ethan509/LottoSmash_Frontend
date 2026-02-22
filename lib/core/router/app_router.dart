@@ -19,6 +19,7 @@ import '../../features/stats/presentation/screens/ratio_stats_screen.dart';
 import '../../features/stats/presentation/screens/color_stats_screen.dart';
 import '../../features/stats/presentation/screens/grid_stats_screen.dart';
 import '../../features/stats/presentation/screens/grid_pattern_screen.dart';
+import '../../features/stats/presentation/screens/grid_entropy_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_history_screen.dart';
 import '../../features/notifications/presentation/screens/notification_list_screen.dart';
@@ -148,6 +149,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
                     const GridPatternScreen(),
+              ),
+              GoRoute(
+                path: 'grid-entropy',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) =>
+                    const GridEntropyScreen(),
               ),
             ],
           ),

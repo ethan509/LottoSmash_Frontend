@@ -67,6 +67,12 @@ class StatsOverviewScreen extends StatelessWidget {
             description: 'ROW_COL_DIST 격자 시각화',
             onTap: () => context.push('/stats/grid-pattern'),
           ),
+          StatCard(
+            icon: Icons.whatshot,
+            title: '엔트로피 히트맵',
+            description: 'GRID_ENTROPY 산개 시각화',
+            onTap: () => context.push('/stats/grid-entropy'),
+          ),
         ],
       ),
     );

@@ -4633,6 +4633,578 @@ abstract class _GridPatternResponse implements GridPatternResponse {
       throw _privateConstructorUsedError;
 }
 
+GridEntropyCell _$GridEntropyCellFromJson(Map<String, dynamic> json) {
+  return _GridEntropyCell.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GridEntropyCell {
+  int get number => throw _privateConstructorUsedError;
+  int get row => throw _privateConstructorUsedError;
+  int get col => throw _privateConstructorUsedError;
+  @JsonKey(name: 'entropy_score')
+  double get entropyScore => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_empty')
+  bool get isEmpty => throw _privateConstructorUsedError;
+
+  /// Serializes this GridEntropyCell to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of GridEntropyCell
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GridEntropyCellCopyWith<GridEntropyCell> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GridEntropyCellCopyWith<$Res> {
+  factory $GridEntropyCellCopyWith(
+    GridEntropyCell value,
+    $Res Function(GridEntropyCell) then,
+  ) = _$GridEntropyCellCopyWithImpl<$Res, GridEntropyCell>;
+  @useResult
+  $Res call({
+    int number,
+    int row,
+    int col,
+    @JsonKey(name: 'entropy_score') double entropyScore,
+    @JsonKey(name: 'is_empty') bool isEmpty,
+  });
+}
+
+/// @nodoc
+class _$GridEntropyCellCopyWithImpl<$Res, $Val extends GridEntropyCell>
+    implements $GridEntropyCellCopyWith<$Res> {
+  _$GridEntropyCellCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GridEntropyCell
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? row = null,
+    Object? col = null,
+    Object? entropyScore = null,
+    Object? isEmpty = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            number: null == number
+                ? _value.number
+                : number // ignore: cast_nullable_to_non_nullable
+                      as int,
+            row: null == row
+                ? _value.row
+                : row // ignore: cast_nullable_to_non_nullable
+                      as int,
+            col: null == col
+                ? _value.col
+                : col // ignore: cast_nullable_to_non_nullable
+                      as int,
+            entropyScore: null == entropyScore
+                ? _value.entropyScore
+                : entropyScore // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isEmpty: null == isEmpty
+                ? _value.isEmpty
+                : isEmpty // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$GridEntropyCellImplCopyWith<$Res>
+    implements $GridEntropyCellCopyWith<$Res> {
+  factory _$$GridEntropyCellImplCopyWith(
+    _$GridEntropyCellImpl value,
+    $Res Function(_$GridEntropyCellImpl) then,
+  ) = __$$GridEntropyCellImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    int number,
+    int row,
+    int col,
+    @JsonKey(name: 'entropy_score') double entropyScore,
+    @JsonKey(name: 'is_empty') bool isEmpty,
+  });
+}
+
+/// @nodoc
+class __$$GridEntropyCellImplCopyWithImpl<$Res>
+    extends _$GridEntropyCellCopyWithImpl<$Res, _$GridEntropyCellImpl>
+    implements _$$GridEntropyCellImplCopyWith<$Res> {
+  __$$GridEntropyCellImplCopyWithImpl(
+    _$GridEntropyCellImpl _value,
+    $Res Function(_$GridEntropyCellImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GridEntropyCell
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? row = null,
+    Object? col = null,
+    Object? entropyScore = null,
+    Object? isEmpty = null,
+  }) {
+    return _then(
+      _$GridEntropyCellImpl(
+        number: null == number
+            ? _value.number
+            : number // ignore: cast_nullable_to_non_nullable
+                  as int,
+        row: null == row
+            ? _value.row
+            : row // ignore: cast_nullable_to_non_nullable
+                  as int,
+        col: null == col
+            ? _value.col
+            : col // ignore: cast_nullable_to_non_nullable
+                  as int,
+        entropyScore: null == entropyScore
+            ? _value.entropyScore
+            : entropyScore // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isEmpty: null == isEmpty
+            ? _value.isEmpty
+            : isEmpty // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GridEntropyCellImpl implements _GridEntropyCell {
+  const _$GridEntropyCellImpl({
+    required this.number,
+    required this.row,
+    required this.col,
+    @JsonKey(name: 'entropy_score') required this.entropyScore,
+    @JsonKey(name: 'is_empty') required this.isEmpty,
+  });
+
+  factory _$GridEntropyCellImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GridEntropyCellImplFromJson(json);
+
+  @override
+  final int number;
+  @override
+  final int row;
+  @override
+  final int col;
+  @override
+  @JsonKey(name: 'entropy_score')
+  final double entropyScore;
+  @override
+  @JsonKey(name: 'is_empty')
+  final bool isEmpty;
+
+  @override
+  String toString() {
+    return 'GridEntropyCell(number: $number, row: $row, col: $col, entropyScore: $entropyScore, isEmpty: $isEmpty)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GridEntropyCellImpl &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.row, row) || other.row == row) &&
+            (identical(other.col, col) || other.col == col) &&
+            (identical(other.entropyScore, entropyScore) ||
+                other.entropyScore == entropyScore) &&
+            (identical(other.isEmpty, isEmpty) || other.isEmpty == isEmpty));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, number, row, col, entropyScore, isEmpty);
+
+  /// Create a copy of GridEntropyCell
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GridEntropyCellImplCopyWith<_$GridEntropyCellImpl> get copyWith =>
+      __$$GridEntropyCellImplCopyWithImpl<_$GridEntropyCellImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GridEntropyCellImplToJson(this);
+  }
+}
+
+abstract class _GridEntropyCell implements GridEntropyCell {
+  const factory _GridEntropyCell({
+    required final int number,
+    required final int row,
+    required final int col,
+    @JsonKey(name: 'entropy_score') required final double entropyScore,
+    @JsonKey(name: 'is_empty') required final bool isEmpty,
+  }) = _$GridEntropyCellImpl;
+
+  factory _GridEntropyCell.fromJson(Map<String, dynamic> json) =
+      _$GridEntropyCellImpl.fromJson;
+
+  @override
+  int get number;
+  @override
+  int get row;
+  @override
+  int get col;
+  @override
+  @JsonKey(name: 'entropy_score')
+  double get entropyScore;
+  @override
+  @JsonKey(name: 'is_empty')
+  bool get isEmpty;
+
+  /// Create a copy of GridEntropyCell
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GridEntropyCellImplCopyWith<_$GridEntropyCellImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GridEntropyResponse _$GridEntropyResponseFromJson(Map<String, dynamic> json) {
+  return _GridEntropyResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GridEntropyResponse {
+  List<List<GridEntropyCell>> get cells => throw _privateConstructorUsedError;
+  @JsonKey(name: 'row_scores')
+  List<double> get rowScores => throw _privateConstructorUsedError;
+  @JsonKey(name: 'col_scores')
+  List<double> get colScores => throw _privateConstructorUsedError;
+  @JsonKey(name: 'max_score')
+  double get maxScore => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avg_entropy')
+  double get avgEntropy => throw _privateConstructorUsedError;
+  @JsonKey(name: 'latest_draw_no')
+  int get latestDrawNo => throw _privateConstructorUsedError;
+
+  /// Serializes this GridEntropyResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of GridEntropyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GridEntropyResponseCopyWith<GridEntropyResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GridEntropyResponseCopyWith<$Res> {
+  factory $GridEntropyResponseCopyWith(
+    GridEntropyResponse value,
+    $Res Function(GridEntropyResponse) then,
+  ) = _$GridEntropyResponseCopyWithImpl<$Res, GridEntropyResponse>;
+  @useResult
+  $Res call({
+    List<List<GridEntropyCell>> cells,
+    @JsonKey(name: 'row_scores') List<double> rowScores,
+    @JsonKey(name: 'col_scores') List<double> colScores,
+    @JsonKey(name: 'max_score') double maxScore,
+    @JsonKey(name: 'avg_entropy') double avgEntropy,
+    @JsonKey(name: 'latest_draw_no') int latestDrawNo,
+  });
+}
+
+/// @nodoc
+class _$GridEntropyResponseCopyWithImpl<$Res, $Val extends GridEntropyResponse>
+    implements $GridEntropyResponseCopyWith<$Res> {
+  _$GridEntropyResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GridEntropyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cells = null,
+    Object? rowScores = null,
+    Object? colScores = null,
+    Object? maxScore = null,
+    Object? avgEntropy = null,
+    Object? latestDrawNo = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            cells: null == cells
+                ? _value.cells
+                : cells // ignore: cast_nullable_to_non_nullable
+                      as List<List<GridEntropyCell>>,
+            rowScores: null == rowScores
+                ? _value.rowScores
+                : rowScores // ignore: cast_nullable_to_non_nullable
+                      as List<double>,
+            colScores: null == colScores
+                ? _value.colScores
+                : colScores // ignore: cast_nullable_to_non_nullable
+                      as List<double>,
+            maxScore: null == maxScore
+                ? _value.maxScore
+                : maxScore // ignore: cast_nullable_to_non_nullable
+                      as double,
+            avgEntropy: null == avgEntropy
+                ? _value.avgEntropy
+                : avgEntropy // ignore: cast_nullable_to_non_nullable
+                      as double,
+            latestDrawNo: null == latestDrawNo
+                ? _value.latestDrawNo
+                : latestDrawNo // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$GridEntropyResponseImplCopyWith<$Res>
+    implements $GridEntropyResponseCopyWith<$Res> {
+  factory _$$GridEntropyResponseImplCopyWith(
+    _$GridEntropyResponseImpl value,
+    $Res Function(_$GridEntropyResponseImpl) then,
+  ) = __$$GridEntropyResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    List<List<GridEntropyCell>> cells,
+    @JsonKey(name: 'row_scores') List<double> rowScores,
+    @JsonKey(name: 'col_scores') List<double> colScores,
+    @JsonKey(name: 'max_score') double maxScore,
+    @JsonKey(name: 'avg_entropy') double avgEntropy,
+    @JsonKey(name: 'latest_draw_no') int latestDrawNo,
+  });
+}
+
+/// @nodoc
+class __$$GridEntropyResponseImplCopyWithImpl<$Res>
+    extends _$GridEntropyResponseCopyWithImpl<$Res, _$GridEntropyResponseImpl>
+    implements _$$GridEntropyResponseImplCopyWith<$Res> {
+  __$$GridEntropyResponseImplCopyWithImpl(
+    _$GridEntropyResponseImpl _value,
+    $Res Function(_$GridEntropyResponseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GridEntropyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cells = null,
+    Object? rowScores = null,
+    Object? colScores = null,
+    Object? maxScore = null,
+    Object? avgEntropy = null,
+    Object? latestDrawNo = null,
+  }) {
+    return _then(
+      _$GridEntropyResponseImpl(
+        cells: null == cells
+            ? _value._cells
+            : cells // ignore: cast_nullable_to_non_nullable
+                  as List<List<GridEntropyCell>>,
+        rowScores: null == rowScores
+            ? _value._rowScores
+            : rowScores // ignore: cast_nullable_to_non_nullable
+                  as List<double>,
+        colScores: null == colScores
+            ? _value._colScores
+            : colScores // ignore: cast_nullable_to_non_nullable
+                  as List<double>,
+        maxScore: null == maxScore
+            ? _value.maxScore
+            : maxScore // ignore: cast_nullable_to_non_nullable
+                  as double,
+        avgEntropy: null == avgEntropy
+            ? _value.avgEntropy
+            : avgEntropy // ignore: cast_nullable_to_non_nullable
+                  as double,
+        latestDrawNo: null == latestDrawNo
+            ? _value.latestDrawNo
+            : latestDrawNo // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GridEntropyResponseImpl implements _GridEntropyResponse {
+  const _$GridEntropyResponseImpl({
+    required final List<List<GridEntropyCell>> cells,
+    @JsonKey(name: 'row_scores') required final List<double> rowScores,
+    @JsonKey(name: 'col_scores') required final List<double> colScores,
+    @JsonKey(name: 'max_score') required this.maxScore,
+    @JsonKey(name: 'avg_entropy') required this.avgEntropy,
+    @JsonKey(name: 'latest_draw_no') required this.latestDrawNo,
+  }) : _cells = cells,
+       _rowScores = rowScores,
+       _colScores = colScores;
+
+  factory _$GridEntropyResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GridEntropyResponseImplFromJson(json);
+
+  final List<List<GridEntropyCell>> _cells;
+  @override
+  List<List<GridEntropyCell>> get cells {
+    if (_cells is EqualUnmodifiableListView) return _cells;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cells);
+  }
+
+  final List<double> _rowScores;
+  @override
+  @JsonKey(name: 'row_scores')
+  List<double> get rowScores {
+    if (_rowScores is EqualUnmodifiableListView) return _rowScores;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rowScores);
+  }
+
+  final List<double> _colScores;
+  @override
+  @JsonKey(name: 'col_scores')
+  List<double> get colScores {
+    if (_colScores is EqualUnmodifiableListView) return _colScores;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_colScores);
+  }
+
+  @override
+  @JsonKey(name: 'max_score')
+  final double maxScore;
+  @override
+  @JsonKey(name: 'avg_entropy')
+  final double avgEntropy;
+  @override
+  @JsonKey(name: 'latest_draw_no')
+  final int latestDrawNo;
+
+  @override
+  String toString() {
+    return 'GridEntropyResponse(cells: $cells, rowScores: $rowScores, colScores: $colScores, maxScore: $maxScore, avgEntropy: $avgEntropy, latestDrawNo: $latestDrawNo)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GridEntropyResponseImpl &&
+            const DeepCollectionEquality().equals(other._cells, _cells) &&
+            const DeepCollectionEquality().equals(
+              other._rowScores,
+              _rowScores,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._colScores,
+              _colScores,
+            ) &&
+            (identical(other.maxScore, maxScore) ||
+                other.maxScore == maxScore) &&
+            (identical(other.avgEntropy, avgEntropy) ||
+                other.avgEntropy == avgEntropy) &&
+            (identical(other.latestDrawNo, latestDrawNo) ||
+                other.latestDrawNo == latestDrawNo));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_cells),
+    const DeepCollectionEquality().hash(_rowScores),
+    const DeepCollectionEquality().hash(_colScores),
+    maxScore,
+    avgEntropy,
+    latestDrawNo,
+  );
+
+  /// Create a copy of GridEntropyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GridEntropyResponseImplCopyWith<_$GridEntropyResponseImpl> get copyWith =>
+      __$$GridEntropyResponseImplCopyWithImpl<_$GridEntropyResponseImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GridEntropyResponseImplToJson(this);
+  }
+}
+
+abstract class _GridEntropyResponse implements GridEntropyResponse {
+  const factory _GridEntropyResponse({
+    required final List<List<GridEntropyCell>> cells,
+    @JsonKey(name: 'row_scores') required final List<double> rowScores,
+    @JsonKey(name: 'col_scores') required final List<double> colScores,
+    @JsonKey(name: 'max_score') required final double maxScore,
+    @JsonKey(name: 'avg_entropy') required final double avgEntropy,
+    @JsonKey(name: 'latest_draw_no') required final int latestDrawNo,
+  }) = _$GridEntropyResponseImpl;
+
+  factory _GridEntropyResponse.fromJson(Map<String, dynamic> json) =
+      _$GridEntropyResponseImpl.fromJson;
+
+  @override
+  List<List<GridEntropyCell>> get cells;
+  @override
+  @JsonKey(name: 'row_scores')
+  List<double> get rowScores;
+  @override
+  @JsonKey(name: 'col_scores')
+  List<double> get colScores;
+  @override
+  @JsonKey(name: 'max_score')
+  double get maxScore;
+  @override
+  @JsonKey(name: 'avg_entropy')
+  double get avgEntropy;
+  @override
+  @JsonKey(name: 'latest_draw_no')
+  int get latestDrawNo;
+
+  /// Create a copy of GridEntropyResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GridEntropyResponseImplCopyWith<_$GridEntropyResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 BayesianNumber _$BayesianNumberFromJson(Map<String, dynamic> json) {
   return _BayesianNumber.fromJson(json);
 }
