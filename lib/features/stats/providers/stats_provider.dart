@@ -52,6 +52,12 @@ final gridStatsProvider = FutureProvider<GridResponse>((ref) async {
   return await repo.getGridStats();
 });
 
+/// 행/열 분포 격자 히트맵 (ROW_COL_DIST)
+final gridPatternProvider = FutureProvider<GridPatternResponse>((ref) async {
+  final repo = ref.watch(statsRepositoryProvider);
+  return await repo.getGridPattern();
+});
+
 /// 종합 통계 (개요)
 final overviewStatsProvider = FutureProvider<StatsResponse>((ref) async {
   final repo = ref.watch(statsRepositoryProvider);
