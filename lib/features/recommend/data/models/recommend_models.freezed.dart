@@ -2507,7 +2507,7 @@ class __$$RecommendationHistoryResponseImplCopyWithImpl<$Res>
 class _$RecommendationHistoryResponseImpl
     implements _RecommendationHistoryResponse {
   const _$RecommendationHistoryResponseImpl({
-    required final List<RecommendationHistory> recommendations,
+    final List<RecommendationHistory> recommendations = const [],
     @JsonKey(name: 'count') this.totalCount = 0,
   }) : _recommendations = recommendations;
 
@@ -2517,6 +2517,7 @@ class _$RecommendationHistoryResponseImpl
 
   final List<RecommendationHistory> _recommendations;
   @override
+  @JsonKey()
   List<RecommendationHistory> get recommendations {
     if (_recommendations is EqualUnmodifiableListView) return _recommendations;
     // ignore: implicit_dynamic_type
@@ -2575,7 +2576,7 @@ class _$RecommendationHistoryResponseImpl
 abstract class _RecommendationHistoryResponse
     implements RecommendationHistoryResponse {
   const factory _RecommendationHistoryResponse({
-    required final List<RecommendationHistory> recommendations,
+    final List<RecommendationHistory> recommendations,
     @JsonKey(name: 'count') final int totalCount,
   }) = _$RecommendationHistoryResponseImpl;
 
