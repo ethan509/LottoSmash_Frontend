@@ -129,7 +129,7 @@ class RecommendationHistory with _$RecommendationHistory {
 @freezed
 class RecommendationHistoryResponse with _$RecommendationHistoryResponse {
   const factory RecommendationHistoryResponse({
-    required List<RecommendationHistory> recommendations,
+    @Default([]) List<RecommendationHistory> recommendations,
     @JsonKey(name: 'count') @Default(0) int totalCount,
   }) = _RecommendationHistoryResponse;
 
