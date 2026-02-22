@@ -43,12 +43,58 @@ class _RecommendHistoryScreenState
   @override
   Widget build(BuildContext context) {
     final userAsync = ref.watch(currentUserProvider);
-    final isGuest = userAsync.valueOrNull?.tier?.code == 'GUEST' ||
-        userAsync.valueOrNull?.email == null;
 
     return Scaffold(
       appBar: AppBar(title: const Text(AppStrings.recommendHistory)),
-      body: isGuest ? _buildGuestBlock(context) : _buildHistoryList(),
+      body: userAsync.when(
+        loading: () => const ShimmerList(itemCount: 6, itemHeight: 140),
+        error: (err, st) => _buildGuestBlock(context),
+        data: (user) {
+          final isGuest =
+              user?.tier?.code == 'GUEST' || user?.email == null;
+          return isGuest ? _buildGuestBlock(context) : _buildHistoryList();
+        },
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.history_rounded,
+              size: 64,
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '아직 추천 이력이 없습니다',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '번호 추천을 받으면 이곳에 자동으로 저장됩니다.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            OutlinedButton.icon(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.auto_awesome, size: 18),
+              label: const Text('추천 받으러 가기'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -104,7 +150,7 @@ class _RecommendHistoryScreenState
       ),
       data: (state) {
         if (state.items.isEmpty) {
-          return const Center(child: Text(AppStrings.noData));
+          return _buildEmptyState(context);
         }
 
         return RefreshIndicator(
