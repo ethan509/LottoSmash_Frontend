@@ -30,13 +30,6 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.recommend),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.history),
-            tooltip: AppStrings.recommendHistory,
-            onPressed: () => context.go('/recommend/history'),
-          ),
-        ],
       ),
       body: methodsAsync.when(
         loading: () => const ShimmerList(itemCount: 4, itemHeight: 80),
@@ -83,6 +76,11 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // 추천 이력 배너
+            _buildHistoryBanner(context),
+
+            const SizedBox(height: 8),
+
             // Step 1: 분석 방법 선택
             MethodSelector(
               methods: methods,
@@ -235,6 +233,80 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
 
             const SizedBox(height: 32),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHistoryBanner(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => context.go('/recommend/history'),
+        splashColor: colorScheme.secondary.withValues(alpha: 0.12),
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                colorScheme.secondary.withValues(alpha: 0.15),
+                colorScheme.tertiary.withValues(alpha: 0.10),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: colorScheme.secondary.withValues(alpha: 0.35),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colorScheme.secondary.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.history_rounded,
+                    color: colorScheme.secondary,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppStrings.recommendHistory,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        '저장된 추천 번호를 확인하세요',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
