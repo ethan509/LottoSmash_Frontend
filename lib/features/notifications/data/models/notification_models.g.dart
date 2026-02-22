@@ -31,10 +31,12 @@ Map<String, dynamic> _$$AppNotificationImplToJson(
 _$NotificationListResponseImpl _$$NotificationListResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$NotificationListResponseImpl(
-  notifications: (json['notifications'] as List<dynamic>)
-      .map((e) => AppNotification.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  totalCount: (json['total_count'] as num).toInt(),
+  notifications:
+      (json['notifications'] as List<dynamic>?)
+          ?.map((e) => AppNotification.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <AppNotification>[],
+  totalCount: (json['total_count'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$$NotificationListResponseImplToJson(
@@ -71,10 +73,12 @@ Map<String, dynamic> _$$WinningResultImplToJson(_$WinningResultImpl instance) =>
 _$WinningListResponseImpl _$$WinningListResponseImplFromJson(
   Map<String, dynamic> json,
 ) => _$WinningListResponseImpl(
-  winnings: (json['winnings'] as List<dynamic>)
-      .map((e) => WinningResult.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  totalCount: (json['total_count'] as num).toInt(),
+  winnings:
+      (json['winnings'] as List<dynamic>?)
+          ?.map((e) => WinningResult.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <WinningResult>[],
+  totalCount: (json['total_count'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$$WinningListResponseImplToJson(

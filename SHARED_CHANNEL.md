@@ -52,4 +52,6 @@ _(양쪽이 합의해야 할 미해결 사항)_
 
 | 날짜 | 발신 | 제목 | Status |
 |------|------|------|--------|
+| 2026-02-22 | Frontend | 분석 방법 UI 4계층 설명 문안 반영 (tagline/description/techNote accordion) | DONE |
+| 2026-02-22 | Frontend | 6가지 분석 방법 + 격자 히트맵 2종 구현 완료 | DONE |
 | 2026-02-18 | System | 채널 초기화 | DONE |

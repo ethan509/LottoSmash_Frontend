@@ -203,12 +203,12 @@ _$$RecommendationHistoryResponseImplFromJson(Map<String, dynamic> json) =>
       recommendations: (json['recommendations'] as List<dynamic>)
           .map((e) => RecommendationHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalCount: (json['total_count'] as num?)?.toInt() ?? 0,
+      totalCount: (json['count'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$RecommendationHistoryResponseImplToJson(
   _$RecommendationHistoryResponseImpl instance,
 ) => <String, dynamic>{
   'recommendations': instance.recommendations,
-  'total_count': instance.totalCount,
+  'count': instance.totalCount,
 };

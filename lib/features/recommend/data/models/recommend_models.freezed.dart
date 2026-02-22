@@ -2390,7 +2390,7 @@ RecommendationHistoryResponse _$RecommendationHistoryResponseFromJson(
 mixin _$RecommendationHistoryResponse {
   List<RecommendationHistory> get recommendations =>
       throw _privateConstructorUsedError;
-  @JsonKey(name: 'total_count')
+  @JsonKey(name: 'count')
   int get totalCount => throw _privateConstructorUsedError;
 
   /// Serializes this RecommendationHistoryResponse to a JSON map.
@@ -2416,7 +2416,7 @@ abstract class $RecommendationHistoryResponseCopyWith<$Res> {
   @useResult
   $Res call({
     List<RecommendationHistory> recommendations,
-    @JsonKey(name: 'total_count') int totalCount,
+    @JsonKey(name: 'count') int totalCount,
   });
 }
 
@@ -2465,7 +2465,7 @@ abstract class _$$RecommendationHistoryResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     List<RecommendationHistory> recommendations,
-    @JsonKey(name: 'total_count') int totalCount,
+    @JsonKey(name: 'count') int totalCount,
   });
 }
 
@@ -2508,7 +2508,7 @@ class _$RecommendationHistoryResponseImpl
     implements _RecommendationHistoryResponse {
   const _$RecommendationHistoryResponseImpl({
     required final List<RecommendationHistory> recommendations,
-    @JsonKey(name: 'total_count') this.totalCount = 0,
+    @JsonKey(name: 'count') this.totalCount = 0,
   }) : _recommendations = recommendations;
 
   factory _$RecommendationHistoryResponseImpl.fromJson(
@@ -2524,7 +2524,7 @@ class _$RecommendationHistoryResponseImpl
   }
 
   @override
-  @JsonKey(name: 'total_count')
+  @JsonKey(name: 'count')
   final int totalCount;
 
   @override
@@ -2576,7 +2576,7 @@ abstract class _RecommendationHistoryResponse
     implements RecommendationHistoryResponse {
   const factory _RecommendationHistoryResponse({
     required final List<RecommendationHistory> recommendations,
-    @JsonKey(name: 'total_count') final int totalCount,
+    @JsonKey(name: 'count') final int totalCount,
   }) = _$RecommendationHistoryResponseImpl;
 
   factory _RecommendationHistoryResponse.fromJson(Map<String, dynamic> json) =
@@ -2585,7 +2585,7 @@ abstract class _RecommendationHistoryResponse
   @override
   List<RecommendationHistory> get recommendations;
   @override
-  @JsonKey(name: 'total_count')
+  @JsonKey(name: 'count')
   int get totalCount;
 
   /// Create a copy of RecommendationHistoryResponse
