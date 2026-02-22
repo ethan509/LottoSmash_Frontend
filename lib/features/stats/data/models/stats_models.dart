@@ -222,6 +222,36 @@ class GridResponse with _$GridResponse {
 }
 
 @freezed
+class GridPatternCell with _$GridPatternCell {
+  const factory GridPatternCell({
+    required int number,
+    required int row,
+    required int col,
+    @JsonKey(name: 'row_prob') required double rowProb,
+    @JsonKey(name: 'col_prob') required double colProb,
+    required double score,
+    @JsonKey(name: 'is_empty') required bool isEmpty,
+  }) = _GridPatternCell;
+
+  factory GridPatternCell.fromJson(Map<String, dynamic> json) =>
+      _$GridPatternCellFromJson(json);
+}
+
+@freezed
+class GridPatternResponse with _$GridPatternResponse {
+  const factory GridPatternResponse({
+    required List<List<GridPatternCell>> cells,
+    @JsonKey(name: 'row_scores') required List<double> rowScores,
+    @JsonKey(name: 'col_scores') required List<double> colScores,
+    @JsonKey(name: 'max_score') required double maxScore,
+    @JsonKey(name: 'latest_draw_no') required int latestDrawNo,
+  }) = _GridPatternResponse;
+
+  factory GridPatternResponse.fromJson(Map<String, dynamic> json) =>
+      _$GridPatternResponseFromJson(json);
+}
+
+@freezed
 class BayesianNumber with _$BayesianNumber {
   const factory BayesianNumber({
     required int number,

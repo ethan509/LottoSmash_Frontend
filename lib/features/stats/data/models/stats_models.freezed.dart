@@ -4036,6 +4036,603 @@ abstract class _GridResponse implements GridResponse {
       throw _privateConstructorUsedError;
 }
 
+GridPatternCell _$GridPatternCellFromJson(Map<String, dynamic> json) {
+  return _GridPatternCell.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GridPatternCell {
+  int get number => throw _privateConstructorUsedError;
+  int get row => throw _privateConstructorUsedError;
+  int get col => throw _privateConstructorUsedError;
+  @JsonKey(name: 'row_prob')
+  double get rowProb => throw _privateConstructorUsedError;
+  @JsonKey(name: 'col_prob')
+  double get colProb => throw _privateConstructorUsedError;
+  double get score => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_empty')
+  bool get isEmpty => throw _privateConstructorUsedError;
+
+  /// Serializes this GridPatternCell to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of GridPatternCell
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GridPatternCellCopyWith<GridPatternCell> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GridPatternCellCopyWith<$Res> {
+  factory $GridPatternCellCopyWith(
+    GridPatternCell value,
+    $Res Function(GridPatternCell) then,
+  ) = _$GridPatternCellCopyWithImpl<$Res, GridPatternCell>;
+  @useResult
+  $Res call({
+    int number,
+    int row,
+    int col,
+    @JsonKey(name: 'row_prob') double rowProb,
+    @JsonKey(name: 'col_prob') double colProb,
+    double score,
+    @JsonKey(name: 'is_empty') bool isEmpty,
+  });
+}
+
+/// @nodoc
+class _$GridPatternCellCopyWithImpl<$Res, $Val extends GridPatternCell>
+    implements $GridPatternCellCopyWith<$Res> {
+  _$GridPatternCellCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GridPatternCell
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? row = null,
+    Object? col = null,
+    Object? rowProb = null,
+    Object? colProb = null,
+    Object? score = null,
+    Object? isEmpty = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            number: null == number
+                ? _value.number
+                : number // ignore: cast_nullable_to_non_nullable
+                      as int,
+            row: null == row
+                ? _value.row
+                : row // ignore: cast_nullable_to_non_nullable
+                      as int,
+            col: null == col
+                ? _value.col
+                : col // ignore: cast_nullable_to_non_nullable
+                      as int,
+            rowProb: null == rowProb
+                ? _value.rowProb
+                : rowProb // ignore: cast_nullable_to_non_nullable
+                      as double,
+            colProb: null == colProb
+                ? _value.colProb
+                : colProb // ignore: cast_nullable_to_non_nullable
+                      as double,
+            score: null == score
+                ? _value.score
+                : score // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isEmpty: null == isEmpty
+                ? _value.isEmpty
+                : isEmpty // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$GridPatternCellImplCopyWith<$Res>
+    implements $GridPatternCellCopyWith<$Res> {
+  factory _$$GridPatternCellImplCopyWith(
+    _$GridPatternCellImpl value,
+    $Res Function(_$GridPatternCellImpl) then,
+  ) = __$$GridPatternCellImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    int number,
+    int row,
+    int col,
+    @JsonKey(name: 'row_prob') double rowProb,
+    @JsonKey(name: 'col_prob') double colProb,
+    double score,
+    @JsonKey(name: 'is_empty') bool isEmpty,
+  });
+}
+
+/// @nodoc
+class __$$GridPatternCellImplCopyWithImpl<$Res>
+    extends _$GridPatternCellCopyWithImpl<$Res, _$GridPatternCellImpl>
+    implements _$$GridPatternCellImplCopyWith<$Res> {
+  __$$GridPatternCellImplCopyWithImpl(
+    _$GridPatternCellImpl _value,
+    $Res Function(_$GridPatternCellImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GridPatternCell
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? number = null,
+    Object? row = null,
+    Object? col = null,
+    Object? rowProb = null,
+    Object? colProb = null,
+    Object? score = null,
+    Object? isEmpty = null,
+  }) {
+    return _then(
+      _$GridPatternCellImpl(
+        number: null == number
+            ? _value.number
+            : number // ignore: cast_nullable_to_non_nullable
+                  as int,
+        row: null == row
+            ? _value.row
+            : row // ignore: cast_nullable_to_non_nullable
+                  as int,
+        col: null == col
+            ? _value.col
+            : col // ignore: cast_nullable_to_non_nullable
+                  as int,
+        rowProb: null == rowProb
+            ? _value.rowProb
+            : rowProb // ignore: cast_nullable_to_non_nullable
+                  as double,
+        colProb: null == colProb
+            ? _value.colProb
+            : colProb // ignore: cast_nullable_to_non_nullable
+                  as double,
+        score: null == score
+            ? _value.score
+            : score // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isEmpty: null == isEmpty
+            ? _value.isEmpty
+            : isEmpty // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GridPatternCellImpl implements _GridPatternCell {
+  const _$GridPatternCellImpl({
+    required this.number,
+    required this.row,
+    required this.col,
+    @JsonKey(name: 'row_prob') required this.rowProb,
+    @JsonKey(name: 'col_prob') required this.colProb,
+    required this.score,
+    @JsonKey(name: 'is_empty') required this.isEmpty,
+  });
+
+  factory _$GridPatternCellImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GridPatternCellImplFromJson(json);
+
+  @override
+  final int number;
+  @override
+  final int row;
+  @override
+  final int col;
+  @override
+  @JsonKey(name: 'row_prob')
+  final double rowProb;
+  @override
+  @JsonKey(name: 'col_prob')
+  final double colProb;
+  @override
+  final double score;
+  @override
+  @JsonKey(name: 'is_empty')
+  final bool isEmpty;
+
+  @override
+  String toString() {
+    return 'GridPatternCell(number: $number, row: $row, col: $col, rowProb: $rowProb, colProb: $colProb, score: $score, isEmpty: $isEmpty)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GridPatternCellImpl &&
+            (identical(other.number, number) || other.number == number) &&
+            (identical(other.row, row) || other.row == row) &&
+            (identical(other.col, col) || other.col == col) &&
+            (identical(other.rowProb, rowProb) || other.rowProb == rowProb) &&
+            (identical(other.colProb, colProb) || other.colProb == colProb) &&
+            (identical(other.score, score) || other.score == score) &&
+            (identical(other.isEmpty, isEmpty) || other.isEmpty == isEmpty));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    number,
+    row,
+    col,
+    rowProb,
+    colProb,
+    score,
+    isEmpty,
+  );
+
+  /// Create a copy of GridPatternCell
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GridPatternCellImplCopyWith<_$GridPatternCellImpl> get copyWith =>
+      __$$GridPatternCellImplCopyWithImpl<_$GridPatternCellImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GridPatternCellImplToJson(this);
+  }
+}
+
+abstract class _GridPatternCell implements GridPatternCell {
+  const factory _GridPatternCell({
+    required final int number,
+    required final int row,
+    required final int col,
+    @JsonKey(name: 'row_prob') required final double rowProb,
+    @JsonKey(name: 'col_prob') required final double colProb,
+    required final double score,
+    @JsonKey(name: 'is_empty') required final bool isEmpty,
+  }) = _$GridPatternCellImpl;
+
+  factory _GridPatternCell.fromJson(Map<String, dynamic> json) =
+      _$GridPatternCellImpl.fromJson;
+
+  @override
+  int get number;
+  @override
+  int get row;
+  @override
+  int get col;
+  @override
+  @JsonKey(name: 'row_prob')
+  double get rowProb;
+  @override
+  @JsonKey(name: 'col_prob')
+  double get colProb;
+  @override
+  double get score;
+  @override
+  @JsonKey(name: 'is_empty')
+  bool get isEmpty;
+
+  /// Create a copy of GridPatternCell
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GridPatternCellImplCopyWith<_$GridPatternCellImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GridPatternResponse _$GridPatternResponseFromJson(Map<String, dynamic> json) {
+  return _GridPatternResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GridPatternResponse {
+  List<List<GridPatternCell>> get cells => throw _privateConstructorUsedError;
+  @JsonKey(name: 'row_scores')
+  List<double> get rowScores => throw _privateConstructorUsedError;
+  @JsonKey(name: 'col_scores')
+  List<double> get colScores => throw _privateConstructorUsedError;
+  @JsonKey(name: 'max_score')
+  double get maxScore => throw _privateConstructorUsedError;
+  @JsonKey(name: 'latest_draw_no')
+  int get latestDrawNo => throw _privateConstructorUsedError;
+
+  /// Serializes this GridPatternResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of GridPatternResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GridPatternResponseCopyWith<GridPatternResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GridPatternResponseCopyWith<$Res> {
+  factory $GridPatternResponseCopyWith(
+    GridPatternResponse value,
+    $Res Function(GridPatternResponse) then,
+  ) = _$GridPatternResponseCopyWithImpl<$Res, GridPatternResponse>;
+  @useResult
+  $Res call({
+    List<List<GridPatternCell>> cells,
+    @JsonKey(name: 'row_scores') List<double> rowScores,
+    @JsonKey(name: 'col_scores') List<double> colScores,
+    @JsonKey(name: 'max_score') double maxScore,
+    @JsonKey(name: 'latest_draw_no') int latestDrawNo,
+  });
+}
+
+/// @nodoc
+class _$GridPatternResponseCopyWithImpl<$Res, $Val extends GridPatternResponse>
+    implements $GridPatternResponseCopyWith<$Res> {
+  _$GridPatternResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GridPatternResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cells = null,
+    Object? rowScores = null,
+    Object? colScores = null,
+    Object? maxScore = null,
+    Object? latestDrawNo = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            cells: null == cells
+                ? _value.cells
+                : cells // ignore: cast_nullable_to_non_nullable
+                      as List<List<GridPatternCell>>,
+            rowScores: null == rowScores
+                ? _value.rowScores
+                : rowScores // ignore: cast_nullable_to_non_nullable
+                      as List<double>,
+            colScores: null == colScores
+                ? _value.colScores
+                : colScores // ignore: cast_nullable_to_non_nullable
+                      as List<double>,
+            maxScore: null == maxScore
+                ? _value.maxScore
+                : maxScore // ignore: cast_nullable_to_non_nullable
+                      as double,
+            latestDrawNo: null == latestDrawNo
+                ? _value.latestDrawNo
+                : latestDrawNo // ignore: cast_nullable_to_non_nullable
+                      as int,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$GridPatternResponseImplCopyWith<$Res>
+    implements $GridPatternResponseCopyWith<$Res> {
+  factory _$$GridPatternResponseImplCopyWith(
+    _$GridPatternResponseImpl value,
+    $Res Function(_$GridPatternResponseImpl) then,
+  ) = __$$GridPatternResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    List<List<GridPatternCell>> cells,
+    @JsonKey(name: 'row_scores') List<double> rowScores,
+    @JsonKey(name: 'col_scores') List<double> colScores,
+    @JsonKey(name: 'max_score') double maxScore,
+    @JsonKey(name: 'latest_draw_no') int latestDrawNo,
+  });
+}
+
+/// @nodoc
+class __$$GridPatternResponseImplCopyWithImpl<$Res>
+    extends _$GridPatternResponseCopyWithImpl<$Res, _$GridPatternResponseImpl>
+    implements _$$GridPatternResponseImplCopyWith<$Res> {
+  __$$GridPatternResponseImplCopyWithImpl(
+    _$GridPatternResponseImpl _value,
+    $Res Function(_$GridPatternResponseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of GridPatternResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cells = null,
+    Object? rowScores = null,
+    Object? colScores = null,
+    Object? maxScore = null,
+    Object? latestDrawNo = null,
+  }) {
+    return _then(
+      _$GridPatternResponseImpl(
+        cells: null == cells
+            ? _value._cells
+            : cells // ignore: cast_nullable_to_non_nullable
+                  as List<List<GridPatternCell>>,
+        rowScores: null == rowScores
+            ? _value._rowScores
+            : rowScores // ignore: cast_nullable_to_non_nullable
+                  as List<double>,
+        colScores: null == colScores
+            ? _value._colScores
+            : colScores // ignore: cast_nullable_to_non_nullable
+                  as List<double>,
+        maxScore: null == maxScore
+            ? _value.maxScore
+            : maxScore // ignore: cast_nullable_to_non_nullable
+                  as double,
+        latestDrawNo: null == latestDrawNo
+            ? _value.latestDrawNo
+            : latestDrawNo // ignore: cast_nullable_to_non_nullable
+                  as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GridPatternResponseImpl implements _GridPatternResponse {
+  const _$GridPatternResponseImpl({
+    required final List<List<GridPatternCell>> cells,
+    @JsonKey(name: 'row_scores') required final List<double> rowScores,
+    @JsonKey(name: 'col_scores') required final List<double> colScores,
+    @JsonKey(name: 'max_score') required this.maxScore,
+    @JsonKey(name: 'latest_draw_no') required this.latestDrawNo,
+  }) : _cells = cells,
+       _rowScores = rowScores,
+       _colScores = colScores;
+
+  factory _$GridPatternResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GridPatternResponseImplFromJson(json);
+
+  final List<List<GridPatternCell>> _cells;
+  @override
+  List<List<GridPatternCell>> get cells {
+    if (_cells is EqualUnmodifiableListView) return _cells;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cells);
+  }
+
+  final List<double> _rowScores;
+  @override
+  @JsonKey(name: 'row_scores')
+  List<double> get rowScores {
+    if (_rowScores is EqualUnmodifiableListView) return _rowScores;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_rowScores);
+  }
+
+  final List<double> _colScores;
+  @override
+  @JsonKey(name: 'col_scores')
+  List<double> get colScores {
+    if (_colScores is EqualUnmodifiableListView) return _colScores;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_colScores);
+  }
+
+  @override
+  @JsonKey(name: 'max_score')
+  final double maxScore;
+  @override
+  @JsonKey(name: 'latest_draw_no')
+  final int latestDrawNo;
+
+  @override
+  String toString() {
+    return 'GridPatternResponse(cells: $cells, rowScores: $rowScores, colScores: $colScores, maxScore: $maxScore, latestDrawNo: $latestDrawNo)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GridPatternResponseImpl &&
+            const DeepCollectionEquality().equals(other._cells, _cells) &&
+            const DeepCollectionEquality().equals(
+              other._rowScores,
+              _rowScores,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._colScores,
+              _colScores,
+            ) &&
+            (identical(other.maxScore, maxScore) ||
+                other.maxScore == maxScore) &&
+            (identical(other.latestDrawNo, latestDrawNo) ||
+                other.latestDrawNo == latestDrawNo));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_cells),
+    const DeepCollectionEquality().hash(_rowScores),
+    const DeepCollectionEquality().hash(_colScores),
+    maxScore,
+    latestDrawNo,
+  );
+
+  /// Create a copy of GridPatternResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GridPatternResponseImplCopyWith<_$GridPatternResponseImpl> get copyWith =>
+      __$$GridPatternResponseImplCopyWithImpl<_$GridPatternResponseImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GridPatternResponseImplToJson(this);
+  }
+}
+
+abstract class _GridPatternResponse implements GridPatternResponse {
+  const factory _GridPatternResponse({
+    required final List<List<GridPatternCell>> cells,
+    @JsonKey(name: 'row_scores') required final List<double> rowScores,
+    @JsonKey(name: 'col_scores') required final List<double> colScores,
+    @JsonKey(name: 'max_score') required final double maxScore,
+    @JsonKey(name: 'latest_draw_no') required final int latestDrawNo,
+  }) = _$GridPatternResponseImpl;
+
+  factory _GridPatternResponse.fromJson(Map<String, dynamic> json) =
+      _$GridPatternResponseImpl.fromJson;
+
+  @override
+  List<List<GridPatternCell>> get cells;
+  @override
+  @JsonKey(name: 'row_scores')
+  List<double> get rowScores;
+  @override
+  @JsonKey(name: 'col_scores')
+  List<double> get colScores;
+  @override
+  @JsonKey(name: 'max_score')
+  double get maxScore;
+  @override
+  @JsonKey(name: 'latest_draw_no')
+  int get latestDrawNo;
+
+  /// Create a copy of GridPatternResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GridPatternResponseImplCopyWith<_$GridPatternResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 BayesianNumber _$BayesianNumberFromJson(Map<String, dynamic> json) {
   return _BayesianNumber.fromJson(json);
 }

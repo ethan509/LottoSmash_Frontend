@@ -124,6 +124,15 @@ class StatsRepository {
     );
   }
 
+  /// ROW_COL_DIST 격자 히트맵
+  Future<GridPatternResponse> getGridPattern() async {
+    return _cachedCall(
+      'grid_pattern',
+      () async => (await _dio.get(ApiEndpoints.gridPattern)).data,
+      (data) => GridPatternResponse.fromJson(data),
+    );
+  }
+
   /// 베이지안 분석
   Future<BayesianResponse> getBayesianStats({int window = 50}) async {
     return _cachedCall(
