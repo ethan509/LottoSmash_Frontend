@@ -6,6 +6,7 @@ import '../../../../core/network/api_exception.dart';
 import '../../../../shared/widgets/error_widget.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../data/models/recommend_models.dart';
+import '../../../auth/providers/auth_provider.dart';
 import '../../data/repositories/recommend_repository.dart';
 import '../../providers/recommend_provider.dart';
 import '../widgets/combine_method_selector.dart';
@@ -337,6 +338,9 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
       final repo = ref.read(recommendRepositoryProvider);
       final result = await repo.generateRecommendation(request);
       ref.read(recommendResultProvider.notifier).state = AsyncData(result);
+      // Zam 잔액 갱신 + 이력 갱신
+      ref.invalidate(currentUserProvider);
+      ref.invalidate(recommendHistoryProvider);
     } on ApiException catch (e) {
       final msg = e.isInsufficientZam
           ? 'Zam 잔액이 부족합니다.\n추천 $count세트에 ${count * 10} Zam이 필요합니다.\n프로필에서 잔액을 확인해주세요.'
