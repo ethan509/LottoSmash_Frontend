@@ -252,6 +252,35 @@ class GridPatternResponse with _$GridPatternResponse {
 }
 
 @freezed
+class GridEntropyCell with _$GridEntropyCell {
+  const factory GridEntropyCell({
+    required int number,
+    required int row,
+    required int col,
+    @JsonKey(name: 'entropy_score') required double entropyScore,
+    @JsonKey(name: 'is_empty') required bool isEmpty,
+  }) = _GridEntropyCell;
+
+  factory GridEntropyCell.fromJson(Map<String, dynamic> json) =>
+      _$GridEntropyCellFromJson(json);
+}
+
+@freezed
+class GridEntropyResponse with _$GridEntropyResponse {
+  const factory GridEntropyResponse({
+    required List<List<GridEntropyCell>> cells,
+    @JsonKey(name: 'row_scores') required List<double> rowScores,
+    @JsonKey(name: 'col_scores') required List<double> colScores,
+    @JsonKey(name: 'max_score') required double maxScore,
+    @JsonKey(name: 'avg_entropy') required double avgEntropy,
+    @JsonKey(name: 'latest_draw_no') required int latestDrawNo,
+  }) = _GridEntropyResponse;
+
+  factory GridEntropyResponse.fromJson(Map<String, dynamic> json) =>
+      _$GridEntropyResponseFromJson(json);
+}
+
+@freezed
 class BayesianNumber with _$BayesianNumber {
   const factory BayesianNumber({
     required int number,
