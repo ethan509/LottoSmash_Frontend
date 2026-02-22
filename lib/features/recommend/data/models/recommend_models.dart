@@ -130,7 +130,7 @@ class RecommendationHistory with _$RecommendationHistory {
 class RecommendationHistoryResponse with _$RecommendationHistoryResponse {
   const factory RecommendationHistoryResponse({
     required List<RecommendationHistory> recommendations,
-    @JsonKey(name: 'total_count') @Default(0) int totalCount,
+    @JsonKey(name: 'count') @Default(0) int totalCount,
   }) = _RecommendationHistoryResponse;
 
   factory RecommendationHistoryResponse.fromJson(Map<String, dynamic> json) =>
