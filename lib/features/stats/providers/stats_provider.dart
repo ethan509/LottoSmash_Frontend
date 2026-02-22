@@ -58,6 +58,12 @@ final gridPatternProvider = FutureProvider<GridPatternResponse>((ref) async {
   return await repo.getGridPattern();
 });
 
+/// 엔트로피 격자 히트맵 (GRID_ENTROPY)
+final gridEntropyProvider = FutureProvider<GridEntropyResponse>((ref) async {
+  final repo = ref.watch(statsRepositoryProvider);
+  return await repo.getGridEntropyPattern();
+});
+
 /// 종합 통계 (개요)
 final overviewStatsProvider = FutureProvider<StatsResponse>((ref) async {
   final repo = ref.watch(statsRepositoryProvider);
