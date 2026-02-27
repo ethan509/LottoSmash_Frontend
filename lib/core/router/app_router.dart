@@ -22,6 +22,7 @@ import '../../features/stats/presentation/screens/grid_pattern_screen.dart';
 import '../../features/stats/presentation/screens/grid_entropy_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_history_screen.dart';
+import '../../features/backtest/presentation/screens/backtest_screen.dart';
 import '../../features/notifications/presentation/screens/notification_list_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -167,6 +168,11 @@ final routerProvider = Provider<GoRouter>((ref) {
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
                     const RecommendHistoryScreen(),
+              ),
+              GoRoute(
+                path: 'backtest',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => const BacktestScreen(),
               ),
             ],
           ),

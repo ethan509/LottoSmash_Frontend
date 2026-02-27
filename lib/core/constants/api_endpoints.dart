@@ -39,6 +39,7 @@ class ApiEndpoints {
   static const String combineMethods = '$_base/lotto/combine-methods';
   static const String recommend = '$_base/lotto/recommend';
   static const String recommendations = '$_base/lotto/recommendations';
+  static const String backtest = '$_base/lotto/backtest';
 
   // Grid Pattern 시각화 (ROW_COL_DIST / GRID_ENTROPY)
   static const String gridPattern = '$_base/lotto/grid-pattern';
