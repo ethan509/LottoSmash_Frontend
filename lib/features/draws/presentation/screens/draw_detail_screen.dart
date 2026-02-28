@@ -66,11 +66,15 @@ class _DrawDetailBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   // 로또 공 (큰 사이즈)
-                  LottoBallRow(
-                    numbers: draw.numbers,
-                    bonusNumber: draw.bonusNum,
-                    ballSize: 48,
-                    spacing: 6,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                    child: LottoBallRow(
+                      numbers: draw.numbers,
+                      bonusNumber: draw.bonusNum,
+                      ballSize: 48,
+                      spacing: 6,
+                    ),
                   ),
                 ],
               ),
@@ -94,7 +98,11 @@ class _DrawDetailBody extends StatelessWidget {
                   _PrizeRow(
                     rank: AppStrings.firstPrize,
                     winners: draw.firstWinners,
-                    prize: draw.firstPerGame,
+                    prize: draw.firstPerGame > 0
+                        ? draw.firstPerGame
+                        : draw.firstWinners > 0
+                            ? draw.firstPrize ~/ draw.firstWinners
+                            : null,
                     totalPrize: draw.firstPrize,
                     isHighlight: true,
                     theme: theme,
@@ -168,7 +176,7 @@ class _PrizeRow extends StatelessWidget {
               ),
             ),
             Text(
-              NumberFormatUtils.formatKrw(totalPrize),
+              totalPrize > 0 ? NumberFormatUtils.formatKrw(totalPrize) : '-',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: isHighlight ? theme.colorScheme.primary : null,
