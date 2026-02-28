@@ -5,12 +5,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/notifications/data/models/notification_models.dart';
 import '../../features/notifications/data/repositories/notification_repository.dart';
+import '../router/app_router.dart';
 
 /// 백그라운드 메시지 핸들러 (top-level 함수여야 함)
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint('[FCM] 백그라운드 메시지: ${message.messageId}');
 }
+
+/// 포그라운드 수신 메시지 — BottomNavShell에서 구독해 배너 표시
+final fcmForegroundMessageProvider =
+    StateProvider<RemoteMessage?>((ref) => null);
 
 final fcmServiceProvider = Provider<FcmService>((ref) {
   return FcmService(ref);
@@ -72,17 +77,35 @@ class FcmService {
     }
   }
 
-  /// 포그라운드 메시지 처리
+  /// 포그라운드 메시지 — provider에 저장해 BottomNavShell이 배너로 표시
   void _handleForegroundMessage(RemoteMessage message) {
     debugPrint('[FCM] 포그라운드 메시지: ${message.notification?.title}');
-    // TODO: 인앱 알림 표시 (snackbar 또는 overlay)
+    _ref.read(fcmForegroundMessageProvider.notifier).state = message;
   }
 
-  /// 알림 탭으로 앱이 열렸을 때 처리
+  /// 알림 탭으로 앱이 열렸을 때 — data.type 기준으로 화면 이동
   void _handleMessageOpenedApp(RemoteMessage message) {
     debugPrint('[FCM] 알림 탭: ${message.data}');
-    // GoRouter를 통한 화면 이동은 앱 레벨에서 처리
-    // data에 route 정보가 있으면 해당 화면으로 이동
+    _navigateForMessage(message);
+  }
+
+  void _navigateForMessage(RemoteMessage message) {
+    final type = message.data['type'] as String?;
+    final router = _ref.read(routerProvider);
+
+    switch (type) {
+      case 'new_draw':
+        final drawNo = message.data['draw_no'] as String?;
+        if (drawNo != null) {
+          router.push('/draws/$drawNo');
+        } else {
+          router.push('/draws');
+        }
+      case 'winning':
+        router.push('/notifications?tab=1');
+      default:
+        router.push('/notifications');
+    }
   }
 
   /// 현재 FCM 토큰 반환

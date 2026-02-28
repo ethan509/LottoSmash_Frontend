@@ -8,29 +8,57 @@ import '../../../../shared/widgets/lotto_ball.dart';
 import '../../data/models/notification_models.dart';
 import '../../providers/notification_provider.dart';
 
-class NotificationListScreen extends ConsumerWidget {
-  const NotificationListScreen({super.key});
+class NotificationListScreen extends ConsumerStatefulWidget {
+  /// 0: 알림 탭, 1: 당첨 확인 탭 (FCM 라우팅 시 1로 설정)
+  final int initialTab;
+
+  const NotificationListScreen({super.key, this.initialTab = 0});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
+  ConsumerState<NotificationListScreen> createState() =>
+      _NotificationListScreenState();
+}
+
+class _NotificationListScreenState
+    extends ConsumerState<NotificationListScreen>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(AppStrings.notifications),
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: '알림'),
-              Tab(text: '당첨 확인'),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            _NotificationTab(),
-            _WinningTab(),
+      vsync: this,
+      initialIndex: widget.initialTab.clamp(0, 1),
+    );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppStrings.notifications),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: '알림'),
+            Tab(text: '당첨 확인'),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _NotificationTab(),
+          _WinningTab(),
+        ],
       ),
     );
   }
