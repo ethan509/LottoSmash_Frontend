@@ -315,10 +315,14 @@ class _LatestDrawContent extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          LottoBallRow(
-            numbers: draw.numbers,
-            bonusNumber: draw.bonusNum,
-            ballSize: 40,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: LottoBallRow(
+              numbers: draw.numbers,
+              bonusNumber: draw.bonusNum,
+              ballSize: 40,
+            ),
           ),
           const SizedBox(height: 8),
           Row(
