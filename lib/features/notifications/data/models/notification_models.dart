@@ -57,6 +57,35 @@ class WinningListResponse with _$WinningListResponse {
 }
 
 @freezed
+class UnreadWin with _$UnreadWin {
+  const factory UnreadWin({
+    required int id,
+    @JsonKey(name: 'recommendation_id') required int recommendationId,
+    @JsonKey(name: 'draw_no') required int drawNo,
+    @JsonKey(name: 'matched_numbers') required List<int> matchedNumbers,
+    @JsonKey(name: 'matched_count') required int matchedCount,
+    @JsonKey(name: 'bonus_matched') required bool bonusMatched,
+    @JsonKey(name: 'prize_rank') required int prizeRank,
+    @JsonKey(name: 'is_notified') @Default(false) bool isNotified,
+    @JsonKey(name: 'created_at') required String createdAt,
+  }) = _UnreadWin;
+
+  factory UnreadWin.fromJson(Map<String, dynamic> json) =>
+      _$UnreadWinFromJson(json);
+}
+
+@freezed
+class UnreadWinsResponse with _$UnreadWinsResponse {
+  const factory UnreadWinsResponse({
+    @JsonKey(name: 'total_count') @Default(0) int totalCount,
+    @Default(<UnreadWin>[]) List<UnreadWin> wins,
+  }) = _UnreadWinsResponse;
+
+  factory UnreadWinsResponse.fromJson(Map<String, dynamic> json) =>
+      _$UnreadWinsResponseFromJson(json);
+}
+
+@freezed
 class DeviceTokenRequest with _$DeviceTokenRequest {
   const factory DeviceTokenRequest({
     required String token,

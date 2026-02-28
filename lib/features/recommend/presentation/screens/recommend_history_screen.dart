@@ -193,9 +193,8 @@ class _HistoryCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 상단: 날짜 + 신뢰도
+            // 상단: 날짜 + 대상회차 + 당첨배지 + 신뢰도
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   createdAt,
@@ -203,6 +202,18 @@ class _HistoryCard extends StatelessWidget {
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
+                if (item.drawNo != null) ...[
+                  const SizedBox(width: 6),
+                  Text(
+                    '${item.drawNo}회',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+                const Spacer(),
+                _PrizeRankBadge(prizeRank: item.prizeRank),
+                const SizedBox(width: 6),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -267,5 +278,44 @@ class _HistoryCard extends StatelessWidget {
     } catch (_) {
       return isoDate;
     }
+  }
+}
+
+class _PrizeRankBadge extends StatelessWidget {
+  final int? prizeRank;
+
+  const _PrizeRankBadge({required this.prizeRank});
+
+  @override
+  Widget build(BuildContext context) {
+    final (label, color) = switch (prizeRank) {
+      null => ('대기중', const Color(0xFF9E9E9E)),
+      0    => ('꽝',    const Color(0xFFBDBDBD)),
+      1    => ('1등 🏆', const Color(0xFFFFB300)),
+      2    => ('2등',   const Color(0xFF78909C)),
+      3    => ('3등',   const Color(0xFFFF7043)),
+      4    => ('4등',   const Color(0xFF42A5F5)),
+      5    => ('5등',   const Color(0xFF66BB6A)),
+      _    => ('$prizeRank등', const Color(0xFF9E9E9E)),
+    };
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: prizeRank == null ? 0.12 : 0.15),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.4)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          color: prizeRank == null
+              ? const Color(0xFF9E9E9E)
+              : (prizeRank == 0 ? const Color(0xFF9E9E9E) : color),
+        ),
+      ),
+    );
   }
 }

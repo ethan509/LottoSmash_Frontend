@@ -88,6 +88,52 @@ Map<String, dynamic> _$$WinningListResponseImplToJson(
   'total_count': instance.totalCount,
 };
 
+_$UnreadWinImpl _$$UnreadWinImplFromJson(Map<String, dynamic> json) =>
+    _$UnreadWinImpl(
+      id: (json['id'] as num).toInt(),
+      recommendationId: (json['recommendation_id'] as num).toInt(),
+      drawNo: (json['draw_no'] as num).toInt(),
+      matchedNumbers: (json['matched_numbers'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
+      matchedCount: (json['matched_count'] as num).toInt(),
+      bonusMatched: json['bonus_matched'] as bool,
+      prizeRank: (json['prize_rank'] as num).toInt(),
+      isNotified: json['is_notified'] as bool? ?? false,
+      createdAt: json['created_at'] as String,
+    );
+
+Map<String, dynamic> _$$UnreadWinImplToJson(_$UnreadWinImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'recommendation_id': instance.recommendationId,
+      'draw_no': instance.drawNo,
+      'matched_numbers': instance.matchedNumbers,
+      'matched_count': instance.matchedCount,
+      'bonus_matched': instance.bonusMatched,
+      'prize_rank': instance.prizeRank,
+      'is_notified': instance.isNotified,
+      'created_at': instance.createdAt,
+    };
+
+_$UnreadWinsResponseImpl _$$UnreadWinsResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$UnreadWinsResponseImpl(
+  totalCount: (json['total_count'] as num?)?.toInt() ?? 0,
+  wins:
+      (json['wins'] as List<dynamic>?)
+          ?.map((e) => UnreadWin.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <UnreadWin>[],
+);
+
+Map<String, dynamic> _$$UnreadWinsResponseImplToJson(
+  _$UnreadWinsResponseImpl instance,
+) => <String, dynamic>{
+  'total_count': instance.totalCount,
+  'wins': instance.wins,
+};
+
 _$DeviceTokenRequestImpl _$$DeviceTokenRequestImplFromJson(
   Map<String, dynamic> json,
 ) => _$DeviceTokenRequestImpl(

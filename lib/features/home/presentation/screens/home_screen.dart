@@ -8,8 +8,10 @@ import '../../../../core/utils/date_utils.dart';
 import '../../../../core/utils/number_format_utils.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../../../shared/widgets/lotto_ball.dart';
+import '../../../../shared/widgets/winning_alert_dialog.dart';
 import '../../../../shared/widgets/zam_received_dialog.dart';
 import '../../../auth/providers/auth_provider.dart';
+import '../../../notifications/data/repositories/notification_repository.dart';
 import '../../../draws/data/models/draw_models.dart';
 import '../../../draws/providers/draw_provider.dart';
 import '../../../stats/data/models/stats_models.dart';
@@ -24,6 +26,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool _zamChecked = false;
+  bool _winsChecked = false;
 
   @override
   void initState() {
@@ -36,6 +39,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (user != null && !_zamChecked) {
       _zamChecked = true;
       _checkAndShowZam(user.zamBalance);
+    }
+    // 정회원 이상만 당첨 알림 확인
+    if (user != null && !_winsChecked && (user.tier?.level ?? 0) >= 1) {
+      _winsChecked = true;
+      _checkAndShowWins();
+    }
+  }
+
+  Future<void> _checkAndShowWins() async {
+    try {
+      final repo = ref.read(notificationRepositoryProvider);
+      final result = await repo.getUnreadWins();
+      if (!mounted || result.totalCount == 0) return;
+
+      await WinningAlertDialog.show(
+        context,
+        wins: result.wins,
+        onConfirm: () async {
+          Navigator.of(context).pop();
+          await repo.markWinsAsRead();
+        },
+      );
+    } catch (_) {
+      // 당첨 알림 실패는 조용히 무시
     }
   }
 
@@ -65,6 +92,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       if (user != null && !_zamChecked) {
         _zamChecked = true;
         _checkAndShowZam(user.zamBalance);
+      }
+      if (user != null && !_winsChecked && (user.tier?.level ?? 0) >= 1) {
+        _winsChecked = true;
+        _checkAndShowWins();
       }
     });
 

@@ -1011,6 +1011,571 @@ abstract class _WinningListResponse implements WinningListResponse {
       throw _privateConstructorUsedError;
 }
 
+UnreadWin _$UnreadWinFromJson(Map<String, dynamic> json) {
+  return _UnreadWin.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UnreadWin {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'recommendation_id')
+  int get recommendationId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'draw_no')
+  int get drawNo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'matched_numbers')
+  List<int> get matchedNumbers => throw _privateConstructorUsedError;
+  @JsonKey(name: 'matched_count')
+  int get matchedCount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'bonus_matched')
+  bool get bonusMatched => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prize_rank')
+  int get prizeRank => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_notified')
+  bool get isNotified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  String get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this UnreadWin to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of UnreadWin
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UnreadWinCopyWith<UnreadWin> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UnreadWinCopyWith<$Res> {
+  factory $UnreadWinCopyWith(UnreadWin value, $Res Function(UnreadWin) then) =
+      _$UnreadWinCopyWithImpl<$Res, UnreadWin>;
+  @useResult
+  $Res call({
+    int id,
+    @JsonKey(name: 'recommendation_id') int recommendationId,
+    @JsonKey(name: 'draw_no') int drawNo,
+    @JsonKey(name: 'matched_numbers') List<int> matchedNumbers,
+    @JsonKey(name: 'matched_count') int matchedCount,
+    @JsonKey(name: 'bonus_matched') bool bonusMatched,
+    @JsonKey(name: 'prize_rank') int prizeRank,
+    @JsonKey(name: 'is_notified') bool isNotified,
+    @JsonKey(name: 'created_at') String createdAt,
+  });
+}
+
+/// @nodoc
+class _$UnreadWinCopyWithImpl<$Res, $Val extends UnreadWin>
+    implements $UnreadWinCopyWith<$Res> {
+  _$UnreadWinCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UnreadWin
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? recommendationId = null,
+    Object? drawNo = null,
+    Object? matchedNumbers = null,
+    Object? matchedCount = null,
+    Object? bonusMatched = null,
+    Object? prizeRank = null,
+    Object? isNotified = null,
+    Object? createdAt = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as int,
+            recommendationId: null == recommendationId
+                ? _value.recommendationId
+                : recommendationId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            drawNo: null == drawNo
+                ? _value.drawNo
+                : drawNo // ignore: cast_nullable_to_non_nullable
+                      as int,
+            matchedNumbers: null == matchedNumbers
+                ? _value.matchedNumbers
+                : matchedNumbers // ignore: cast_nullable_to_non_nullable
+                      as List<int>,
+            matchedCount: null == matchedCount
+                ? _value.matchedCount
+                : matchedCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            bonusMatched: null == bonusMatched
+                ? _value.bonusMatched
+                : bonusMatched // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            prizeRank: null == prizeRank
+                ? _value.prizeRank
+                : prizeRank // ignore: cast_nullable_to_non_nullable
+                      as int,
+            isNotified: null == isNotified
+                ? _value.isNotified
+                : isNotified // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            createdAt: null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$UnreadWinImplCopyWith<$Res>
+    implements $UnreadWinCopyWith<$Res> {
+  factory _$$UnreadWinImplCopyWith(
+    _$UnreadWinImpl value,
+    $Res Function(_$UnreadWinImpl) then,
+  ) = __$$UnreadWinImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    int id,
+    @JsonKey(name: 'recommendation_id') int recommendationId,
+    @JsonKey(name: 'draw_no') int drawNo,
+    @JsonKey(name: 'matched_numbers') List<int> matchedNumbers,
+    @JsonKey(name: 'matched_count') int matchedCount,
+    @JsonKey(name: 'bonus_matched') bool bonusMatched,
+    @JsonKey(name: 'prize_rank') int prizeRank,
+    @JsonKey(name: 'is_notified') bool isNotified,
+    @JsonKey(name: 'created_at') String createdAt,
+  });
+}
+
+/// @nodoc
+class __$$UnreadWinImplCopyWithImpl<$Res>
+    extends _$UnreadWinCopyWithImpl<$Res, _$UnreadWinImpl>
+    implements _$$UnreadWinImplCopyWith<$Res> {
+  __$$UnreadWinImplCopyWithImpl(
+    _$UnreadWinImpl _value,
+    $Res Function(_$UnreadWinImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of UnreadWin
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? recommendationId = null,
+    Object? drawNo = null,
+    Object? matchedNumbers = null,
+    Object? matchedCount = null,
+    Object? bonusMatched = null,
+    Object? prizeRank = null,
+    Object? isNotified = null,
+    Object? createdAt = null,
+  }) {
+    return _then(
+      _$UnreadWinImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as int,
+        recommendationId: null == recommendationId
+            ? _value.recommendationId
+            : recommendationId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        drawNo: null == drawNo
+            ? _value.drawNo
+            : drawNo // ignore: cast_nullable_to_non_nullable
+                  as int,
+        matchedNumbers: null == matchedNumbers
+            ? _value._matchedNumbers
+            : matchedNumbers // ignore: cast_nullable_to_non_nullable
+                  as List<int>,
+        matchedCount: null == matchedCount
+            ? _value.matchedCount
+            : matchedCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        bonusMatched: null == bonusMatched
+            ? _value.bonusMatched
+            : bonusMatched // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        prizeRank: null == prizeRank
+            ? _value.prizeRank
+            : prizeRank // ignore: cast_nullable_to_non_nullable
+                  as int,
+        isNotified: null == isNotified
+            ? _value.isNotified
+            : isNotified // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        createdAt: null == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnreadWinImpl implements _UnreadWin {
+  const _$UnreadWinImpl({
+    required this.id,
+    @JsonKey(name: 'recommendation_id') required this.recommendationId,
+    @JsonKey(name: 'draw_no') required this.drawNo,
+    @JsonKey(name: 'matched_numbers') required final List<int> matchedNumbers,
+    @JsonKey(name: 'matched_count') required this.matchedCount,
+    @JsonKey(name: 'bonus_matched') required this.bonusMatched,
+    @JsonKey(name: 'prize_rank') required this.prizeRank,
+    @JsonKey(name: 'is_notified') this.isNotified = false,
+    @JsonKey(name: 'created_at') required this.createdAt,
+  }) : _matchedNumbers = matchedNumbers;
+
+  factory _$UnreadWinImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnreadWinImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(name: 'recommendation_id')
+  final int recommendationId;
+  @override
+  @JsonKey(name: 'draw_no')
+  final int drawNo;
+  final List<int> _matchedNumbers;
+  @override
+  @JsonKey(name: 'matched_numbers')
+  List<int> get matchedNumbers {
+    if (_matchedNumbers is EqualUnmodifiableListView) return _matchedNumbers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_matchedNumbers);
+  }
+
+  @override
+  @JsonKey(name: 'matched_count')
+  final int matchedCount;
+  @override
+  @JsonKey(name: 'bonus_matched')
+  final bool bonusMatched;
+  @override
+  @JsonKey(name: 'prize_rank')
+  final int prizeRank;
+  @override
+  @JsonKey(name: 'is_notified')
+  final bool isNotified;
+  @override
+  @JsonKey(name: 'created_at')
+  final String createdAt;
+
+  @override
+  String toString() {
+    return 'UnreadWin(id: $id, recommendationId: $recommendationId, drawNo: $drawNo, matchedNumbers: $matchedNumbers, matchedCount: $matchedCount, bonusMatched: $bonusMatched, prizeRank: $prizeRank, isNotified: $isNotified, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnreadWinImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.recommendationId, recommendationId) ||
+                other.recommendationId == recommendationId) &&
+            (identical(other.drawNo, drawNo) || other.drawNo == drawNo) &&
+            const DeepCollectionEquality().equals(
+              other._matchedNumbers,
+              _matchedNumbers,
+            ) &&
+            (identical(other.matchedCount, matchedCount) ||
+                other.matchedCount == matchedCount) &&
+            (identical(other.bonusMatched, bonusMatched) ||
+                other.bonusMatched == bonusMatched) &&
+            (identical(other.prizeRank, prizeRank) ||
+                other.prizeRank == prizeRank) &&
+            (identical(other.isNotified, isNotified) ||
+                other.isNotified == isNotified) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    recommendationId,
+    drawNo,
+    const DeepCollectionEquality().hash(_matchedNumbers),
+    matchedCount,
+    bonusMatched,
+    prizeRank,
+    isNotified,
+    createdAt,
+  );
+
+  /// Create a copy of UnreadWin
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnreadWinImplCopyWith<_$UnreadWinImpl> get copyWith =>
+      __$$UnreadWinImplCopyWithImpl<_$UnreadWinImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnreadWinImplToJson(this);
+  }
+}
+
+abstract class _UnreadWin implements UnreadWin {
+  const factory _UnreadWin({
+    required final int id,
+    @JsonKey(name: 'recommendation_id') required final int recommendationId,
+    @JsonKey(name: 'draw_no') required final int drawNo,
+    @JsonKey(name: 'matched_numbers') required final List<int> matchedNumbers,
+    @JsonKey(name: 'matched_count') required final int matchedCount,
+    @JsonKey(name: 'bonus_matched') required final bool bonusMatched,
+    @JsonKey(name: 'prize_rank') required final int prizeRank,
+    @JsonKey(name: 'is_notified') final bool isNotified,
+    @JsonKey(name: 'created_at') required final String createdAt,
+  }) = _$UnreadWinImpl;
+
+  factory _UnreadWin.fromJson(Map<String, dynamic> json) =
+      _$UnreadWinImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(name: 'recommendation_id')
+  int get recommendationId;
+  @override
+  @JsonKey(name: 'draw_no')
+  int get drawNo;
+  @override
+  @JsonKey(name: 'matched_numbers')
+  List<int> get matchedNumbers;
+  @override
+  @JsonKey(name: 'matched_count')
+  int get matchedCount;
+  @override
+  @JsonKey(name: 'bonus_matched')
+  bool get bonusMatched;
+  @override
+  @JsonKey(name: 'prize_rank')
+  int get prizeRank;
+  @override
+  @JsonKey(name: 'is_notified')
+  bool get isNotified;
+  @override
+  @JsonKey(name: 'created_at')
+  String get createdAt;
+
+  /// Create a copy of UnreadWin
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UnreadWinImplCopyWith<_$UnreadWinImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+UnreadWinsResponse _$UnreadWinsResponseFromJson(Map<String, dynamic> json) {
+  return _UnreadWinsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UnreadWinsResponse {
+  @JsonKey(name: 'total_count')
+  int get totalCount => throw _privateConstructorUsedError;
+  List<UnreadWin> get wins => throw _privateConstructorUsedError;
+
+  /// Serializes this UnreadWinsResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of UnreadWinsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UnreadWinsResponseCopyWith<UnreadWinsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UnreadWinsResponseCopyWith<$Res> {
+  factory $UnreadWinsResponseCopyWith(
+    UnreadWinsResponse value,
+    $Res Function(UnreadWinsResponse) then,
+  ) = _$UnreadWinsResponseCopyWithImpl<$Res, UnreadWinsResponse>;
+  @useResult
+  $Res call({
+    @JsonKey(name: 'total_count') int totalCount,
+    List<UnreadWin> wins,
+  });
+}
+
+/// @nodoc
+class _$UnreadWinsResponseCopyWithImpl<$Res, $Val extends UnreadWinsResponse>
+    implements $UnreadWinsResponseCopyWith<$Res> {
+  _$UnreadWinsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UnreadWinsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? totalCount = null, Object? wins = null}) {
+    return _then(
+      _value.copyWith(
+            totalCount: null == totalCount
+                ? _value.totalCount
+                : totalCount // ignore: cast_nullable_to_non_nullable
+                      as int,
+            wins: null == wins
+                ? _value.wins
+                : wins // ignore: cast_nullable_to_non_nullable
+                      as List<UnreadWin>,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$UnreadWinsResponseImplCopyWith<$Res>
+    implements $UnreadWinsResponseCopyWith<$Res> {
+  factory _$$UnreadWinsResponseImplCopyWith(
+    _$UnreadWinsResponseImpl value,
+    $Res Function(_$UnreadWinsResponseImpl) then,
+  ) = __$$UnreadWinsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    @JsonKey(name: 'total_count') int totalCount,
+    List<UnreadWin> wins,
+  });
+}
+
+/// @nodoc
+class __$$UnreadWinsResponseImplCopyWithImpl<$Res>
+    extends _$UnreadWinsResponseCopyWithImpl<$Res, _$UnreadWinsResponseImpl>
+    implements _$$UnreadWinsResponseImplCopyWith<$Res> {
+  __$$UnreadWinsResponseImplCopyWithImpl(
+    _$UnreadWinsResponseImpl _value,
+    $Res Function(_$UnreadWinsResponseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of UnreadWinsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? totalCount = null, Object? wins = null}) {
+    return _then(
+      _$UnreadWinsResponseImpl(
+        totalCount: null == totalCount
+            ? _value.totalCount
+            : totalCount // ignore: cast_nullable_to_non_nullable
+                  as int,
+        wins: null == wins
+            ? _value._wins
+            : wins // ignore: cast_nullable_to_non_nullable
+                  as List<UnreadWin>,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnreadWinsResponseImpl implements _UnreadWinsResponse {
+  const _$UnreadWinsResponseImpl({
+    @JsonKey(name: 'total_count') this.totalCount = 0,
+    final List<UnreadWin> wins = const <UnreadWin>[],
+  }) : _wins = wins;
+
+  factory _$UnreadWinsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnreadWinsResponseImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'total_count')
+  final int totalCount;
+  final List<UnreadWin> _wins;
+  @override
+  @JsonKey()
+  List<UnreadWin> get wins {
+    if (_wins is EqualUnmodifiableListView) return _wins;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_wins);
+  }
+
+  @override
+  String toString() {
+    return 'UnreadWinsResponse(totalCount: $totalCount, wins: $wins)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UnreadWinsResponseImpl &&
+            (identical(other.totalCount, totalCount) ||
+                other.totalCount == totalCount) &&
+            const DeepCollectionEquality().equals(other._wins, _wins));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    totalCount,
+    const DeepCollectionEquality().hash(_wins),
+  );
+
+  /// Create a copy of UnreadWinsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnreadWinsResponseImplCopyWith<_$UnreadWinsResponseImpl> get copyWith =>
+      __$$UnreadWinsResponseImplCopyWithImpl<_$UnreadWinsResponseImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnreadWinsResponseImplToJson(this);
+  }
+}
+
+abstract class _UnreadWinsResponse implements UnreadWinsResponse {
+  const factory _UnreadWinsResponse({
+    @JsonKey(name: 'total_count') final int totalCount,
+    final List<UnreadWin> wins,
+  }) = _$UnreadWinsResponseImpl;
+
+  factory _UnreadWinsResponse.fromJson(Map<String, dynamic> json) =
+      _$UnreadWinsResponseImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'total_count')
+  int get totalCount;
+  @override
+  List<UnreadWin> get wins;
+
+  /// Create a copy of UnreadWinsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UnreadWinsResponseImplCopyWith<_$UnreadWinsResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 DeviceTokenRequest _$DeviceTokenRequestFromJson(Map<String, dynamic> json) {
   return _DeviceTokenRequest.fromJson(json);
 }

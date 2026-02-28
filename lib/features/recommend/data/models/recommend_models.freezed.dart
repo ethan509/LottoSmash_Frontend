@@ -2041,6 +2041,10 @@ mixin _$RecommendationHistory {
   @JsonKey(name: 'bonus_number')
   int? get bonusNumber => throw _privateConstructorUsedError;
   double get confidence => throw _privateConstructorUsedError;
+  @JsonKey(name: 'draw_no')
+  int? get drawNo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prize_rank')
+  int? get prizeRank => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String get createdAt => throw _privateConstructorUsedError;
 
@@ -2069,6 +2073,8 @@ abstract class $RecommendationHistoryCopyWith<$Res> {
     List<int> numbers,
     @JsonKey(name: 'bonus_number') int? bonusNumber,
     double confidence,
+    @JsonKey(name: 'draw_no') int? drawNo,
+    @JsonKey(name: 'prize_rank') int? prizeRank,
     @JsonKey(name: 'created_at') String createdAt,
   });
 }
@@ -2098,6 +2104,8 @@ class _$RecommendationHistoryCopyWithImpl<
     Object? numbers = null,
     Object? bonusNumber = freezed,
     Object? confidence = null,
+    Object? drawNo = freezed,
+    Object? prizeRank = freezed,
     Object? createdAt = null,
   }) {
     return _then(
@@ -2130,6 +2138,14 @@ class _$RecommendationHistoryCopyWithImpl<
                 ? _value.confidence
                 : confidence // ignore: cast_nullable_to_non_nullable
                       as double,
+            drawNo: freezed == drawNo
+                ? _value.drawNo
+                : drawNo // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            prizeRank: freezed == prizeRank
+                ? _value.prizeRank
+                : prizeRank // ignore: cast_nullable_to_non_nullable
+                      as int?,
             createdAt: null == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2157,6 +2173,8 @@ abstract class _$$RecommendationHistoryImplCopyWith<$Res>
     List<int> numbers,
     @JsonKey(name: 'bonus_number') int? bonusNumber,
     double confidence,
+    @JsonKey(name: 'draw_no') int? drawNo,
+    @JsonKey(name: 'prize_rank') int? prizeRank,
     @JsonKey(name: 'created_at') String createdAt,
   });
 }
@@ -2183,6 +2201,8 @@ class __$$RecommendationHistoryImplCopyWithImpl<$Res>
     Object? numbers = null,
     Object? bonusNumber = freezed,
     Object? confidence = null,
+    Object? drawNo = freezed,
+    Object? prizeRank = freezed,
     Object? createdAt = null,
   }) {
     return _then(
@@ -2215,6 +2235,14 @@ class __$$RecommendationHistoryImplCopyWithImpl<$Res>
             ? _value.confidence
             : confidence // ignore: cast_nullable_to_non_nullable
                   as double,
+        drawNo: freezed == drawNo
+            ? _value.drawNo
+            : drawNo // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        prizeRank: freezed == prizeRank
+            ? _value.prizeRank
+            : prizeRank // ignore: cast_nullable_to_non_nullable
+                  as int?,
         createdAt: null == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -2235,6 +2263,8 @@ class _$RecommendationHistoryImpl implements _RecommendationHistory {
     required final List<int> numbers,
     @JsonKey(name: 'bonus_number') this.bonusNumber,
     required this.confidence,
+    @JsonKey(name: 'draw_no') this.drawNo,
+    @JsonKey(name: 'prize_rank') this.prizeRank,
     @JsonKey(name: 'created_at') required this.createdAt,
   }) : _methodCodes = methodCodes,
        _numbers = numbers;
@@ -2273,12 +2303,18 @@ class _$RecommendationHistoryImpl implements _RecommendationHistory {
   @override
   final double confidence;
   @override
+  @JsonKey(name: 'draw_no')
+  final int? drawNo;
+  @override
+  @JsonKey(name: 'prize_rank')
+  final int? prizeRank;
+  @override
   @JsonKey(name: 'created_at')
   final String createdAt;
 
   @override
   String toString() {
-    return 'RecommendationHistory(id: $id, userId: $userId, methodCodes: $methodCodes, combineMethod: $combineMethod, numbers: $numbers, bonusNumber: $bonusNumber, confidence: $confidence, createdAt: $createdAt)';
+    return 'RecommendationHistory(id: $id, userId: $userId, methodCodes: $methodCodes, combineMethod: $combineMethod, numbers: $numbers, bonusNumber: $bonusNumber, confidence: $confidence, drawNo: $drawNo, prizeRank: $prizeRank, createdAt: $createdAt)';
   }
 
   @override
@@ -2299,6 +2335,9 @@ class _$RecommendationHistoryImpl implements _RecommendationHistory {
                 other.bonusNumber == bonusNumber) &&
             (identical(other.confidence, confidence) ||
                 other.confidence == confidence) &&
+            (identical(other.drawNo, drawNo) || other.drawNo == drawNo) &&
+            (identical(other.prizeRank, prizeRank) ||
+                other.prizeRank == prizeRank) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -2314,6 +2353,8 @@ class _$RecommendationHistoryImpl implements _RecommendationHistory {
     const DeepCollectionEquality().hash(_numbers),
     bonusNumber,
     confidence,
+    drawNo,
+    prizeRank,
     createdAt,
   );
 
@@ -2344,6 +2385,8 @@ abstract class _RecommendationHistory implements RecommendationHistory {
     required final List<int> numbers,
     @JsonKey(name: 'bonus_number') final int? bonusNumber,
     required final double confidence,
+    @JsonKey(name: 'draw_no') final int? drawNo,
+    @JsonKey(name: 'prize_rank') final int? prizeRank,
     @JsonKey(name: 'created_at') required final String createdAt,
   }) = _$RecommendationHistoryImpl;
 
@@ -2368,6 +2411,12 @@ abstract class _RecommendationHistory implements RecommendationHistory {
   int? get bonusNumber;
   @override
   double get confidence;
+  @override
+  @JsonKey(name: 'draw_no')
+  int? get drawNo;
+  @override
+  @JsonKey(name: 'prize_rank')
+  int? get prizeRank;
   @override
   @JsonKey(name: 'created_at')
   String get createdAt;
