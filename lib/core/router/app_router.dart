@@ -183,10 +183,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       // Notifications (full screen)
+      // ?tab=1 로 진입하면 당첨 확인 탭으로 바로 이동 (FCM 라우팅용)
       GoRoute(
         path: '/notifications',
-        builder: (context, state) =>
-            const NotificationListScreen(),
+        builder: (context, state) {
+          final tabParam = state.uri.queryParameters['tab'];
+          final initialTab = int.tryParse(tabParam ?? '') ?? 0;
+          return NotificationListScreen(initialTab: initialTab);
+        },
       ),
     ],
   );
