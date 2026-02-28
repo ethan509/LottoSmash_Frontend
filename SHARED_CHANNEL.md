@@ -107,6 +107,7 @@ _(양쪽이 합의해야 할 미해결 사항)_
 
 | 날짜 | 발신 | 제목 | Status |
 |------|------|------|--------|
+| 2026-02-28 | Frontend | 당첨 알림 팝업 + 추천 이력 당첨 배지 구현 완료 | DONE |
 | 2026-02-28 | Frontend | 백테스팅 화면 구현 완료 (POST /api/lotto/backtest) | DONE |
 | 2026-02-22 | Frontend | GET /api/lotto/recommendations 500 오류 원인 분석 (pq.Array + []int 비호환) | DONE |
 | 2026-02-22 | Frontend | 분석 방법 UI 4계층 설명 문안 반영 (tagline/description/techNote accordion) | DONE |

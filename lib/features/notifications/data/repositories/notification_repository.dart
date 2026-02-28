@@ -52,6 +52,22 @@ class NotificationRepository {
     });
   }
 
+  /// 미확인 당첨 결과 조회
+  Future<UnreadWinsResponse> getUnreadWins() async {
+    return apiCall(() async {
+      final response = await _dio.get(ApiEndpoints.winsUnread);
+      return UnreadWinsResponse.fromJson(response.data);
+    });
+  }
+
+  /// 당첨 결과 읽음 처리
+  Future<int> markWinsAsRead() async {
+    return apiCall(() async {
+      final response = await _dio.post(ApiEndpoints.winsRead);
+      return (response.data['marked'] as int?) ?? 0;
+    });
+  }
+
   /// 디바이스 토큰 삭제
   Future<void> deleteDeviceToken(String token) async {
     return apiCall(() async {
