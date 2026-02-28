@@ -119,6 +119,8 @@ class RecommendationHistory with _$RecommendationHistory {
     required List<int> numbers,
     @JsonKey(name: 'bonus_number') int? bonusNumber,
     required double confidence,
+    @JsonKey(name: 'draw_no') int? drawNo,
+    @JsonKey(name: 'prize_rank') int? prizeRank,
     @JsonKey(name: 'created_at') required String createdAt,
   }) = _RecommendationHistory;
 

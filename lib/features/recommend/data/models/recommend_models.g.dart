@@ -181,6 +181,8 @@ _$RecommendationHistoryImpl _$$RecommendationHistoryImplFromJson(
       .toList(),
   bonusNumber: (json['bonus_number'] as num?)?.toInt(),
   confidence: (json['confidence'] as num).toDouble(),
+  drawNo: (json['draw_no'] as num?)?.toInt(),
+  prizeRank: (json['prize_rank'] as num?)?.toInt(),
   createdAt: json['created_at'] as String,
 );
 
@@ -194,6 +196,8 @@ Map<String, dynamic> _$$RecommendationHistoryImplToJson(
   'numbers': instance.numbers,
   'bonus_number': instance.bonusNumber,
   'confidence': instance.confidence,
+  'draw_no': instance.drawNo,
+  'prize_rank': instance.prizeRank,
   'created_at': instance.createdAt,
 };
 

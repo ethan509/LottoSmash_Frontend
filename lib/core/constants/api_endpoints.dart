@@ -49,6 +49,8 @@ class ApiEndpoints {
   static const String deviceToken = '$_base/notifications/device-token';
   static const String notifications = '$_base/notifications';
   static const String winnings = '$_base/notifications/winnings';
+  static const String winsUnread = '$_base/notifications/wins/unread';
+  static const String winsRead = '$_base/notifications/wins/read';
 
   // Admin
   static const String adminSync = '$_base/admin/lotto/sync';
