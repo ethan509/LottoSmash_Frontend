@@ -321,12 +321,23 @@ class _LatestDrawContent extends StatelessWidget {
             ballSize: 40,
           ),
           const SizedBox(height: 8),
-          Text(
-            '1등 ${NumberFormatUtils.formatKrw(draw.firstPrize)}',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '1등 ${NumberFormatUtils.formatKrw(draw.firstPrize)}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                '${NumberFormatUtils.formatNumber(draw.firstWinners)}게임 · 인당 ${NumberFormatUtils.formatKrw(draw.firstPerGame)}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
           ),
         ],
       ),
