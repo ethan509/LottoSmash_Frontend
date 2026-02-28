@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/network/api_exception.dart';
 import '../../../../shared/widgets/error_widget.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
+import '../../../draws/providers/draw_provider.dart';
 import '../../../recommend/data/models/recommend_models.dart';
 import '../../../recommend/providers/recommend_provider.dart';
 import '../../../recommend/presentation/widgets/method_selector.dart';
@@ -80,6 +81,7 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
     final selectedCount = ref.watch(backtestCountProvider);
     final resultAsync = ref.watch(backtestResultProvider);
     final compareList = ref.watch(backtestCompareListProvider);
+    final latestDrawNo = ref.watch(latestDrawProvider).valueOrNull?.drawNo;
 
     final canRun = selectedCodes.isNotEmpty &&
         _drawNoController.text.isNotEmpty &&
@@ -94,7 +96,11 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
           _buildInfoCard(),
           const SizedBox(height: 16),
 
-          // Step 1: 분석 방법 선택
+          // Step 1: 테스트 회차 입력
+          _buildDrawNoInput(latestDrawNo),
+          const SizedBox(height: 24),
+
+          // Step 2: 분석 방법 선택
           MethodSelector(
             methods: methods,
             selectedCodes: selectedCodes,
@@ -104,12 +110,8 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
           ),
           const SizedBox(height: 24),
 
-          // Step 2: 결합 방법 드롭다운
+          // Step 3: 결합 방법 드롭다운
           _buildCombineDropdown(combineMethods, selectedCombine),
-          const SizedBox(height: 24),
-
-          // Step 3: 테스트 회차 입력
-          _buildDrawNoInput(),
           const SizedBox(height: 24),
 
           // Step 4: 시뮬레이션 횟수
@@ -264,8 +266,9 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
     );
   }
 
-  Widget _buildDrawNoInput() {
+  Widget _buildDrawNoInput(int? maxDrawNo) {
     final theme = Theme.of(context);
+    final rangeText = maxDrawNo != null ? '2 ~ $maxDrawNo회차' : '2회차 이상';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,8 +284,8 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: InputDecoration(
-            hintText: '예: 1100',
-            helperText: '2회차 이상 입력',
+            hintText: maxDrawNo != null ? '2 ~ $maxDrawNo' : '예: 1100',
+            helperText: '입력 가능 범위: $rangeText',
             border: const OutlineInputBorder(),
             prefixIcon: const Icon(Icons.tag_rounded),
             suffixText: '회차',
