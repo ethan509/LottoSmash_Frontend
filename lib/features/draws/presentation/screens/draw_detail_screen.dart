@@ -98,7 +98,7 @@ class _DrawDetailBody extends StatelessWidget {
                   _PrizeRow(
                     rank: AppStrings.firstPrize,
                     winners: draw.firstWinners,
-                    prize: draw.firstPerGame > 0
+                    perGame: draw.firstPerGame > 0
                         ? draw.firstPerGame
                         : draw.firstWinners > 0
                             ? draw.firstPrize ~/ draw.firstWinners
@@ -111,25 +111,47 @@ class _DrawDetailBody extends StatelessWidget {
                   _PrizeRow(
                     rank: AppStrings.secondPrize,
                     winners: draw.secondWinners,
-                    prize: draw.secondPerGame,
+                    perGame: draw.secondPerGame > 0
+                        ? draw.secondPerGame
+                        : draw.secondWinners > 0
+                            ? draw.secondPrize ~/ draw.secondWinners
+                            : null,
                     totalPrize: draw.secondPrize,
                     theme: theme,
                   ),
                   const Divider(height: 24),
                   _PrizeRow(
                     rank: AppStrings.thirdPrize,
+                    winners: draw.thirdWinners,
+                    perGame: draw.thirdPerGame > 0
+                        ? draw.thirdPerGame
+                        : draw.thirdWinners > 0
+                            ? draw.thirdPrize ~/ draw.thirdWinners
+                            : null,
                     totalPrize: draw.thirdPrize,
                     theme: theme,
                   ),
                   const Divider(height: 24),
                   _PrizeRow(
                     rank: AppStrings.fourthPrize,
+                    winners: draw.fourthWinners,
+                    perGame: draw.fourthPerGame > 0
+                        ? draw.fourthPerGame
+                        : draw.fourthWinners > 0
+                            ? draw.fourthPrize ~/ draw.fourthWinners
+                            : null,
                     totalPrize: draw.fourthPrize,
                     theme: theme,
                   ),
                   const Divider(height: 24),
                   _PrizeRow(
                     rank: AppStrings.fifthPrize,
+                    winners: draw.fifthWinners,
+                    perGame: draw.fifthPerGame > 0
+                        ? draw.fifthPerGame
+                        : draw.fifthWinners > 0
+                            ? draw.fifthPrize ~/ draw.fifthWinners
+                            : null,
                     totalPrize: draw.fifthPrize,
                     theme: theme,
                   ),
@@ -146,7 +168,7 @@ class _DrawDetailBody extends StatelessWidget {
 class _PrizeRow extends StatelessWidget {
   final String rank;
   final int? winners;
-  final int? prize;
+  final int? perGame;
   final int totalPrize;
   final bool isHighlight;
   final ThemeData theme;
@@ -154,7 +176,7 @@ class _PrizeRow extends StatelessWidget {
   const _PrizeRow({
     required this.rank,
     this.winners,
-    this.prize,
+    this.perGame,
     required this.totalPrize,
     this.isHighlight = false,
     required this.theme,
@@ -162,9 +184,12 @@ class _PrizeRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prizeColor = isHighlight ? theme.colorScheme.primary : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // 상단: 등수 | 인당 당첨금
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -172,40 +197,43 @@ class _PrizeRow extends StatelessWidget {
               rank,
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: isHighlight ? theme.colorScheme.primary : null,
+                color: prizeColor,
               ),
             ),
             Text(
-              totalPrize > 0 ? NumberFormatUtils.formatKrw(totalPrize) : '-',
+              perGame != null && perGame! > 0
+                  ? '인당 ${NumberFormatUtils.formatKrw(perGame!)}'
+                  : '-',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: isHighlight ? theme.colorScheme.primary : null,
+                color: prizeColor,
               ),
             ),
           ],
         ),
-        if (winners != null || prize != null) ...[
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (winners != null)
-                Text(
-                  '${AppStrings.winners} ${NumberFormatUtils.formatNumber(winners!)}명',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              if (prize != null && prize! > 0)
-                Text(
-                  '1인당 ${NumberFormatUtils.formatKrw(prize!)}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-            ],
-          ),
-        ],
+        // 하단: 당첨자 N명 | 총 금액
+        const SizedBox(height: 4),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              winners != null
+                  ? '${AppStrings.winners} ${NumberFormatUtils.formatNumber(winners!)}명'
+                  : '',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            Text(
+              totalPrize > 0
+                  ? '총 ${NumberFormatUtils.formatKrw(totalPrize)}'
+                  : '-',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

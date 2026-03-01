@@ -83,7 +83,14 @@ class DrawCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${NumberFormatUtils.formatNumber(draw.firstWinners)}게임 · 인당 ${NumberFormatUtils.formatKrw(draw.firstPerGame)}',
+                    () {
+                      final perGame = draw.firstPerGame > 0
+                          ? draw.firstPerGame
+                          : draw.firstWinners > 0
+                              ? draw.firstPrize ~/ draw.firstWinners
+                              : 0;
+                      return '${NumberFormatUtils.formatNumber(draw.firstWinners)}게임 · 인당 ${NumberFormatUtils.formatKrw(perGame)}';
+                    }(),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
