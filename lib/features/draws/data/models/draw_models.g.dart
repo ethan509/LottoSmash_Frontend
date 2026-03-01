@@ -24,8 +24,14 @@ _$LottoDrawImpl _$$LottoDrawImplFromJson(Map<String, dynamic> json) =>
       secondWinners: (json['second_winners'] as num?)?.toInt() ?? 0,
       secondPerGame: (json['second_per_game'] as num?)?.toInt() ?? 0,
       thirdPrize: (json['third_prize'] as num?)?.toInt() ?? 0,
+      thirdWinners: (json['third_winners'] as num?)?.toInt() ?? 0,
+      thirdPerGame: (json['third_per_game'] as num?)?.toInt() ?? 0,
       fourthPrize: (json['fourth_prize'] as num?)?.toInt() ?? 0,
+      fourthWinners: (json['fourth_winners'] as num?)?.toInt() ?? 0,
+      fourthPerGame: (json['fourth_per_game'] as num?)?.toInt() ?? 0,
       fifthPrize: (json['fifth_prize'] as num?)?.toInt() ?? 0,
+      fifthWinners: (json['fifth_winners'] as num?)?.toInt() ?? 0,
+      fifthPerGame: (json['fifth_per_game'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$LottoDrawImplToJson(_$LottoDrawImpl instance) =>
@@ -46,8 +52,14 @@ Map<String, dynamic> _$$LottoDrawImplToJson(_$LottoDrawImpl instance) =>
       'second_winners': instance.secondWinners,
       'second_per_game': instance.secondPerGame,
       'third_prize': instance.thirdPrize,
+      'third_winners': instance.thirdWinners,
+      'third_per_game': instance.thirdPerGame,
       'fourth_prize': instance.fourthPrize,
+      'fourth_winners': instance.fourthWinners,
+      'fourth_per_game': instance.fourthPerGame,
       'fifth_prize': instance.fifthPrize,
+      'fifth_winners': instance.fifthWinners,
+      'fifth_per_game': instance.fifthPerGame,
     };
 
 _$DrawListResponseImpl _$$DrawListResponseImplFromJson(

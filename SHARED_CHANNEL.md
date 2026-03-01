@@ -38,6 +38,45 @@ _(Backend Claude가 Frontend에게 전달할 내용을 여기에 작성)_
 
 **Status:** PENDING
 
+### [2026-03-02] lotto_draws 조회 쿼리 — 2~5등 필드 누락 버그 수정 요청
+
+#### 증상
+`GET /api/lotto/draws` 및 `GET /api/lotto/draws/{drawNo}` 응답에서
+`second_prize`, `second_winners`, `second_per_game`,
+`third_prize`, `third_winners`, `third_per_game`,
+`fourth_prize`, `fourth_winners`, `fourth_per_game`,
+`fifth_prize`, `fifth_winners`, `fifth_per_game`
+가 모두 **0**으로 반환됩니다.
+
+#### 원인
+`internal/lotto/repository.go`의 `GetDrawByNo()`, `GetDraws()`, `GetAllDraws()` 쿼리의
+**SELECT 절에 2~5등 관련 컬럼이 포함되지 않았습니다.**
+
+현재 SELECT 예시:
+```sql
+SELECT draw_no, draw_date, num1, num2, num3, num4, num5, num6,
+       bonus_num, first_prize, first_winners, created_at, updated_at
+```
+
+#### 수정 요청
+세 쿼리 모두 아래 컬럼을 SELECT 절에 추가해주세요:
+```sql
+second_prize, second_winners, second_per_game,
+third_prize,  third_winners,  third_per_game,
+fourth_prize, fourth_winners, fourth_per_game,
+fifth_prize,  fifth_winners,  fifth_per_game
+```
+
+그리고 Scan 순서도 동일하게 맞춰주세요.
+
+#### Frontend 대응 완료
+- `LottoDraw` 모델에 `thirdWinners`, `thirdPerGame`, `fourthWinners`, `fourthPerGame`, `fifthWinners`, `fifthPerGame` 필드 추가 완료
+- 당첨번호 상세 화면 — 3~5등에도 당첨자 수 + 인당 금액 표시 준비 완료
+- 홈 최신 당첨번호 카드 — 2~5등 당첨자 수 행 추가 완료
+- 백엔드 수정 후 즉시 반영될 것입니다
+
+---
+
 ### [2026-03-01] FCM Push 알림 2종 구현 요청 (백엔드 작업 필요)
 
 Flutter FCM 수신 인프라(Phase 7)는 완료되어 있습니다.
