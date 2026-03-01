@@ -47,10 +47,22 @@ mixin _$LottoDraw {
   int get secondPerGame => throw _privateConstructorUsedError;
   @JsonKey(name: 'third_prize')
   int get thirdPrize => throw _privateConstructorUsedError;
+  @JsonKey(name: 'third_winners')
+  int get thirdWinners => throw _privateConstructorUsedError;
+  @JsonKey(name: 'third_per_game')
+  int get thirdPerGame => throw _privateConstructorUsedError;
   @JsonKey(name: 'fourth_prize')
   int get fourthPrize => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fourth_winners')
+  int get fourthWinners => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fourth_per_game')
+  int get fourthPerGame => throw _privateConstructorUsedError;
   @JsonKey(name: 'fifth_prize')
   int get fifthPrize => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fifth_winners')
+  int get fifthWinners => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fifth_per_game')
+  int get fifthPerGame => throw _privateConstructorUsedError;
 
   /// Serializes this LottoDraw to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -84,8 +96,14 @@ abstract class $LottoDrawCopyWith<$Res> {
     @JsonKey(name: 'second_winners') int secondWinners,
     @JsonKey(name: 'second_per_game') int secondPerGame,
     @JsonKey(name: 'third_prize') int thirdPrize,
+    @JsonKey(name: 'third_winners') int thirdWinners,
+    @JsonKey(name: 'third_per_game') int thirdPerGame,
     @JsonKey(name: 'fourth_prize') int fourthPrize,
+    @JsonKey(name: 'fourth_winners') int fourthWinners,
+    @JsonKey(name: 'fourth_per_game') int fourthPerGame,
     @JsonKey(name: 'fifth_prize') int fifthPrize,
+    @JsonKey(name: 'fifth_winners') int fifthWinners,
+    @JsonKey(name: 'fifth_per_game') int fifthPerGame,
   });
 }
 
@@ -120,8 +138,14 @@ class _$LottoDrawCopyWithImpl<$Res, $Val extends LottoDraw>
     Object? secondWinners = null,
     Object? secondPerGame = null,
     Object? thirdPrize = null,
+    Object? thirdWinners = null,
+    Object? thirdPerGame = null,
     Object? fourthPrize = null,
+    Object? fourthWinners = null,
+    Object? fourthPerGame = null,
     Object? fifthPrize = null,
+    Object? fifthWinners = null,
+    Object? fifthPerGame = null,
   }) {
     return _then(
       _value.copyWith(
@@ -189,13 +213,37 @@ class _$LottoDrawCopyWithImpl<$Res, $Val extends LottoDraw>
                 ? _value.thirdPrize
                 : thirdPrize // ignore: cast_nullable_to_non_nullable
                       as int,
+            thirdWinners: null == thirdWinners
+                ? _value.thirdWinners
+                : thirdWinners // ignore: cast_nullable_to_non_nullable
+                      as int,
+            thirdPerGame: null == thirdPerGame
+                ? _value.thirdPerGame
+                : thirdPerGame // ignore: cast_nullable_to_non_nullable
+                      as int,
             fourthPrize: null == fourthPrize
                 ? _value.fourthPrize
                 : fourthPrize // ignore: cast_nullable_to_non_nullable
                       as int,
+            fourthWinners: null == fourthWinners
+                ? _value.fourthWinners
+                : fourthWinners // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fourthPerGame: null == fourthPerGame
+                ? _value.fourthPerGame
+                : fourthPerGame // ignore: cast_nullable_to_non_nullable
+                      as int,
             fifthPrize: null == fifthPrize
                 ? _value.fifthPrize
                 : fifthPrize // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fifthWinners: null == fifthWinners
+                ? _value.fifthWinners
+                : fifthWinners // ignore: cast_nullable_to_non_nullable
+                      as int,
+            fifthPerGame: null == fifthPerGame
+                ? _value.fifthPerGame
+                : fifthPerGame // ignore: cast_nullable_to_non_nullable
                       as int,
           )
           as $Val,
@@ -229,8 +277,14 @@ abstract class _$$LottoDrawImplCopyWith<$Res>
     @JsonKey(name: 'second_winners') int secondWinners,
     @JsonKey(name: 'second_per_game') int secondPerGame,
     @JsonKey(name: 'third_prize') int thirdPrize,
+    @JsonKey(name: 'third_winners') int thirdWinners,
+    @JsonKey(name: 'third_per_game') int thirdPerGame,
     @JsonKey(name: 'fourth_prize') int fourthPrize,
+    @JsonKey(name: 'fourth_winners') int fourthWinners,
+    @JsonKey(name: 'fourth_per_game') int fourthPerGame,
     @JsonKey(name: 'fifth_prize') int fifthPrize,
+    @JsonKey(name: 'fifth_winners') int fifthWinners,
+    @JsonKey(name: 'fifth_per_game') int fifthPerGame,
   });
 }
 
@@ -264,8 +318,14 @@ class __$$LottoDrawImplCopyWithImpl<$Res>
     Object? secondWinners = null,
     Object? secondPerGame = null,
     Object? thirdPrize = null,
+    Object? thirdWinners = null,
+    Object? thirdPerGame = null,
     Object? fourthPrize = null,
+    Object? fourthWinners = null,
+    Object? fourthPerGame = null,
     Object? fifthPrize = null,
+    Object? fifthWinners = null,
+    Object? fifthPerGame = null,
   }) {
     return _then(
       _$LottoDrawImpl(
@@ -333,13 +393,37 @@ class __$$LottoDrawImplCopyWithImpl<$Res>
             ? _value.thirdPrize
             : thirdPrize // ignore: cast_nullable_to_non_nullable
                   as int,
+        thirdWinners: null == thirdWinners
+            ? _value.thirdWinners
+            : thirdWinners // ignore: cast_nullable_to_non_nullable
+                  as int,
+        thirdPerGame: null == thirdPerGame
+            ? _value.thirdPerGame
+            : thirdPerGame // ignore: cast_nullable_to_non_nullable
+                  as int,
         fourthPrize: null == fourthPrize
             ? _value.fourthPrize
             : fourthPrize // ignore: cast_nullable_to_non_nullable
                   as int,
+        fourthWinners: null == fourthWinners
+            ? _value.fourthWinners
+            : fourthWinners // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fourthPerGame: null == fourthPerGame
+            ? _value.fourthPerGame
+            : fourthPerGame // ignore: cast_nullable_to_non_nullable
+                  as int,
         fifthPrize: null == fifthPrize
             ? _value.fifthPrize
             : fifthPrize // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fifthWinners: null == fifthWinners
+            ? _value.fifthWinners
+            : fifthWinners // ignore: cast_nullable_to_non_nullable
+                  as int,
+        fifthPerGame: null == fifthPerGame
+            ? _value.fifthPerGame
+            : fifthPerGame // ignore: cast_nullable_to_non_nullable
                   as int,
       ),
     );
@@ -366,8 +450,14 @@ class _$LottoDrawImpl implements _LottoDraw {
     @JsonKey(name: 'second_winners') this.secondWinners = 0,
     @JsonKey(name: 'second_per_game') this.secondPerGame = 0,
     @JsonKey(name: 'third_prize') this.thirdPrize = 0,
+    @JsonKey(name: 'third_winners') this.thirdWinners = 0,
+    @JsonKey(name: 'third_per_game') this.thirdPerGame = 0,
     @JsonKey(name: 'fourth_prize') this.fourthPrize = 0,
+    @JsonKey(name: 'fourth_winners') this.fourthWinners = 0,
+    @JsonKey(name: 'fourth_per_game') this.fourthPerGame = 0,
     @JsonKey(name: 'fifth_prize') this.fifthPrize = 0,
+    @JsonKey(name: 'fifth_winners') this.fifthWinners = 0,
+    @JsonKey(name: 'fifth_per_game') this.fifthPerGame = 0,
   });
 
   factory _$LottoDrawImpl.fromJson(Map<String, dynamic> json) =>
@@ -416,15 +506,33 @@ class _$LottoDrawImpl implements _LottoDraw {
   @JsonKey(name: 'third_prize')
   final int thirdPrize;
   @override
+  @JsonKey(name: 'third_winners')
+  final int thirdWinners;
+  @override
+  @JsonKey(name: 'third_per_game')
+  final int thirdPerGame;
+  @override
   @JsonKey(name: 'fourth_prize')
   final int fourthPrize;
   @override
+  @JsonKey(name: 'fourth_winners')
+  final int fourthWinners;
+  @override
+  @JsonKey(name: 'fourth_per_game')
+  final int fourthPerGame;
+  @override
   @JsonKey(name: 'fifth_prize')
   final int fifthPrize;
+  @override
+  @JsonKey(name: 'fifth_winners')
+  final int fifthWinners;
+  @override
+  @JsonKey(name: 'fifth_per_game')
+  final int fifthPerGame;
 
   @override
   String toString() {
-    return 'LottoDraw(drawNo: $drawNo, drawDate: $drawDate, num1: $num1, num2: $num2, num3: $num3, num4: $num4, num5: $num5, num6: $num6, bonusNum: $bonusNum, firstPrize: $firstPrize, firstWinners: $firstWinners, firstPerGame: $firstPerGame, secondPrize: $secondPrize, secondWinners: $secondWinners, secondPerGame: $secondPerGame, thirdPrize: $thirdPrize, fourthPrize: $fourthPrize, fifthPrize: $fifthPrize)';
+    return 'LottoDraw(drawNo: $drawNo, drawDate: $drawDate, num1: $num1, num2: $num2, num3: $num3, num4: $num4, num5: $num5, num6: $num6, bonusNum: $bonusNum, firstPrize: $firstPrize, firstWinners: $firstWinners, firstPerGame: $firstPerGame, secondPrize: $secondPrize, secondWinners: $secondWinners, secondPerGame: $secondPerGame, thirdPrize: $thirdPrize, thirdWinners: $thirdWinners, thirdPerGame: $thirdPerGame, fourthPrize: $fourthPrize, fourthWinners: $fourthWinners, fourthPerGame: $fourthPerGame, fifthPrize: $fifthPrize, fifthWinners: $fifthWinners, fifthPerGame: $fifthPerGame)';
   }
 
   @override
@@ -457,15 +565,27 @@ class _$LottoDrawImpl implements _LottoDraw {
                 other.secondPerGame == secondPerGame) &&
             (identical(other.thirdPrize, thirdPrize) ||
                 other.thirdPrize == thirdPrize) &&
+            (identical(other.thirdWinners, thirdWinners) ||
+                other.thirdWinners == thirdWinners) &&
+            (identical(other.thirdPerGame, thirdPerGame) ||
+                other.thirdPerGame == thirdPerGame) &&
             (identical(other.fourthPrize, fourthPrize) ||
                 other.fourthPrize == fourthPrize) &&
+            (identical(other.fourthWinners, fourthWinners) ||
+                other.fourthWinners == fourthWinners) &&
+            (identical(other.fourthPerGame, fourthPerGame) ||
+                other.fourthPerGame == fourthPerGame) &&
             (identical(other.fifthPrize, fifthPrize) ||
-                other.fifthPrize == fifthPrize));
+                other.fifthPrize == fifthPrize) &&
+            (identical(other.fifthWinners, fifthWinners) ||
+                other.fifthWinners == fifthWinners) &&
+            (identical(other.fifthPerGame, fifthPerGame) ||
+                other.fifthPerGame == fifthPerGame));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     drawNo,
     drawDate,
@@ -483,9 +603,15 @@ class _$LottoDrawImpl implements _LottoDraw {
     secondWinners,
     secondPerGame,
     thirdPrize,
+    thirdWinners,
+    thirdPerGame,
     fourthPrize,
+    fourthWinners,
+    fourthPerGame,
     fifthPrize,
-  );
+    fifthWinners,
+    fifthPerGame,
+  ]);
 
   /// Create a copy of LottoDraw
   /// with the given fields replaced by the non-null parameter values.
@@ -519,8 +645,14 @@ abstract class _LottoDraw implements LottoDraw {
     @JsonKey(name: 'second_winners') final int secondWinners,
     @JsonKey(name: 'second_per_game') final int secondPerGame,
     @JsonKey(name: 'third_prize') final int thirdPrize,
+    @JsonKey(name: 'third_winners') final int thirdWinners,
+    @JsonKey(name: 'third_per_game') final int thirdPerGame,
     @JsonKey(name: 'fourth_prize') final int fourthPrize,
+    @JsonKey(name: 'fourth_winners') final int fourthWinners,
+    @JsonKey(name: 'fourth_per_game') final int fourthPerGame,
     @JsonKey(name: 'fifth_prize') final int fifthPrize,
+    @JsonKey(name: 'fifth_winners') final int fifthWinners,
+    @JsonKey(name: 'fifth_per_game') final int fifthPerGame,
   }) = _$LottoDrawImpl;
 
   factory _LottoDraw.fromJson(Map<String, dynamic> json) =
@@ -569,11 +701,29 @@ abstract class _LottoDraw implements LottoDraw {
   @JsonKey(name: 'third_prize')
   int get thirdPrize;
   @override
+  @JsonKey(name: 'third_winners')
+  int get thirdWinners;
+  @override
+  @JsonKey(name: 'third_per_game')
+  int get thirdPerGame;
+  @override
   @JsonKey(name: 'fourth_prize')
   int get fourthPrize;
   @override
+  @JsonKey(name: 'fourth_winners')
+  int get fourthWinners;
+  @override
+  @JsonKey(name: 'fourth_per_game')
+  int get fourthPerGame;
+  @override
   @JsonKey(name: 'fifth_prize')
   int get fifthPrize;
+  @override
+  @JsonKey(name: 'fifth_winners')
+  int get fifthWinners;
+  @override
+  @JsonKey(name: 'fifth_per_game')
+  int get fifthPerGame;
 
   /// Create a copy of LottoDraw
   /// with the given fields replaced by the non-null parameter values.

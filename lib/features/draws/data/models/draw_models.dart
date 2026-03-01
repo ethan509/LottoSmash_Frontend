@@ -22,8 +22,14 @@ class LottoDraw with _$LottoDraw {
     @JsonKey(name: 'second_winners') @Default(0) int secondWinners,
     @JsonKey(name: 'second_per_game') @Default(0) int secondPerGame,
     @JsonKey(name: 'third_prize') @Default(0) int thirdPrize,
+    @JsonKey(name: 'third_winners') @Default(0) int thirdWinners,
+    @JsonKey(name: 'third_per_game') @Default(0) int thirdPerGame,
     @JsonKey(name: 'fourth_prize') @Default(0) int fourthPrize,
+    @JsonKey(name: 'fourth_winners') @Default(0) int fourthWinners,
+    @JsonKey(name: 'fourth_per_game') @Default(0) int fourthPerGame,
     @JsonKey(name: 'fifth_prize') @Default(0) int fifthPrize,
+    @JsonKey(name: 'fifth_winners') @Default(0) int fifthWinners,
+    @JsonKey(name: 'fifth_per_game') @Default(0) int fifthPerGame,
   }) = _LottoDraw;
 
   factory LottoDraw.fromJson(Map<String, dynamic> json) =>

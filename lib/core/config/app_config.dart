@@ -9,8 +9,8 @@ class AppConfig {
   // 에뮬레이터: 10.0.2.2:8080
   static String get baseUrl {
     if (Platform.isAndroid) {
-      return 'http://localhost:8080'; // ADB reverse 사용 시 (USB 연결)
-      // return 'http://192.168.45.23:8080'; // WiFi 직접 연결 시
+      // return 'http://localhost:8080'; // ADB reverse 사용 시 (USB 연결)
+      return 'http://192.168.45.53:8080'; // WiFi 직접 연결 시
       // return 'http://10.0.2.2:8080'; // 에뮬레이터 사용 시
     }
     return 'http://localhost:8080';
