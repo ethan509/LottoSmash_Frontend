@@ -202,7 +202,7 @@ class _PrizeRow extends StatelessWidget {
             ),
             Text(
               perGame != null && perGame! > 0
-                  ? '인당 ${NumberFormatUtils.formatKrw(perGame!)}'
+                  ? NumberFormatUtils.formatKrw(perGame!)
                   : '-',
               style: theme.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
