@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../../stats/data/models/stats_models.dart';
+import '../models/fun_stats_models.dart';
 
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
   return HomeRepository(ref.watch(dioProvider));
@@ -21,6 +22,14 @@ class HomeRepository {
         queryParameters: {'window': window},
       );
       return BayesianResponse.fromJson(response.data);
+    });
+  }
+
+  /// 재미로 보는 통계
+  Future<FunStats> getFunStats() async {
+    return apiCall(() async {
+      final response = await _dio.get(ApiEndpoints.funStats);
+      return FunStats.fromJson(response.data);
     });
   }
 }
