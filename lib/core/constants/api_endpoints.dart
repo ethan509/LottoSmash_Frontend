@@ -53,6 +53,9 @@ class ApiEndpoints {
   static const String winsUnread = '$_base/notifications/wins/unread';
   static const String winsRead = '$_base/notifications/wins/read';
 
+  // Fun Stats (재미로 보는 통계)
+  static const String funStats = '$_base/lotto/fun-stats';
+
   // Contact (개발자 문의)
   static const String contact = '$_base/contact/';
 
