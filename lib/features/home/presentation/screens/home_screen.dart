@@ -547,23 +547,38 @@ class _FunStatsSection extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 12),
-          child: Text(
-            '재미로 보는 통계',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                '재미로 보는 통계',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (funAsync.valueOrNull != null) ...[
+                const SizedBox(width: 8),
+                Text(
+                  '기준: ${funAsync.valueOrNull!.calculatedAt}',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
         funAsync.when(
           loading: () => SizedBox(
-            height: 130,
+            height: 160,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: 7,
               separatorBuilder: (_, _) => const SizedBox(width: 12),
               itemBuilder: (_, _) => const ShimmerLoading(
                 width: 160,
-                height: 130,
+                height: 160,
               ),
             ),
           ),
@@ -583,7 +598,7 @@ class _FunStatsCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 140,
+      height: 160,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -694,7 +709,7 @@ class _FunStatPrizeCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                '제 ${record.drawNo}회  ${record.drawDate}',
+                '제 ${record.drawNo}회  ${AppDateUtils.formatDateString(record.drawDate)}',
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -742,11 +757,22 @@ class _FunStatAbsentCard extends StatelessWidget {
                 ],
               ),
               LottoBall(number: absent.number, size: 36),
-              Text(
-                '${absent.duration}회 연속 미출현',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${absent.fromDrawNo}회 ~ ${absent.toDrawNo}회',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  Text(
+                    '${absent.duration}회 연속 미출현',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -920,7 +946,7 @@ class _FunStatDrawModal extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              draw.drawDate,
+                              AppDateUtils.formatDateString(draw.drawDate),
                               style: theme.textTheme.labelSmall?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
