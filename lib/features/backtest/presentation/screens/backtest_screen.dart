@@ -322,6 +322,7 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
           onSelectionChanged: (set) {
             ref.read(backtestCountProvider.notifier).state = set.first;
           },
+          showSelectedIcon: false,
           style: SegmentedButton.styleFrom(
             visualDensity: VisualDensity.compact,
           ),

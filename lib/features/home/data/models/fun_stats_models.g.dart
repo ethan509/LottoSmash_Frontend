@@ -54,21 +54,21 @@ Map<String, dynamic> _$$FunStatAbsentImplToJson(_$FunStatAbsentImpl instance) =>
 
 _$FunStatsImpl _$$FunStatsImplFromJson(Map<String, dynamic> json) =>
     _$FunStatsImpl(
-      maxPrizePerGame: FunStatRecord.fromJson(
-        json['max_prize_per_game'] as Map<String, dynamic>,
-      ),
-      minPrizePerGame: FunStatRecord.fromJson(
-        json['min_prize_per_game'] as Map<String, dynamic>,
-      ),
+      topMaxPrize: (json['top_max_prize'] as List<dynamic>)
+          .map((e) => FunStatRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      topMinPrize: (json['top_min_prize'] as List<dynamic>)
+          .map((e) => FunStatRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
       maxWinners: FunStatRecord.fromJson(
         json['max_winners'] as Map<String, dynamic>,
       ),
       minWinners: FunStatRecord.fromJson(
         json['min_winners'] as Map<String, dynamic>,
       ),
-      longestAbsent: FunStatAbsent.fromJson(
-        json['longest_absent'] as Map<String, dynamic>,
-      ),
+      topLongestAbsent: (json['top_longest_absent'] as List<dynamic>)
+          .map((e) => FunStatAbsent.fromJson(e as Map<String, dynamic>))
+          .toList(),
       allOddDraws: (json['all_odd_draws'] as List<dynamic>)
           .map((e) => FunStatDraw.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -81,11 +81,11 @@ _$FunStatsImpl _$$FunStatsImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$FunStatsImplToJson(_$FunStatsImpl instance) =>
     <String, dynamic>{
-      'max_prize_per_game': instance.maxPrizePerGame,
-      'min_prize_per_game': instance.minPrizePerGame,
+      'top_max_prize': instance.topMaxPrize,
+      'top_min_prize': instance.topMinPrize,
       'max_winners': instance.maxWinners,
       'min_winners': instance.minWinners,
-      'longest_absent': instance.longestAbsent,
+      'top_longest_absent': instance.topLongestAbsent,
       'all_odd_draws': instance.allOddDraws,
       'all_even_draws': instance.allEvenDraws,
       'calculated_at': instance.calculatedAt,

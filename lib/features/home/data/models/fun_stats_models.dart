@@ -47,11 +47,12 @@ class FunStatAbsent with _$FunStatAbsent {
 @freezed
 class FunStats with _$FunStats {
   const factory FunStats({
-    @JsonKey(name: 'max_prize_per_game') required FunStatRecord maxPrizePerGame,
-    @JsonKey(name: 'min_prize_per_game') required FunStatRecord minPrizePerGame,
+    @JsonKey(name: 'top_max_prize') required List<FunStatRecord> topMaxPrize,
+    @JsonKey(name: 'top_min_prize') required List<FunStatRecord> topMinPrize,
     @JsonKey(name: 'max_winners') required FunStatRecord maxWinners,
     @JsonKey(name: 'min_winners') required FunStatRecord minWinners,
-    @JsonKey(name: 'longest_absent') required FunStatAbsent longestAbsent,
+    @JsonKey(name: 'top_longest_absent')
+    required List<FunStatAbsent> topLongestAbsent,
     @JsonKey(name: 'all_odd_draws') required List<FunStatDraw> allOddDraws,
     @JsonKey(name: 'all_even_draws') required List<FunStatDraw> allEvenDraws,
     @JsonKey(name: 'calculated_at') required String calculatedAt,
