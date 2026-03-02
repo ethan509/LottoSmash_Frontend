@@ -328,6 +328,18 @@ class _ProfileBody extends ConsumerWidget {
 
           // 설정
           _ThemeSettingsCard(),
+          const SizedBox(height: 16),
+
+          // 개발자 문의
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.mail_outline),
+              title: const Text('개발자에게 문의'),
+              subtitle: const Text('버그 신고 및 기능 제안'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/contact'),
+            ),
+          ),
 
           const SizedBox(height: 24),
 

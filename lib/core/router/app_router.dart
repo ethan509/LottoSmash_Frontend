@@ -24,6 +24,7 @@ import '../../features/recommend/presentation/screens/recommend_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_history_screen.dart';
 import '../../features/backtest/presentation/screens/backtest_screen.dart';
 import '../../features/notifications/presentation/screens/notification_list_screen.dart';
+import '../../features/support/presentation/screens/contact_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -191,6 +192,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           final initialTab = int.tryParse(tabParam ?? '') ?? 0;
           return NotificationListScreen(initialTab: initialTab);
         },
+      ),
+
+      // Contact (개발자 문의)
+      GoRoute(
+        path: '/contact',
+        builder: (context, state) => const ContactScreen(),
       ),
     ],
   );
