@@ -26,6 +26,32 @@ Map<String, dynamic> _$$BacktestRequestImplToJson(
   'count': instance.count,
 };
 
+_$BacktestDrawResultImpl _$$BacktestDrawResultImplFromJson(
+  Map<String, dynamic> json,
+) => _$BacktestDrawResultImpl(
+  drawNo: (json['draw_no'] as num).toInt(),
+  predicted: (json['predicted'] as List<dynamic>)
+      .map((e) => (e as num).toInt())
+      .toList(),
+  actual: (json['actual'] as List<dynamic>)
+      .map((e) => (e as num).toInt())
+      .toList(),
+  bonusNum: (json['bonus_num'] as num).toInt(),
+  match: (json['match'] as num).toInt(),
+  prize: json['prize'] as String,
+);
+
+Map<String, dynamic> _$$BacktestDrawResultImplToJson(
+  _$BacktestDrawResultImpl instance,
+) => <String, dynamic>{
+  'draw_no': instance.drawNo,
+  'predicted': instance.predicted,
+  'actual': instance.actual,
+  'bonus_num': instance.bonusNum,
+  'match': instance.match,
+  'prize': instance.prize,
+};
+
 _$BacktestComparisonImpl _$$BacktestComparisonImplFromJson(
   Map<String, dynamic> json,
 ) => _$BacktestComparisonImpl(
@@ -66,6 +92,12 @@ _$BacktestResultImpl _$$BacktestResultImplFromJson(
   comparison: BacktestComparison.fromJson(
     json['comparison'] as Map<String, dynamic>,
   ),
+  prizePerGame: Map<String, int>.from(json['prize_per_game'] as Map),
+  totalPrizeAnalysis: (json['total_prize_analysis'] as num).toInt(),
+  totalPrizeRandom: (json['total_prize_random'] as num).toInt(),
+  topPrizeResults: (json['top_prize_results'] as List<dynamic>)
+      .map((e) => BacktestDrawResult.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$$BacktestResultImplToJson(
@@ -78,4 +110,8 @@ Map<String, dynamic> _$$BacktestResultImplToJson(
   'random_prize_distribution': instance.randomPrizeDistribution,
   'random_prize_rates': instance.randomPrizeRates,
   'comparison': instance.comparison,
+  'prize_per_game': instance.prizePerGame,
+  'total_prize_analysis': instance.totalPrizeAnalysis,
+  'total_prize_random': instance.totalPrizeRandom,
+  'top_prize_results': instance.topPrizeResults,
 };

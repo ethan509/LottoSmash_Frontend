@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/network/api_exception.dart';
+import '../../../../core/utils/number_format_utils.dart';
 import '../../../../shared/widgets/error_widget.dart';
+import '../../../../shared/widgets/lotto_ball.dart';
 import '../../../../shared/widgets/loading_indicator.dart';
 import '../../../draws/providers/draw_provider.dart';
 import '../../../recommend/data/models/recommend_models.dart';
@@ -298,7 +300,7 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
 
   Widget _buildCountSelector(int selectedCount) {
     final theme = Theme.of(context);
-    const counts = [10, 100, 1000, 10000];
+    const counts = [10, 20, 100, 1000, 10000];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,6 +334,7 @@ class _BacktestScreenState extends ConsumerState<BacktestScreen> {
     if (c >= 10000) return '1만';
     if (c >= 1000) return '1천';
     if (c >= 100) return '100';
+    if (c >= 20) return '20';
     return '10';
   }
 
@@ -549,6 +552,12 @@ class _BacktestResultCard extends StatelessWidget {
 
         // 분석 vs 순수 랜덤 비교
         _RandomComparisonCard(result: result),
+
+        // 1~3등 당첨 예측 결과
+        if (result.topPrizeResults.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          _TopPrizeResultsCard(topPrizeResults: result.topPrizeResults),
+        ],
       ],
     );
   }
@@ -709,7 +718,7 @@ class _RandomComparisonCard extends StatelessWidget {
                   final analysisCount =
                       result.prizeDistribution[key] ?? 0;
                   final randomCount =
-                      (randomRates[key] ?? 0) * result.totalSimulations;
+                      result.randomPrizeDistribution[key] ?? 0;
                   return _comparisonRow(
                     theme,
                     _prizeLabels[i],
@@ -723,10 +732,12 @@ class _RandomComparisonCard extends StatelessWidget {
                 }),
                 _comparisonSummaryRow(
                   theme,
-                  comparison.winRateAnalysis,
-                  comparison.winRateRandom,
+                  ['1st', '2nd', '3rd', '4th', '5th'].fold<int>(
+                      0, (s, k) => s + (result.prizeDistribution[k] ?? 0)),
+                  ['1st', '2nd', '3rd', '4th', '5th'].fold<int>(
+                      0, (s, k) => s + (result.randomPrizeDistribution[k] ?? 0)),
+                  comparison.winRateDiff,
                   diffColor,
-                  winRateDiff * result.totalSimulations,
                 ),
               ],
             ),
@@ -740,6 +751,10 @@ class _RandomComparisonCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            const SizedBox(height: 12),
+
+            // 총 당첨금 비교
+            _buildTotalPrizeSection(theme),
           ],
         ),
       ),
@@ -762,7 +777,7 @@ class _RandomComparisonCard extends StatelessWidget {
             child: Text('등수', style: style)),
         Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text('분석 방법', style: style, textAlign: TextAlign.center)),
+            child: Text('분석 기법', style: style, textAlign: TextAlign.center)),
         Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text('순수 랜덤', style: style, textAlign: TextAlign.end)),
@@ -780,20 +795,21 @@ class _RandomComparisonCard extends StatelessWidget {
     double analysisRate,
     double randomRate, {
     required int analysisCount,
-    required double randomCount,
+    required int randomCount,
     required bool isNoneKey,
   }) {
     final diff = analysisRate - randomRate;
     // 꽝은 낮을수록 좋음 (분석이 꽝을 덜 뽑으면 유리)
     final isAnalysisBetter =
         isNoneKey ? diff < -0.0001 : diff > 0.0001;
-    final countDiff = analysisCount - randomCount.round();
-    final countDiffText = countDiff == 0
-        ? '±0'
-        : countDiff > 0
-            ? '+$countDiff'
-            : '$countDiff';
-    final countDiffColor = isNeutral(countDiff, isNoneKey);
+    final diffText = diff.abs() < 0.000001
+        ? '±0%'
+        : diff > 0
+            ? '+${(diff * 100).toStringAsFixed(2)}%'
+            : '${(diff * 100).toStringAsFixed(2)}%';
+    final diffColor = diff.abs() < 0.000001
+        ? null
+        : (isAnalysisBetter ? const Color(0xFF4CAF50) : const Color(0xFFF44336));
 
     return TableRow(
       children: [
@@ -814,7 +830,7 @@ class _RandomComparisonCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Text(
-            _fmt(analysisRate),
+            '$analysisCount',
             textAlign: TextAlign.center,
             style: theme.textTheme.bodySmall?.copyWith(
               fontWeight: isAnalysisBetter ? FontWeight.bold : null,
@@ -825,7 +841,7 @@ class _RandomComparisonCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Text(
-            _fmt(randomRate),
+            '$randomCount',
             textAlign: TextAlign.end,
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
@@ -835,11 +851,11 @@ class _RandomComparisonCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Text(
-            '$countDiffText건',
+            diffText,
             textAlign: TextAlign.end,
             style: theme.textTheme.bodySmall?.copyWith(
-              fontWeight: countDiff != 0 ? FontWeight.w600 : null,
-              color: countDiffColor,
+              fontWeight: diff != 0 ? FontWeight.w600 : null,
+              color: diffColor,
             ),
           ),
         ),
@@ -847,23 +863,15 @@ class _RandomComparisonCard extends StatelessWidget {
     );
   }
 
-  Color? isNeutral(int countDiff, bool isNoneKey) {
-    if (countDiff == 0) return null;
-    final isBetter = isNoneKey ? countDiff < 0 : countDiff > 0;
-    return isBetter ? const Color(0xFF4CAF50) : const Color(0xFFF44336);
-  }
-
-  TableRow _comparisonSummaryRow(
-      ThemeData theme, double analysis, double random, Color diffColor,
-      double countDiffRaw) {
+  TableRow _comparisonSummaryRow(ThemeData theme, int analysisWins,
+      int randomWins, double winRateDiff, Color diffColor) {
     final style =
         theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold);
-    final countDiff = countDiffRaw.round();
-    final countDiffText = countDiff == 0
-        ? '±0건'
-        : countDiff > 0
-            ? '+$countDiff건'
-            : '$countDiff건';
+    final diffText = winRateDiff.abs() < 0.000001
+        ? '±0%'
+        : winRateDiff > 0
+            ? '+${(winRateDiff * 100).toStringAsFixed(3)}%'
+            : '${(winRateDiff * 100).toStringAsFixed(3)}%';
     return TableRow(
       decoration: BoxDecoration(
         border:
@@ -878,7 +886,7 @@ class _RandomComparisonCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Text(
-            _fmt(analysis),
+            '$analysisWins',
             textAlign: TextAlign.center,
             style: style?.copyWith(color: diffColor),
           ),
@@ -886,16 +894,15 @@ class _RandomComparisonCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Text(
-            _fmt(random),
+            '$randomWins',
             textAlign: TextAlign.end,
-            style: style?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant),
+            style: style?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Text(
-            countDiffText,
+            diffText,
             textAlign: TextAlign.end,
             style: style?.copyWith(color: diffColor),
           ),
@@ -904,11 +911,89 @@ class _RandomComparisonCard extends StatelessWidget {
     );
   }
 
-  String _fmt(double rate) {
-    if (rate == 0) return '0%';
-    if (rate < 0.0001) return '${(rate * 100).toStringAsFixed(6)}%';
-    if (rate < 0.01) return '${(rate * 100).toStringAsFixed(4)}%';
-    return '${(rate * 100).toStringAsFixed(2)}%';
+  Widget _buildTotalPrizeSection(ThemeData theme) {
+    final analysisTotal = result.totalPrizeAnalysis;
+    final randomTotal = result.totalPrizeRandom;
+    final diff = analysisTotal - randomTotal;
+    final isNeutralPrize = diff == 0;
+    final prizeColor = isNeutralPrize
+        ? theme.colorScheme.onSurfaceVariant
+        : (diff > 0 ? const Color(0xFF4CAF50) : const Color(0xFFF44336));
+    final diffPrefix = diff > 0 ? '+' : '';
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '총 당첨금 비교',
+            style: theme.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('분석 기법',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant)),
+                    Text(
+                      NumberFormatUtils.formatKrw(analysisTotal),
+                      style: theme.textTheme.bodySmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('순수 랜덤',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant)),
+                    Text(
+                      NumberFormatUtils.formatKrw(randomTotal),
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('차이',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant)),
+                    Text(
+                      isNeutralPrize
+                          ? '±0원'
+                          : '$diffPrefix${NumberFormatUtils.formatKrw(diff.abs())}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: prizeColor,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -1008,6 +1093,122 @@ class _CompareTable extends StatelessWidget {
                 );
               }).toList(),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ────────────────────────────────────────────
+// 1~3등 당첨 예측 결과 카드
+// ────────────────────────────────────────────
+
+class _TopPrizeResultsCard extends StatelessWidget {
+  final List<BacktestDrawResult> topPrizeResults;
+
+  const _TopPrizeResultsCard({required this.topPrizeResults});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: const Color(0xFFFFB300).withValues(alpha: 0.5),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.emoji_events_rounded,
+                    color: Color(0xFFFFB300), size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  '고등 당첨 예측 성공 (${topPrizeResults.length}회)',
+                  style: theme.textTheme.titleSmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ...topPrizeResults.asMap().entries.map((entry) {
+              final idx = entry.key;
+              final dr = entry.value;
+              return Padding(
+                padding: EdgeInsets.only(
+                    bottom: idx < topPrizeResults.length - 1 ? 12 : 0),
+                child: _TopPrizeItem(drawResult: dr, index: idx + 1),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TopPrizeItem extends StatelessWidget {
+  final BacktestDrawResult drawResult;
+  final int index;
+
+  const _TopPrizeItem({required this.drawResult, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final prizeColor = switch (drawResult.prize) {
+      '1st' => const Color(0xFFFFB300),
+      '2nd' => const Color(0xFF90CAF9),
+      _ => const Color(0xFFFFAB40),
+    };
+    final prizeName = switch (drawResult.prize) {
+      '1st' => '1등',
+      '2nd' => '2등',
+      _ => '3등',
+    };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: prizeColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '#$index  $prizeName',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${drawResult.match}개 일치',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: LottoBallRow(
+            numbers: drawResult.predicted,
+            ballSize: 34,
           ),
         ),
       ],

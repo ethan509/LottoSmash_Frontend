@@ -17,6 +17,21 @@ class BacktestRequest with _$BacktestRequest {
 }
 
 @freezed
+class BacktestDrawResult with _$BacktestDrawResult {
+  const factory BacktestDrawResult({
+    @JsonKey(name: 'draw_no') required int drawNo,
+    required List<int> predicted,
+    required List<int> actual,
+    @JsonKey(name: 'bonus_num') required int bonusNum,
+    required int match,
+    required String prize,
+  }) = _BacktestDrawResult;
+
+  factory BacktestDrawResult.fromJson(Map<String, dynamic> json) =>
+      _$BacktestDrawResultFromJson(json);
+}
+
+@freezed
 class BacktestComparison with _$BacktestComparison {
   const factory BacktestComparison({
     @JsonKey(name: 'win_rate_analysis') required double winRateAnalysis,
@@ -40,6 +55,10 @@ class BacktestResult with _$BacktestResult {
     @JsonKey(name: 'random_prize_distribution') required Map<String, int> randomPrizeDistribution,
     @JsonKey(name: 'random_prize_rates') required Map<String, double> randomPrizeRates,
     required BacktestComparison comparison,
+    @JsonKey(name: 'prize_per_game') required Map<String, int> prizePerGame,
+    @JsonKey(name: 'total_prize_analysis') required int totalPrizeAnalysis,
+    @JsonKey(name: 'total_prize_random') required int totalPrizeRandom,
+    @JsonKey(name: 'top_prize_results') required List<BacktestDrawResult> topPrizeResults,
   }) = _BacktestResult;
 
   factory BacktestResult.fromJson(Map<String, dynamic> json) =>
