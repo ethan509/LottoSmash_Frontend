@@ -266,6 +266,303 @@ abstract class _BacktestRequest implements BacktestRequest {
       throw _privateConstructorUsedError;
 }
 
+BacktestDrawResult _$BacktestDrawResultFromJson(Map<String, dynamic> json) {
+  return _BacktestDrawResult.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BacktestDrawResult {
+  @JsonKey(name: 'draw_no')
+  int get drawNo => throw _privateConstructorUsedError;
+  List<int> get predicted => throw _privateConstructorUsedError;
+  List<int> get actual => throw _privateConstructorUsedError;
+  @JsonKey(name: 'bonus_num')
+  int get bonusNum => throw _privateConstructorUsedError;
+  int get match => throw _privateConstructorUsedError;
+  String get prize => throw _privateConstructorUsedError;
+
+  /// Serializes this BacktestDrawResult to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of BacktestDrawResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $BacktestDrawResultCopyWith<BacktestDrawResult> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BacktestDrawResultCopyWith<$Res> {
+  factory $BacktestDrawResultCopyWith(
+    BacktestDrawResult value,
+    $Res Function(BacktestDrawResult) then,
+  ) = _$BacktestDrawResultCopyWithImpl<$Res, BacktestDrawResult>;
+  @useResult
+  $Res call({
+    @JsonKey(name: 'draw_no') int drawNo,
+    List<int> predicted,
+    List<int> actual,
+    @JsonKey(name: 'bonus_num') int bonusNum,
+    int match,
+    String prize,
+  });
+}
+
+/// @nodoc
+class _$BacktestDrawResultCopyWithImpl<$Res, $Val extends BacktestDrawResult>
+    implements $BacktestDrawResultCopyWith<$Res> {
+  _$BacktestDrawResultCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of BacktestDrawResult
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? drawNo = null,
+    Object? predicted = null,
+    Object? actual = null,
+    Object? bonusNum = null,
+    Object? match = null,
+    Object? prize = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            drawNo: null == drawNo
+                ? _value.drawNo
+                : drawNo // ignore: cast_nullable_to_non_nullable
+                      as int,
+            predicted: null == predicted
+                ? _value.predicted
+                : predicted // ignore: cast_nullable_to_non_nullable
+                      as List<int>,
+            actual: null == actual
+                ? _value.actual
+                : actual // ignore: cast_nullable_to_non_nullable
+                      as List<int>,
+            bonusNum: null == bonusNum
+                ? _value.bonusNum
+                : bonusNum // ignore: cast_nullable_to_non_nullable
+                      as int,
+            match: null == match
+                ? _value.match
+                : match // ignore: cast_nullable_to_non_nullable
+                      as int,
+            prize: null == prize
+                ? _value.prize
+                : prize // ignore: cast_nullable_to_non_nullable
+                      as String,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$BacktestDrawResultImplCopyWith<$Res>
+    implements $BacktestDrawResultCopyWith<$Res> {
+  factory _$$BacktestDrawResultImplCopyWith(
+    _$BacktestDrawResultImpl value,
+    $Res Function(_$BacktestDrawResultImpl) then,
+  ) = __$$BacktestDrawResultImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    @JsonKey(name: 'draw_no') int drawNo,
+    List<int> predicted,
+    List<int> actual,
+    @JsonKey(name: 'bonus_num') int bonusNum,
+    int match,
+    String prize,
+  });
+}
+
+/// @nodoc
+class __$$BacktestDrawResultImplCopyWithImpl<$Res>
+    extends _$BacktestDrawResultCopyWithImpl<$Res, _$BacktestDrawResultImpl>
+    implements _$$BacktestDrawResultImplCopyWith<$Res> {
+  __$$BacktestDrawResultImplCopyWithImpl(
+    _$BacktestDrawResultImpl _value,
+    $Res Function(_$BacktestDrawResultImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of BacktestDrawResult
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? drawNo = null,
+    Object? predicted = null,
+    Object? actual = null,
+    Object? bonusNum = null,
+    Object? match = null,
+    Object? prize = null,
+  }) {
+    return _then(
+      _$BacktestDrawResultImpl(
+        drawNo: null == drawNo
+            ? _value.drawNo
+            : drawNo // ignore: cast_nullable_to_non_nullable
+                  as int,
+        predicted: null == predicted
+            ? _value._predicted
+            : predicted // ignore: cast_nullable_to_non_nullable
+                  as List<int>,
+        actual: null == actual
+            ? _value._actual
+            : actual // ignore: cast_nullable_to_non_nullable
+                  as List<int>,
+        bonusNum: null == bonusNum
+            ? _value.bonusNum
+            : bonusNum // ignore: cast_nullable_to_non_nullable
+                  as int,
+        match: null == match
+            ? _value.match
+            : match // ignore: cast_nullable_to_non_nullable
+                  as int,
+        prize: null == prize
+            ? _value.prize
+            : prize // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BacktestDrawResultImpl implements _BacktestDrawResult {
+  const _$BacktestDrawResultImpl({
+    @JsonKey(name: 'draw_no') required this.drawNo,
+    required final List<int> predicted,
+    required final List<int> actual,
+    @JsonKey(name: 'bonus_num') required this.bonusNum,
+    required this.match,
+    required this.prize,
+  }) : _predicted = predicted,
+       _actual = actual;
+
+  factory _$BacktestDrawResultImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BacktestDrawResultImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'draw_no')
+  final int drawNo;
+  final List<int> _predicted;
+  @override
+  List<int> get predicted {
+    if (_predicted is EqualUnmodifiableListView) return _predicted;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_predicted);
+  }
+
+  final List<int> _actual;
+  @override
+  List<int> get actual {
+    if (_actual is EqualUnmodifiableListView) return _actual;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_actual);
+  }
+
+  @override
+  @JsonKey(name: 'bonus_num')
+  final int bonusNum;
+  @override
+  final int match;
+  @override
+  final String prize;
+
+  @override
+  String toString() {
+    return 'BacktestDrawResult(drawNo: $drawNo, predicted: $predicted, actual: $actual, bonusNum: $bonusNum, match: $match, prize: $prize)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BacktestDrawResultImpl &&
+            (identical(other.drawNo, drawNo) || other.drawNo == drawNo) &&
+            const DeepCollectionEquality().equals(
+              other._predicted,
+              _predicted,
+            ) &&
+            const DeepCollectionEquality().equals(other._actual, _actual) &&
+            (identical(other.bonusNum, bonusNum) ||
+                other.bonusNum == bonusNum) &&
+            (identical(other.match, match) || other.match == match) &&
+            (identical(other.prize, prize) || other.prize == prize));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    drawNo,
+    const DeepCollectionEquality().hash(_predicted),
+    const DeepCollectionEquality().hash(_actual),
+    bonusNum,
+    match,
+    prize,
+  );
+
+  /// Create a copy of BacktestDrawResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BacktestDrawResultImplCopyWith<_$BacktestDrawResultImpl> get copyWith =>
+      __$$BacktestDrawResultImplCopyWithImpl<_$BacktestDrawResultImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BacktestDrawResultImplToJson(this);
+  }
+}
+
+abstract class _BacktestDrawResult implements BacktestDrawResult {
+  const factory _BacktestDrawResult({
+    @JsonKey(name: 'draw_no') required final int drawNo,
+    required final List<int> predicted,
+    required final List<int> actual,
+    @JsonKey(name: 'bonus_num') required final int bonusNum,
+    required final int match,
+    required final String prize,
+  }) = _$BacktestDrawResultImpl;
+
+  factory _BacktestDrawResult.fromJson(Map<String, dynamic> json) =
+      _$BacktestDrawResultImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'draw_no')
+  int get drawNo;
+  @override
+  List<int> get predicted;
+  @override
+  List<int> get actual;
+  @override
+  @JsonKey(name: 'bonus_num')
+  int get bonusNum;
+  @override
+  int get match;
+  @override
+  String get prize;
+
+  /// Create a copy of BacktestDrawResult
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BacktestDrawResultImplCopyWith<_$BacktestDrawResultImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 BacktestComparison _$BacktestComparisonFromJson(Map<String, dynamic> json) {
   return _BacktestComparison.fromJson(json);
 }
@@ -568,6 +865,15 @@ mixin _$BacktestResult {
   Map<String, double> get randomPrizeRates =>
       throw _privateConstructorUsedError;
   BacktestComparison get comparison => throw _privateConstructorUsedError;
+  @JsonKey(name: 'prize_per_game')
+  Map<String, int> get prizePerGame => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_prize_analysis')
+  int get totalPrizeAnalysis => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_prize_random')
+  int get totalPrizeRandom => throw _privateConstructorUsedError;
+  @JsonKey(name: 'top_prize_results')
+  List<BacktestDrawResult> get topPrizeResults =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this BacktestResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -595,6 +901,11 @@ abstract class $BacktestResultCopyWith<$Res> {
     Map<String, int> randomPrizeDistribution,
     @JsonKey(name: 'random_prize_rates') Map<String, double> randomPrizeRates,
     BacktestComparison comparison,
+    @JsonKey(name: 'prize_per_game') Map<String, int> prizePerGame,
+    @JsonKey(name: 'total_prize_analysis') int totalPrizeAnalysis,
+    @JsonKey(name: 'total_prize_random') int totalPrizeRandom,
+    @JsonKey(name: 'top_prize_results')
+    List<BacktestDrawResult> topPrizeResults,
   });
 
   $BacktestRequestCopyWith<$Res> get request;
@@ -623,6 +934,10 @@ class _$BacktestResultCopyWithImpl<$Res, $Val extends BacktestResult>
     Object? randomPrizeDistribution = null,
     Object? randomPrizeRates = null,
     Object? comparison = null,
+    Object? prizePerGame = null,
+    Object? totalPrizeAnalysis = null,
+    Object? totalPrizeRandom = null,
+    Object? topPrizeResults = null,
   }) {
     return _then(
       _value.copyWith(
@@ -654,6 +969,22 @@ class _$BacktestResultCopyWithImpl<$Res, $Val extends BacktestResult>
                 ? _value.comparison
                 : comparison // ignore: cast_nullable_to_non_nullable
                       as BacktestComparison,
+            prizePerGame: null == prizePerGame
+                ? _value.prizePerGame
+                : prizePerGame // ignore: cast_nullable_to_non_nullable
+                      as Map<String, int>,
+            totalPrizeAnalysis: null == totalPrizeAnalysis
+                ? _value.totalPrizeAnalysis
+                : totalPrizeAnalysis // ignore: cast_nullable_to_non_nullable
+                      as int,
+            totalPrizeRandom: null == totalPrizeRandom
+                ? _value.totalPrizeRandom
+                : totalPrizeRandom // ignore: cast_nullable_to_non_nullable
+                      as int,
+            topPrizeResults: null == topPrizeResults
+                ? _value.topPrizeResults
+                : topPrizeResults // ignore: cast_nullable_to_non_nullable
+                      as List<BacktestDrawResult>,
           )
           as $Val,
     );
@@ -698,6 +1029,11 @@ abstract class _$$BacktestResultImplCopyWith<$Res>
     Map<String, int> randomPrizeDistribution,
     @JsonKey(name: 'random_prize_rates') Map<String, double> randomPrizeRates,
     BacktestComparison comparison,
+    @JsonKey(name: 'prize_per_game') Map<String, int> prizePerGame,
+    @JsonKey(name: 'total_prize_analysis') int totalPrizeAnalysis,
+    @JsonKey(name: 'total_prize_random') int totalPrizeRandom,
+    @JsonKey(name: 'top_prize_results')
+    List<BacktestDrawResult> topPrizeResults,
   });
 
   @override
@@ -727,6 +1063,10 @@ class __$$BacktestResultImplCopyWithImpl<$Res>
     Object? randomPrizeDistribution = null,
     Object? randomPrizeRates = null,
     Object? comparison = null,
+    Object? prizePerGame = null,
+    Object? totalPrizeAnalysis = null,
+    Object? totalPrizeRandom = null,
+    Object? topPrizeResults = null,
   }) {
     return _then(
       _$BacktestResultImpl(
@@ -758,6 +1098,22 @@ class __$$BacktestResultImplCopyWithImpl<$Res>
             ? _value.comparison
             : comparison // ignore: cast_nullable_to_non_nullable
                   as BacktestComparison,
+        prizePerGame: null == prizePerGame
+            ? _value._prizePerGame
+            : prizePerGame // ignore: cast_nullable_to_non_nullable
+                  as Map<String, int>,
+        totalPrizeAnalysis: null == totalPrizeAnalysis
+            ? _value.totalPrizeAnalysis
+            : totalPrizeAnalysis // ignore: cast_nullable_to_non_nullable
+                  as int,
+        totalPrizeRandom: null == totalPrizeRandom
+            ? _value.totalPrizeRandom
+            : totalPrizeRandom // ignore: cast_nullable_to_non_nullable
+                  as int,
+        topPrizeResults: null == topPrizeResults
+            ? _value._topPrizeResults
+            : topPrizeResults // ignore: cast_nullable_to_non_nullable
+                  as List<BacktestDrawResult>,
       ),
     );
   }
@@ -777,10 +1133,18 @@ class _$BacktestResultImpl implements _BacktestResult {
     @JsonKey(name: 'random_prize_rates')
     required final Map<String, double> randomPrizeRates,
     required this.comparison,
+    @JsonKey(name: 'prize_per_game')
+    required final Map<String, int> prizePerGame,
+    @JsonKey(name: 'total_prize_analysis') required this.totalPrizeAnalysis,
+    @JsonKey(name: 'total_prize_random') required this.totalPrizeRandom,
+    @JsonKey(name: 'top_prize_results')
+    required final List<BacktestDrawResult> topPrizeResults,
   }) : _prizeDistribution = prizeDistribution,
        _prizeRates = prizeRates,
        _randomPrizeDistribution = randomPrizeDistribution,
-       _randomPrizeRates = randomPrizeRates;
+       _randomPrizeRates = randomPrizeRates,
+       _prizePerGame = prizePerGame,
+       _topPrizeResults = topPrizeResults;
 
   factory _$BacktestResultImpl.fromJson(Map<String, dynamic> json) =>
       _$$BacktestResultImplFromJson(json);
@@ -830,10 +1194,33 @@ class _$BacktestResultImpl implements _BacktestResult {
 
   @override
   final BacktestComparison comparison;
+  final Map<String, int> _prizePerGame;
+  @override
+  @JsonKey(name: 'prize_per_game')
+  Map<String, int> get prizePerGame {
+    if (_prizePerGame is EqualUnmodifiableMapView) return _prizePerGame;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_prizePerGame);
+  }
+
+  @override
+  @JsonKey(name: 'total_prize_analysis')
+  final int totalPrizeAnalysis;
+  @override
+  @JsonKey(name: 'total_prize_random')
+  final int totalPrizeRandom;
+  final List<BacktestDrawResult> _topPrizeResults;
+  @override
+  @JsonKey(name: 'top_prize_results')
+  List<BacktestDrawResult> get topPrizeResults {
+    if (_topPrizeResults is EqualUnmodifiableListView) return _topPrizeResults;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topPrizeResults);
+  }
 
   @override
   String toString() {
-    return 'BacktestResult(request: $request, totalSimulations: $totalSimulations, prizeDistribution: $prizeDistribution, prizeRates: $prizeRates, randomPrizeDistribution: $randomPrizeDistribution, randomPrizeRates: $randomPrizeRates, comparison: $comparison)';
+    return 'BacktestResult(request: $request, totalSimulations: $totalSimulations, prizeDistribution: $prizeDistribution, prizeRates: $prizeRates, randomPrizeDistribution: $randomPrizeDistribution, randomPrizeRates: $randomPrizeRates, comparison: $comparison, prizePerGame: $prizePerGame, totalPrizeAnalysis: $totalPrizeAnalysis, totalPrizeRandom: $totalPrizeRandom, topPrizeResults: $topPrizeResults)';
   }
 
   @override
@@ -861,7 +1248,19 @@ class _$BacktestResultImpl implements _BacktestResult {
               _randomPrizeRates,
             ) &&
             (identical(other.comparison, comparison) ||
-                other.comparison == comparison));
+                other.comparison == comparison) &&
+            const DeepCollectionEquality().equals(
+              other._prizePerGame,
+              _prizePerGame,
+            ) &&
+            (identical(other.totalPrizeAnalysis, totalPrizeAnalysis) ||
+                other.totalPrizeAnalysis == totalPrizeAnalysis) &&
+            (identical(other.totalPrizeRandom, totalPrizeRandom) ||
+                other.totalPrizeRandom == totalPrizeRandom) &&
+            const DeepCollectionEquality().equals(
+              other._topPrizeResults,
+              _topPrizeResults,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -875,6 +1274,10 @@ class _$BacktestResultImpl implements _BacktestResult {
     const DeepCollectionEquality().hash(_randomPrizeDistribution),
     const DeepCollectionEquality().hash(_randomPrizeRates),
     comparison,
+    const DeepCollectionEquality().hash(_prizePerGame),
+    totalPrizeAnalysis,
+    totalPrizeRandom,
+    const DeepCollectionEquality().hash(_topPrizeResults),
   );
 
   /// Create a copy of BacktestResult
@@ -906,6 +1309,13 @@ abstract class _BacktestResult implements BacktestResult {
     @JsonKey(name: 'random_prize_rates')
     required final Map<String, double> randomPrizeRates,
     required final BacktestComparison comparison,
+    @JsonKey(name: 'prize_per_game')
+    required final Map<String, int> prizePerGame,
+    @JsonKey(name: 'total_prize_analysis')
+    required final int totalPrizeAnalysis,
+    @JsonKey(name: 'total_prize_random') required final int totalPrizeRandom,
+    @JsonKey(name: 'top_prize_results')
+    required final List<BacktestDrawResult> topPrizeResults,
   }) = _$BacktestResultImpl;
 
   factory _BacktestResult.fromJson(Map<String, dynamic> json) =
@@ -930,6 +1340,18 @@ abstract class _BacktestResult implements BacktestResult {
   Map<String, double> get randomPrizeRates;
   @override
   BacktestComparison get comparison;
+  @override
+  @JsonKey(name: 'prize_per_game')
+  Map<String, int> get prizePerGame;
+  @override
+  @JsonKey(name: 'total_prize_analysis')
+  int get totalPrizeAnalysis;
+  @override
+  @JsonKey(name: 'total_prize_random')
+  int get totalPrizeRandom;
+  @override
+  @JsonKey(name: 'top_prize_results')
+  List<BacktestDrawResult> get topPrizeResults;
 
   /// Create a copy of BacktestResult
   /// with the given fields replaced by the non-null parameter values.
