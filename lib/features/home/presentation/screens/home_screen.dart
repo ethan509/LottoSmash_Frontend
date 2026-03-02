@@ -15,6 +15,7 @@ import '../../../notifications/data/repositories/notification_repository.dart';
 import '../../../draws/data/models/draw_models.dart';
 import '../../../draws/providers/draw_provider.dart';
 import '../../../stats/data/models/stats_models.dart';
+import '../../data/models/fun_stats_models.dart';
 import '../../providers/home_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -113,6 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onRefresh: () async {
           ref.invalidate(latestDrawProvider);
           ref.invalidate(bayesianSummaryProvider);
+          ref.invalidate(funStatsProvider);
           ref.invalidate(currentUserProvider);
         },
         child: SingleChildScrollView(
@@ -128,6 +130,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               _QuickRecommendCard(),
               const SizedBox(height: 16),
               _HotColdCard(),
+              const SizedBox(height: 16),
+              _FunStatsSection(),
             ],
           ),
         ),
@@ -524,6 +528,425 @@ class _HotColdContent extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// 재미로 보는 통계 섹션
+// ─────────────────────────────────────────────
+
+class _FunStatsSection extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final funAsync = ref.watch(funStatsProvider);
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 12),
+          child: Text(
+            '재미로 보는 통계',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        funAsync.when(
+          loading: () => SizedBox(
+            height: 130,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: 7,
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              itemBuilder: (_, _) => const ShimmerLoading(
+                width: 160,
+                height: 130,
+              ),
+            ),
+          ),
+          error: (_, _) => const SizedBox.shrink(),
+          data: (stats) => _FunStatsCards(stats: stats),
+        ),
+      ],
+    );
+  }
+}
+
+class _FunStatsCards extends StatelessWidget {
+  final FunStats stats;
+
+  const _FunStatsCards({required this.stats});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 140,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _FunStatPrizeCard(
+            label: '역대 최고 당첨금',
+            icon: Icons.emoji_events,
+            iconColor: const Color(0xFFFFD700),
+            record: stats.maxPrizePerGame,
+            valueBuilder: (v) => NumberFormatUtils.formatKrw(v),
+          ),
+          const SizedBox(width: 12),
+          _FunStatPrizeCard(
+            label: '역대 최소 당첨금',
+            icon: Icons.trending_down,
+            iconColor: Colors.blueGrey,
+            record: stats.minPrizePerGame,
+            valueBuilder: (v) => NumberFormatUtils.formatKrw(v),
+          ),
+          const SizedBox(width: 12),
+          _FunStatPrizeCard(
+            label: '최다 1등 당첨자',
+            icon: Icons.groups,
+            iconColor: Colors.green,
+            record: stats.maxWinners,
+            valueBuilder: (v) => '${NumberFormatUtils.formatNumber(v)}명',
+          ),
+          const SizedBox(width: 12),
+          _FunStatPrizeCard(
+            label: '최소 1등 당첨자',
+            icon: Icons.person,
+            iconColor: Colors.orange,
+            record: stats.minWinners,
+            valueBuilder: (v) => '${NumberFormatUtils.formatNumber(v)}명',
+          ),
+          const SizedBox(width: 12),
+          _FunStatAbsentCard(absent: stats.longestAbsent),
+          const SizedBox(width: 12),
+          _FunStatDrawListCard(
+            label: '전체 홀수 회차',
+            icon: Icons.looks_one,
+            color: const Color(0xFFFF7272),
+            draws: stats.allOddDraws,
+          ),
+          const SizedBox(width: 12),
+          _FunStatDrawListCard(
+            label: '전체 짝수 회차',
+            icon: Icons.looks_two,
+            color: const Color(0xFF69C8F2),
+            draws: stats.allEvenDraws,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// 당첨금 / 당첨자 수 공용 카드
+class _FunStatPrizeCard extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color iconColor;
+  final FunStatRecord record;
+  final String Function(int) valueBuilder;
+
+  const _FunStatPrizeCard({
+    required this.label,
+    required this.icon,
+    required this.iconColor,
+    required this.record,
+    required this.valueBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      margin: EdgeInsets.zero,
+      child: SizedBox(
+        width: 160,
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(icon, size: 18, color: iconColor),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                valueBuilder(record.value),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                '제 ${record.drawNo}회  ${record.drawDate}',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 최장 미출현 번호 카드
+class _FunStatAbsentCard extends StatelessWidget {
+  final FunStatAbsent absent;
+
+  const _FunStatAbsentCard({required this.absent});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      margin: EdgeInsets.zero,
+      child: SizedBox(
+        width: 160,
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.hourglass_empty, size: 18,
+                      color: Colors.purple),
+                  const SizedBox(width: 6),
+                  Text(
+                    '최장 미출현 번호',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+              LottoBall(number: absent.number, size: 36),
+              Text(
+                '${absent.duration}회 연속 미출현',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 전체 홀수 / 짝수 회차 카드 (탭 시 모달)
+class _FunStatDrawListCard extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final List<FunStatDraw> draws;
+
+  const _FunStatDrawListCard({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.draws,
+  });
+
+  void _showModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) => _FunStatDrawModal(label: label, draws: draws),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      margin: EdgeInsets.zero,
+      child: InkWell(
+        onTap: draws.isNotEmpty ? () => _showModal(context) : null,
+        borderRadius: BorderRadius.circular(16),
+        child: SizedBox(
+          width: 160,
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(icon, size: 18, color: color),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        label,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  '${draws.length}회',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      draws.isNotEmpty ? '목록 보기' : '기록 없음',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: draws.isNotEmpty
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    if (draws.isNotEmpty) ...[
+                      const SizedBox(width: 2),
+                      Icon(Icons.chevron_right,
+                          size: 14, color: theme.colorScheme.primary),
+                    ],
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 홀수/짝수 회차 목록 모달
+class _FunStatDrawModal extends StatelessWidget {
+  final String label;
+  final List<FunStatDraw> draws;
+
+  const _FunStatDrawModal({required this.label, required this.draws});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (_, controller) => Column(
+        children: [
+          // 핸들
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Text(
+                  label,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  '총 ${draws.length}회',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Divider(height: 1),
+          Expanded(
+            child: ListView.builder(
+              controller: controller,
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              itemCount: draws.length,
+              itemBuilder: (_, i) {
+                final draw = draws[i];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 64,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '제 ${draw.drawNo}회',
+                              style: theme.textTheme.labelMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              draw.drawDate,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: LottoBallRow(
+                            numbers: draw.numbers,
+                            ballSize: 30,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
