@@ -684,16 +684,17 @@ FunStats _$FunStatsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FunStats {
-  @JsonKey(name: 'max_prize_per_game')
-  FunStatRecord get maxPrizePerGame => throw _privateConstructorUsedError;
-  @JsonKey(name: 'min_prize_per_game')
-  FunStatRecord get minPrizePerGame => throw _privateConstructorUsedError;
+  @JsonKey(name: 'top_max_prize')
+  List<FunStatRecord> get topMaxPrize => throw _privateConstructorUsedError;
+  @JsonKey(name: 'top_min_prize')
+  List<FunStatRecord> get topMinPrize => throw _privateConstructorUsedError;
   @JsonKey(name: 'max_winners')
   FunStatRecord get maxWinners => throw _privateConstructorUsedError;
   @JsonKey(name: 'min_winners')
   FunStatRecord get minWinners => throw _privateConstructorUsedError;
-  @JsonKey(name: 'longest_absent')
-  FunStatAbsent get longestAbsent => throw _privateConstructorUsedError;
+  @JsonKey(name: 'top_longest_absent')
+  List<FunStatAbsent> get topLongestAbsent =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'all_odd_draws')
   List<FunStatDraw> get allOddDraws => throw _privateConstructorUsedError;
   @JsonKey(name: 'all_even_draws')
@@ -719,22 +720,19 @@ abstract class $FunStatsCopyWith<$Res> {
       _$FunStatsCopyWithImpl<$Res, FunStats>;
   @useResult
   $Res call({
-    @JsonKey(name: 'max_prize_per_game') FunStatRecord maxPrizePerGame,
-    @JsonKey(name: 'min_prize_per_game') FunStatRecord minPrizePerGame,
+    @JsonKey(name: 'top_max_prize') List<FunStatRecord> topMaxPrize,
+    @JsonKey(name: 'top_min_prize') List<FunStatRecord> topMinPrize,
     @JsonKey(name: 'max_winners') FunStatRecord maxWinners,
     @JsonKey(name: 'min_winners') FunStatRecord minWinners,
-    @JsonKey(name: 'longest_absent') FunStatAbsent longestAbsent,
+    @JsonKey(name: 'top_longest_absent') List<FunStatAbsent> topLongestAbsent,
     @JsonKey(name: 'all_odd_draws') List<FunStatDraw> allOddDraws,
     @JsonKey(name: 'all_even_draws') List<FunStatDraw> allEvenDraws,
     @JsonKey(name: 'calculated_at') String calculatedAt,
     @JsonKey(name: 'based_on_draw_no') int basedOnDrawNo,
   });
 
-  $FunStatRecordCopyWith<$Res> get maxPrizePerGame;
-  $FunStatRecordCopyWith<$Res> get minPrizePerGame;
   $FunStatRecordCopyWith<$Res> get maxWinners;
   $FunStatRecordCopyWith<$Res> get minWinners;
-  $FunStatAbsentCopyWith<$Res> get longestAbsent;
 }
 
 /// @nodoc
@@ -752,11 +750,11 @@ class _$FunStatsCopyWithImpl<$Res, $Val extends FunStats>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? maxPrizePerGame = null,
-    Object? minPrizePerGame = null,
+    Object? topMaxPrize = null,
+    Object? topMinPrize = null,
     Object? maxWinners = null,
     Object? minWinners = null,
-    Object? longestAbsent = null,
+    Object? topLongestAbsent = null,
     Object? allOddDraws = null,
     Object? allEvenDraws = null,
     Object? calculatedAt = null,
@@ -764,14 +762,14 @@ class _$FunStatsCopyWithImpl<$Res, $Val extends FunStats>
   }) {
     return _then(
       _value.copyWith(
-            maxPrizePerGame: null == maxPrizePerGame
-                ? _value.maxPrizePerGame
-                : maxPrizePerGame // ignore: cast_nullable_to_non_nullable
-                      as FunStatRecord,
-            minPrizePerGame: null == minPrizePerGame
-                ? _value.minPrizePerGame
-                : minPrizePerGame // ignore: cast_nullable_to_non_nullable
-                      as FunStatRecord,
+            topMaxPrize: null == topMaxPrize
+                ? _value.topMaxPrize
+                : topMaxPrize // ignore: cast_nullable_to_non_nullable
+                      as List<FunStatRecord>,
+            topMinPrize: null == topMinPrize
+                ? _value.topMinPrize
+                : topMinPrize // ignore: cast_nullable_to_non_nullable
+                      as List<FunStatRecord>,
             maxWinners: null == maxWinners
                 ? _value.maxWinners
                 : maxWinners // ignore: cast_nullable_to_non_nullable
@@ -780,10 +778,10 @@ class _$FunStatsCopyWithImpl<$Res, $Val extends FunStats>
                 ? _value.minWinners
                 : minWinners // ignore: cast_nullable_to_non_nullable
                       as FunStatRecord,
-            longestAbsent: null == longestAbsent
-                ? _value.longestAbsent
-                : longestAbsent // ignore: cast_nullable_to_non_nullable
-                      as FunStatAbsent,
+            topLongestAbsent: null == topLongestAbsent
+                ? _value.topLongestAbsent
+                : topLongestAbsent // ignore: cast_nullable_to_non_nullable
+                      as List<FunStatAbsent>,
             allOddDraws: null == allOddDraws
                 ? _value.allOddDraws
                 : allOddDraws // ignore: cast_nullable_to_non_nullable
@@ -809,26 +807,6 @@ class _$FunStatsCopyWithImpl<$Res, $Val extends FunStats>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $FunStatRecordCopyWith<$Res> get maxPrizePerGame {
-    return $FunStatRecordCopyWith<$Res>(_value.maxPrizePerGame, (value) {
-      return _then(_value.copyWith(maxPrizePerGame: value) as $Val);
-    });
-  }
-
-  /// Create a copy of FunStats
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $FunStatRecordCopyWith<$Res> get minPrizePerGame {
-    return $FunStatRecordCopyWith<$Res>(_value.minPrizePerGame, (value) {
-      return _then(_value.copyWith(minPrizePerGame: value) as $Val);
-    });
-  }
-
-  /// Create a copy of FunStats
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
   $FunStatRecordCopyWith<$Res> get maxWinners {
     return $FunStatRecordCopyWith<$Res>(_value.maxWinners, (value) {
       return _then(_value.copyWith(maxWinners: value) as $Val);
@@ -844,16 +822,6 @@ class _$FunStatsCopyWithImpl<$Res, $Val extends FunStats>
       return _then(_value.copyWith(minWinners: value) as $Val);
     });
   }
-
-  /// Create a copy of FunStats
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $FunStatAbsentCopyWith<$Res> get longestAbsent {
-    return $FunStatAbsentCopyWith<$Res>(_value.longestAbsent, (value) {
-      return _then(_value.copyWith(longestAbsent: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -866,11 +834,11 @@ abstract class _$$FunStatsImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    @JsonKey(name: 'max_prize_per_game') FunStatRecord maxPrizePerGame,
-    @JsonKey(name: 'min_prize_per_game') FunStatRecord minPrizePerGame,
+    @JsonKey(name: 'top_max_prize') List<FunStatRecord> topMaxPrize,
+    @JsonKey(name: 'top_min_prize') List<FunStatRecord> topMinPrize,
     @JsonKey(name: 'max_winners') FunStatRecord maxWinners,
     @JsonKey(name: 'min_winners') FunStatRecord minWinners,
-    @JsonKey(name: 'longest_absent') FunStatAbsent longestAbsent,
+    @JsonKey(name: 'top_longest_absent') List<FunStatAbsent> topLongestAbsent,
     @JsonKey(name: 'all_odd_draws') List<FunStatDraw> allOddDraws,
     @JsonKey(name: 'all_even_draws') List<FunStatDraw> allEvenDraws,
     @JsonKey(name: 'calculated_at') String calculatedAt,
@@ -878,15 +846,9 @@ abstract class _$$FunStatsImplCopyWith<$Res>
   });
 
   @override
-  $FunStatRecordCopyWith<$Res> get maxPrizePerGame;
-  @override
-  $FunStatRecordCopyWith<$Res> get minPrizePerGame;
-  @override
   $FunStatRecordCopyWith<$Res> get maxWinners;
   @override
   $FunStatRecordCopyWith<$Res> get minWinners;
-  @override
-  $FunStatAbsentCopyWith<$Res> get longestAbsent;
 }
 
 /// @nodoc
@@ -903,11 +865,11 @@ class __$$FunStatsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? maxPrizePerGame = null,
-    Object? minPrizePerGame = null,
+    Object? topMaxPrize = null,
+    Object? topMinPrize = null,
     Object? maxWinners = null,
     Object? minWinners = null,
-    Object? longestAbsent = null,
+    Object? topLongestAbsent = null,
     Object? allOddDraws = null,
     Object? allEvenDraws = null,
     Object? calculatedAt = null,
@@ -915,14 +877,14 @@ class __$$FunStatsImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$FunStatsImpl(
-        maxPrizePerGame: null == maxPrizePerGame
-            ? _value.maxPrizePerGame
-            : maxPrizePerGame // ignore: cast_nullable_to_non_nullable
-                  as FunStatRecord,
-        minPrizePerGame: null == minPrizePerGame
-            ? _value.minPrizePerGame
-            : minPrizePerGame // ignore: cast_nullable_to_non_nullable
-                  as FunStatRecord,
+        topMaxPrize: null == topMaxPrize
+            ? _value._topMaxPrize
+            : topMaxPrize // ignore: cast_nullable_to_non_nullable
+                  as List<FunStatRecord>,
+        topMinPrize: null == topMinPrize
+            ? _value._topMinPrize
+            : topMinPrize // ignore: cast_nullable_to_non_nullable
+                  as List<FunStatRecord>,
         maxWinners: null == maxWinners
             ? _value.maxWinners
             : maxWinners // ignore: cast_nullable_to_non_nullable
@@ -931,10 +893,10 @@ class __$$FunStatsImplCopyWithImpl<$Res>
             ? _value.minWinners
             : minWinners // ignore: cast_nullable_to_non_nullable
                   as FunStatRecord,
-        longestAbsent: null == longestAbsent
-            ? _value.longestAbsent
-            : longestAbsent // ignore: cast_nullable_to_non_nullable
-                  as FunStatAbsent,
+        topLongestAbsent: null == topLongestAbsent
+            ? _value._topLongestAbsent
+            : topLongestAbsent // ignore: cast_nullable_to_non_nullable
+                  as List<FunStatAbsent>,
         allOddDraws: null == allOddDraws
             ? _value._allOddDraws
             : allOddDraws // ignore: cast_nullable_to_non_nullable
@@ -960,38 +922,63 @@ class __$$FunStatsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$FunStatsImpl implements _FunStats {
   const _$FunStatsImpl({
-    @JsonKey(name: 'max_prize_per_game') required this.maxPrizePerGame,
-    @JsonKey(name: 'min_prize_per_game') required this.minPrizePerGame,
+    @JsonKey(name: 'top_max_prize')
+    required final List<FunStatRecord> topMaxPrize,
+    @JsonKey(name: 'top_min_prize')
+    required final List<FunStatRecord> topMinPrize,
     @JsonKey(name: 'max_winners') required this.maxWinners,
     @JsonKey(name: 'min_winners') required this.minWinners,
-    @JsonKey(name: 'longest_absent') required this.longestAbsent,
+    @JsonKey(name: 'top_longest_absent')
+    required final List<FunStatAbsent> topLongestAbsent,
     @JsonKey(name: 'all_odd_draws')
     required final List<FunStatDraw> allOddDraws,
     @JsonKey(name: 'all_even_draws')
     required final List<FunStatDraw> allEvenDraws,
     @JsonKey(name: 'calculated_at') required this.calculatedAt,
     @JsonKey(name: 'based_on_draw_no') required this.basedOnDrawNo,
-  }) : _allOddDraws = allOddDraws,
+  }) : _topMaxPrize = topMaxPrize,
+       _topMinPrize = topMinPrize,
+       _topLongestAbsent = topLongestAbsent,
+       _allOddDraws = allOddDraws,
        _allEvenDraws = allEvenDraws;
 
   factory _$FunStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$FunStatsImplFromJson(json);
 
+  final List<FunStatRecord> _topMaxPrize;
   @override
-  @JsonKey(name: 'max_prize_per_game')
-  final FunStatRecord maxPrizePerGame;
+  @JsonKey(name: 'top_max_prize')
+  List<FunStatRecord> get topMaxPrize {
+    if (_topMaxPrize is EqualUnmodifiableListView) return _topMaxPrize;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topMaxPrize);
+  }
+
+  final List<FunStatRecord> _topMinPrize;
   @override
-  @JsonKey(name: 'min_prize_per_game')
-  final FunStatRecord minPrizePerGame;
+  @JsonKey(name: 'top_min_prize')
+  List<FunStatRecord> get topMinPrize {
+    if (_topMinPrize is EqualUnmodifiableListView) return _topMinPrize;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topMinPrize);
+  }
+
   @override
   @JsonKey(name: 'max_winners')
   final FunStatRecord maxWinners;
   @override
   @JsonKey(name: 'min_winners')
   final FunStatRecord minWinners;
+  final List<FunStatAbsent> _topLongestAbsent;
   @override
-  @JsonKey(name: 'longest_absent')
-  final FunStatAbsent longestAbsent;
+  @JsonKey(name: 'top_longest_absent')
+  List<FunStatAbsent> get topLongestAbsent {
+    if (_topLongestAbsent is EqualUnmodifiableListView)
+      return _topLongestAbsent;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topLongestAbsent);
+  }
+
   final List<FunStatDraw> _allOddDraws;
   @override
   @JsonKey(name: 'all_odd_draws')
@@ -1019,7 +1006,7 @@ class _$FunStatsImpl implements _FunStats {
 
   @override
   String toString() {
-    return 'FunStats(maxPrizePerGame: $maxPrizePerGame, minPrizePerGame: $minPrizePerGame, maxWinners: $maxWinners, minWinners: $minWinners, longestAbsent: $longestAbsent, allOddDraws: $allOddDraws, allEvenDraws: $allEvenDraws, calculatedAt: $calculatedAt, basedOnDrawNo: $basedOnDrawNo)';
+    return 'FunStats(topMaxPrize: $topMaxPrize, topMinPrize: $topMinPrize, maxWinners: $maxWinners, minWinners: $minWinners, topLongestAbsent: $topLongestAbsent, allOddDraws: $allOddDraws, allEvenDraws: $allEvenDraws, calculatedAt: $calculatedAt, basedOnDrawNo: $basedOnDrawNo)';
   }
 
   @override
@@ -1027,16 +1014,22 @@ class _$FunStatsImpl implements _FunStats {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FunStatsImpl &&
-            (identical(other.maxPrizePerGame, maxPrizePerGame) ||
-                other.maxPrizePerGame == maxPrizePerGame) &&
-            (identical(other.minPrizePerGame, minPrizePerGame) ||
-                other.minPrizePerGame == minPrizePerGame) &&
+            const DeepCollectionEquality().equals(
+              other._topMaxPrize,
+              _topMaxPrize,
+            ) &&
+            const DeepCollectionEquality().equals(
+              other._topMinPrize,
+              _topMinPrize,
+            ) &&
             (identical(other.maxWinners, maxWinners) ||
                 other.maxWinners == maxWinners) &&
             (identical(other.minWinners, minWinners) ||
                 other.minWinners == minWinners) &&
-            (identical(other.longestAbsent, longestAbsent) ||
-                other.longestAbsent == longestAbsent) &&
+            const DeepCollectionEquality().equals(
+              other._topLongestAbsent,
+              _topLongestAbsent,
+            ) &&
             const DeepCollectionEquality().equals(
               other._allOddDraws,
               _allOddDraws,
@@ -1055,11 +1048,11 @@ class _$FunStatsImpl implements _FunStats {
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    maxPrizePerGame,
-    minPrizePerGame,
+    const DeepCollectionEquality().hash(_topMaxPrize),
+    const DeepCollectionEquality().hash(_topMinPrize),
     maxWinners,
     minWinners,
-    longestAbsent,
+    const DeepCollectionEquality().hash(_topLongestAbsent),
     const DeepCollectionEquality().hash(_allOddDraws),
     const DeepCollectionEquality().hash(_allEvenDraws),
     calculatedAt,
@@ -1082,13 +1075,14 @@ class _$FunStatsImpl implements _FunStats {
 
 abstract class _FunStats implements FunStats {
   const factory _FunStats({
-    @JsonKey(name: 'max_prize_per_game')
-    required final FunStatRecord maxPrizePerGame,
-    @JsonKey(name: 'min_prize_per_game')
-    required final FunStatRecord minPrizePerGame,
+    @JsonKey(name: 'top_max_prize')
+    required final List<FunStatRecord> topMaxPrize,
+    @JsonKey(name: 'top_min_prize')
+    required final List<FunStatRecord> topMinPrize,
     @JsonKey(name: 'max_winners') required final FunStatRecord maxWinners,
     @JsonKey(name: 'min_winners') required final FunStatRecord minWinners,
-    @JsonKey(name: 'longest_absent') required final FunStatAbsent longestAbsent,
+    @JsonKey(name: 'top_longest_absent')
+    required final List<FunStatAbsent> topLongestAbsent,
     @JsonKey(name: 'all_odd_draws')
     required final List<FunStatDraw> allOddDraws,
     @JsonKey(name: 'all_even_draws')
@@ -1101,11 +1095,11 @@ abstract class _FunStats implements FunStats {
       _$FunStatsImpl.fromJson;
 
   @override
-  @JsonKey(name: 'max_prize_per_game')
-  FunStatRecord get maxPrizePerGame;
+  @JsonKey(name: 'top_max_prize')
+  List<FunStatRecord> get topMaxPrize;
   @override
-  @JsonKey(name: 'min_prize_per_game')
-  FunStatRecord get minPrizePerGame;
+  @JsonKey(name: 'top_min_prize')
+  List<FunStatRecord> get topMinPrize;
   @override
   @JsonKey(name: 'max_winners')
   FunStatRecord get maxWinners;
@@ -1113,8 +1107,8 @@ abstract class _FunStats implements FunStats {
   @JsonKey(name: 'min_winners')
   FunStatRecord get minWinners;
   @override
-  @JsonKey(name: 'longest_absent')
-  FunStatAbsent get longestAbsent;
+  @JsonKey(name: 'top_longest_absent')
+  List<FunStatAbsent> get topLongestAbsent;
   @override
   @JsonKey(name: 'all_odd_draws')
   List<FunStatDraw> get allOddDraws;
