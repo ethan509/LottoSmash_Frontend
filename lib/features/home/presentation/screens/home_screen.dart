@@ -334,35 +334,14 @@ class _LatestDrawContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '1등 ${NumberFormatUtils.formatKrw(draw.firstPrize)}',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                '${NumberFormatUtils.formatNumber(draw.firstWinners)}게임 · 인당 ${NumberFormatUtils.formatKrw(firstPerGame)}',
+                '1등  ${NumberFormatUtils.formatNumber(draw.firstWinners)}명',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
               Text(
-                '2등 ${NumberFormatUtils.formatNumber(draw.secondWinners)}명'
-                '  3등 ${NumberFormatUtils.formatNumber(draw.thirdWinners)}명',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              Text(
-                '4등 ${NumberFormatUtils.formatNumber(draw.fourthWinners)}명'
-                '  5등 ${NumberFormatUtils.formatNumber(draw.fifthWinners)}명',
-                style: theme.textTheme.labelSmall?.copyWith(
+                NumberFormatUtils.formatKrw(firstPerGame),
+                style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
