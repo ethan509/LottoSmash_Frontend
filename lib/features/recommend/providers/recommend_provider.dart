@@ -41,6 +41,16 @@ final recommendCountProvider = StateProvider<int>((ref) => 5);
 final recommendResultProvider =
     StateProvider<AsyncValue<RecommendResponse?>>((ref) => const AsyncData(null));
 
+/// 순수 랜덤 추천 결과
+final randomRecommendResultProvider =
+    StateProvider<AsyncValue<RecommendResponse?>>((ref) => const AsyncData(null));
+
+/// 순수 랜덤 추천이 오프라인으로 생성됐는지 여부
+final randomIsOfflineProvider = StateProvider<bool>((ref) => false);
+
+/// 순수 랜덤 추천 세트 수
+final randomRecommendCountProvider = StateProvider<int>((ref) => 5);
+
 /// 추천 이력 (페이지네이션)
 final recommendHistoryProvider =
     AsyncNotifierProvider<RecommendHistoryNotifier, RecommendHistoryState>(

@@ -22,6 +22,7 @@ class RecommendScreen extends ConsumerStatefulWidget {
 
 class _RecommendScreenState extends ConsumerState<RecommendScreen> {
   bool _isGenerating = false;
+  bool _isRandomGenerating = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,9 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final includeBonus = ref.watch(includeBonusProvider);
     final count = ref.watch(recommendCountProvider);
     final resultAsync = ref.watch(recommendResultProvider);
+    final randomResultAsync = ref.watch(randomRecommendResultProvider);
+    final randomIsOffline = ref.watch(randomIsOfflineProvider);
+    final randomCount = ref.watch(randomRecommendCountProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -238,10 +242,230 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
             ),
 
             const SizedBox(height: 32),
+
+            // ── 순수 랜덤 추천 섹션 ──────────────────────────────
+            _buildRandomSection(
+              theme: theme,
+              randomCount: randomCount,
+              randomResultAsync: randomResultAsync,
+              randomIsOffline: randomIsOffline,
+            ),
+
+            const SizedBox(height: 32),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildRandomSection({
+    required ThemeData theme,
+    required int randomCount,
+    required AsyncValue<RecommendResponse?> randomResultAsync,
+    required bool randomIsOffline,
+  }) {
+    final colorScheme = theme.colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // 구분선
+        Row(
+          children: [
+            const Expanded(child: Divider()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(
+                '또는',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+            const Expanded(child: Divider()),
+          ],
+        ),
+
+        const SizedBox(height: 16),
+
+        // 카드
+        Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(
+              color: colorScheme.outline.withValues(alpha: 0.3),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.casino_outlined, color: colorScheme.tertiary),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '순수 랜덤 추천',
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '분석 없이 현재 시간 기반 rand()로만 생성',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // 오프라인 뱃지
+                    if (randomIsOffline)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: colorScheme.tertiaryContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.wifi_off,
+                                size: 12,
+                                color: colorScheme.onTertiaryContainer),
+                            const SizedBox(width: 4),
+                            Text(
+                              '오프라인',
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: colorScheme.onTertiaryContainer,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+
+                const SizedBox(height: 12),
+
+                // 세트 수 선택
+                Row(
+                  children: [
+                    Text('세트 수', style: theme.textTheme.bodyMedium),
+                    const Spacer(),
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      onPressed: randomCount > 1
+                          ? () => ref
+                              .read(randomRecommendCountProvider.notifier)
+                              .state = randomCount - 1
+                          : null,
+                      icon: const Icon(Icons.remove_circle_outline, size: 20),
+                    ),
+                    SizedBox(
+                      width: 28,
+                      child: Text(
+                        '$randomCount',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      visualDensity: VisualDensity.compact,
+                      onPressed: randomCount < 10
+                          ? () => ref
+                              .read(randomRecommendCountProvider.notifier)
+                              .state = randomCount + 1
+                          : null,
+                      icon: const Icon(Icons.add_circle_outline, size: 20),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 8),
+
+                FilledButton.tonalIcon(
+                  onPressed:
+                      _isRandomGenerating ? null : _generateRandom,
+                  icon: _isRandomGenerating
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.shuffle_rounded),
+                  label: Text(_isRandomGenerating ? '생성 중...' : '랜덤 생성'),
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // 랜덤 결과 표시
+        randomResultAsync.when(
+          data: (result) {
+            if (result == null) return const SizedBox.shrink();
+            return Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: RecommendationResult(response: result),
+            );
+          },
+          loading: () => const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: CircularProgressIndicator(),
+            ),
+          ),
+          error: (error, _) => Card(
+            color: theme.colorScheme.errorContainer,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                error.toString(),
+                style:
+                    TextStyle(color: theme.colorScheme.onErrorContainer),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _generateRandom() async {
+    final count = ref.read(randomRecommendCountProvider);
+
+    setState(() => _isRandomGenerating = true);
+    ref.read(randomRecommendResultProvider.notifier).state =
+        const AsyncLoading();
+    ref.read(randomIsOfflineProvider.notifier).state = false;
+
+    try {
+      final repo = ref.read(recommendRepositoryProvider);
+      final (result, isOffline) =
+          await repo.generateRandomRecommendation(count);
+      ref.read(randomRecommendResultProvider.notifier).state =
+          AsyncData(result);
+      ref.read(randomIsOfflineProvider.notifier).state = isOffline;
+    } catch (e) {
+      ref.read(randomRecommendResultProvider.notifier).state =
+          AsyncError(e.toString(), StackTrace.current);
+    } finally {
+      if (mounted) {
+        setState(() => _isRandomGenerating = false);
+      }
+    }
   }
 
   Widget _buildHistoryBanner(BuildContext context) {
