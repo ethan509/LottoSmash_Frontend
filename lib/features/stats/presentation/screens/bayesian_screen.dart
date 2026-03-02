@@ -73,7 +73,8 @@ class _BayesianContent extends StatelessWidget {
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '분석 범위',
@@ -81,17 +82,19 @@ class _BayesianContent extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 10),
                   SegmentedButton<int>(
                     segments: const [
-                      ButtonSegment(value: 20, label: Text('20회')),
-                      ButtonSegment(value: 50, label: Text('50회')),
-                      ButtonSegment(value: 100, label: Text('100회')),
+                      ButtonSegment(value: 20, label: Text('최근 20회')),
+                      ButtonSegment(value: 50, label: Text('최근 50회')),
+                      ButtonSegment(value: 100, label: Text('최근 100회')),
                     ],
                     selected: {window},
                     onSelectionChanged: (s) => onWindowChanged(s.first),
-                    style: const ButtonStyle(
+                    showSelectedIcon: false,
+                    style: ButtonStyle(
                       visualDensity: VisualDensity.compact,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                   ),
                 ],
