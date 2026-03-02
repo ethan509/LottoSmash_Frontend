@@ -53,6 +53,9 @@ class ApiEndpoints {
   static const String winsUnread = '$_base/notifications/wins/unread';
   static const String winsRead = '$_base/notifications/wins/read';
 
+  // Contact (개발자 문의)
+  static const String contact = '$_base/contact/';
+
   // Admin
   static const String adminSync = '$_base/admin/lotto/sync';
 }
