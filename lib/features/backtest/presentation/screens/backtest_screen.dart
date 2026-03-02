@@ -545,6 +545,10 @@ class _BacktestResultCard extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: 12),
+
+        // 분석 vs 순수 랜덤 비교
+        _RandomComparisonCard(result: result),
       ],
     );
   }
@@ -606,7 +610,9 @@ class _BacktestResultCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Text(
-            '${(rate * 100).toStringAsFixed(rate < 0.01 ? 4 : 2)}%',
+            rate == 0
+                ? '0%'
+                : '${(rate * 100).toStringAsFixed(rate < 0.01 ? 4 : 2)}%',
             textAlign: TextAlign.end,
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
@@ -621,6 +627,288 @@ class _BacktestResultCard extends StatelessWidget {
     if (n >= 10000) return '${n ~/ 10000}만';
     if (n >= 1000) return '${n ~/ 1000}천';
     return '$n';
+  }
+}
+
+// ────────────────────────────────────────────
+// 분석 vs 순수 랜덤 비교 카드
+// ────────────────────────────────────────────
+
+class _RandomComparisonCard extends StatelessWidget {
+  final BacktestResult result;
+
+  const _RandomComparisonCard({required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final comparison = result.comparison;
+    final rates = result.prizeRates;
+    final randomRates = result.randomPrizeRates;
+
+    final winRateDiff = comparison.winRateDiff;
+    final winRateRelative = comparison.winRateRelative;
+    final isPositive = winRateDiff > 0;
+    final isNeutral = winRateDiff.abs() < 0.000001;
+    final diffColor = isNeutral
+        ? theme.colorScheme.onSurfaceVariant
+        : (isPositive ? const Color(0xFF4CAF50) : const Color(0xFFF44336));
+    final diffPrefix = isPositive ? '+' : '';
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 헤더 + 개선율 뱃지
+            Row(
+              children: [
+                Text(
+                  '분석 vs 순수 랜덤 비교',
+                  style: theme.textTheme.titleSmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: diffColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    isNeutral
+                        ? '±0%'
+                        : isPositive
+                            ? '+${winRateRelative.toStringAsFixed(1)}% 개선'
+                            : '${(-winRateRelative).toStringAsFixed(1)}% 저하',
+                    style: TextStyle(
+                      color: diffColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            // 비교 테이블
+            Table(
+              columnWidths: const {
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(3),
+                2: FlexColumnWidth(3),
+                3: FlexColumnWidth(2),
+              },
+              children: [
+                _comparisonHeader(theme),
+                ...List.generate(_prizeKeys.length, (i) {
+                  final key = _prizeKeys[i];
+                  final analysisCount =
+                      result.prizeDistribution[key] ?? 0;
+                  final randomCount =
+                      (randomRates[key] ?? 0) * result.totalSimulations;
+                  return _comparisonRow(
+                    theme,
+                    _prizeLabels[i],
+                    _prizeColors[i],
+                    rates[key] ?? 0,
+                    randomRates[key] ?? 0,
+                    analysisCount: analysisCount,
+                    randomCount: randomCount,
+                    isNoneKey: key == 'none',
+                  );
+                }),
+                _comparisonSummaryRow(
+                  theme,
+                  comparison.winRateAnalysis,
+                  comparison.winRateRandom,
+                  diffColor,
+                  winRateDiff * result.totalSimulations,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+
+            // 절대 차이 텍스트
+            Text(
+              '랜덤 대비 절대 차이: $diffPrefix${(winRateDiff * 100).toStringAsFixed(3)}%p',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: diffColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TableRow _comparisonHeader(ThemeData theme) {
+    final style = theme.textTheme.labelMedium?.copyWith(
+      fontWeight: FontWeight.bold,
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    return TableRow(
+      decoration: BoxDecoration(
+        border:
+            Border(bottom: BorderSide(color: theme.colorScheme.outlineVariant)),
+      ),
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text('등수', style: style)),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text('분석 방법', style: style, textAlign: TextAlign.center)),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text('순수 랜덤', style: style, textAlign: TextAlign.end)),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text('차이', style: style, textAlign: TextAlign.end)),
+      ],
+    );
+  }
+
+  TableRow _comparisonRow(
+    ThemeData theme,
+    String label,
+    Color color,
+    double analysisRate,
+    double randomRate, {
+    required int analysisCount,
+    required double randomCount,
+    required bool isNoneKey,
+  }) {
+    final diff = analysisRate - randomRate;
+    // 꽝은 낮을수록 좋음 (분석이 꽝을 덜 뽑으면 유리)
+    final isAnalysisBetter =
+        isNoneKey ? diff < -0.0001 : diff > 0.0001;
+    final countDiff = analysisCount - randomCount.round();
+    final countDiffText = countDiff == 0
+        ? '±0'
+        : countDiff > 0
+            ? '+$countDiff'
+            : '$countDiff';
+    final countDiffColor = isNeutral(countDiff, isNoneKey);
+
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+              ),
+              const SizedBox(width: 5),
+              Text(label, style: theme.textTheme.bodySmall),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            _fmt(analysisRate),
+            textAlign: TextAlign.center,
+            style: theme.textTheme.bodySmall?.copyWith(
+              fontWeight: isAnalysisBetter ? FontWeight.bold : null,
+              color: isAnalysisBetter ? const Color(0xFF4CAF50) : null,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            _fmt(randomRate),
+            textAlign: TextAlign.end,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            '$countDiffText건',
+            textAlign: TextAlign.end,
+            style: theme.textTheme.bodySmall?.copyWith(
+              fontWeight: countDiff != 0 ? FontWeight.w600 : null,
+              color: countDiffColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Color? isNeutral(int countDiff, bool isNoneKey) {
+    if (countDiff == 0) return null;
+    final isBetter = isNoneKey ? countDiff < 0 : countDiff > 0;
+    return isBetter ? const Color(0xFF4CAF50) : const Color(0xFFF44336);
+  }
+
+  TableRow _comparisonSummaryRow(
+      ThemeData theme, double analysis, double random, Color diffColor,
+      double countDiffRaw) {
+    final style =
+        theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold);
+    final countDiff = countDiffRaw.round();
+    final countDiffText = countDiff == 0
+        ? '±0건'
+        : countDiff > 0
+            ? '+$countDiff건'
+            : '$countDiff건';
+    return TableRow(
+      decoration: BoxDecoration(
+        border:
+            Border(top: BorderSide(color: theme.colorScheme.outlineVariant)),
+        color: theme.colorScheme.surfaceContainerLow,
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text('당첨 합계', style: style),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text(
+            _fmt(analysis),
+            textAlign: TextAlign.center,
+            style: style?.copyWith(color: diffColor),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text(
+            _fmt(random),
+            textAlign: TextAlign.end,
+            style: style?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Text(
+            countDiffText,
+            textAlign: TextAlign.end,
+            style: style?.copyWith(color: diffColor),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _fmt(double rate) {
+    if (rate == 0) return '0%';
+    if (rate < 0.0001) return '${(rate * 100).toStringAsFixed(6)}%';
+    if (rate < 0.01) return '${(rate * 100).toStringAsFixed(4)}%';
+    return '${(rate * 100).toStringAsFixed(2)}%';
   }
 }
 
