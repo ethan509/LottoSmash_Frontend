@@ -92,6 +92,15 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
 
             const SizedBox(height: 8),
 
+            // 위치 선행 조건 섹션
+            _buildPositionConstraintSection(
+              theme: Theme.of(context),
+              usePositionConstraint: usePositionConstraint,
+              positionMethods: methods.where((m) => m.category == 'position').toList(),
+            ),
+
+            const SizedBox(height: 16),
+
             // Step 1: 분석 방법 선택
             MethodSelector(
               methods: methods,
@@ -106,15 +115,6 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   };
                 }
               },
-            ),
-
-            const SizedBox(height: 16),
-
-            // 위치 선행 조건 섹션
-            _buildPositionConstraintSection(
-              theme: Theme.of(context),
-              usePositionConstraint: usePositionConstraint,
-              positionMethods: methods.where((m) => m.category == 'position').toList(),
             ),
 
             const SizedBox(height: 16),
