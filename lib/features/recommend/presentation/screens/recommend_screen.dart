@@ -278,192 +278,222 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
   }) {
     final colorScheme = theme.colorScheme;
 
+    final isAnyActive = usePositionConstraint || excludePastWinners;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       curve: Curves.easeOutCubic,
       decoration: BoxDecoration(
-        gradient: usePositionConstraint
-            ? LinearGradient(
-                colors: [
-                  colorScheme.secondary.withValues(alpha: 0.12),
-                  colorScheme.tertiary.withValues(alpha: 0.07),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : null,
-        color: usePositionConstraint ? null : colorScheme.surfaceContainerLow,
+        color: colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: usePositionConstraint
-              ? colorScheme.secondary.withValues(alpha: 0.6)
+          color: isAnyActive
+              ? colorScheme.secondary.withValues(alpha: 0.5)
               : colorScheme.outlineVariant.withValues(alpha: 0.5),
-          width: usePositionConstraint ? 1.5 : 1.0,
+          width: isAnyActive ? 1.5 : 1.0,
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.swap_vert_circle_outlined,
-                  size: 20,
-                  color: usePositionConstraint
-                      ? colorScheme.secondary
-                      : colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '위치 선행 조건',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: usePositionConstraint
-                              ? colorScheme.secondary
-                              : colorScheme.onSurface,
-                        ),
-                      ),
-                      Text(
-                        '첫·마지막 번호를 위치 확률로 먼저 결정',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Switch(
-                  value: usePositionConstraint,
-                  onChanged: (value) {
-                    ref.read(usePositionConstraintProvider.notifier).state =
-                        value;
-                  },
-                ),
-              ],
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Theme(
+          data: theme.copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            tilePadding:
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+            childrenPadding: const EdgeInsets.fromLTRB(14, 0, 14, 12),
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            backgroundColor: Colors.transparent,
+            collapsedBackgroundColor: Colors.transparent,
+            shape: const RoundedRectangleBorder(),
+            collapsedShape: const RoundedRectangleBorder(),
+            iconColor: colorScheme.onSurfaceVariant,
+            collapsedIconColor: colorScheme.onSurfaceVariant,
+            leading: Icon(
+              Icons.tune_outlined,
+              size: 20,
+              color: isAnyActive
+                  ? colorScheme.secondary
+                  : colorScheme.onSurfaceVariant,
             ),
-            AnimatedCrossFade(
-              firstChild: const SizedBox.shrink(),
-              secondChild: Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Divider(
-                      height: 1,
-                      color: colorScheme.secondary.withValues(alpha: 0.3),
-                    ),
-                    const SizedBox(height: 10),
-                    ...positionMethods.map((m) {
-                      final isFirst = m.code == 'FIRST_POSITION';
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 7, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: colorScheme.secondary
-                                    .withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                isFirst ? '1번째' : '6번째',
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: colorScheme.secondary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                isFirst
-                                    ? '가장 작은 번호 — ${m.name} 확률로 선택'
-                                    : '가장 큰 번호 — ${m.name} 확률로 선택',
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: colorScheme.onSurface,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
-                    const SizedBox(height: 4),
-                    Text(
-                      '나머지 4개 번호는 선택한 분석 방법으로 결정됩니다.',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ],
-                ),
+            title: Text(
+              '선행조건',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: isAnyActive
+                    ? colorScheme.secondary
+                    : colorScheme.onSurface,
               ),
-              crossFadeState: usePositionConstraint
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              duration: const Duration(milliseconds: 200),
             ),
+            children: [
+              Divider(
+                height: 1,
+                color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+              ),
+              const SizedBox(height: 10),
 
-            // 과거 당첨번호 제외 토글
-            const SizedBox(height: 8),
-            Divider(
-              height: 1,
-              color: colorScheme.outlineVariant.withValues(alpha: 0.4),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Icon(
-                  Icons.history_toggle_off,
-                  size: 18,
-                  color: excludePastWinners
-                      ? colorScheme.tertiary
-                      : colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
+              // 서브 항목 1: 1,6번째 번호 먼저 결정
+              Row(
+                children: [
+                  Icon(
+                    Icons.swap_vert_circle_outlined,
+                    size: 18,
+                    color: usePositionConstraint
+                        ? colorScheme.secondary
+                        : colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '1,6번째 번호 먼저 결정',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: usePositionConstraint
+                                ? colorScheme.secondary
+                                : colorScheme.onSurface,
+                          ),
+                        ),
+                        Text(
+                          '첫·마지막 번호를 위치 확률로 먼저 결정',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Switch(
+                    value: usePositionConstraint,
+                    onChanged: (value) {
+                      ref
+                          .read(usePositionConstraintProvider.notifier)
+                          .state = value;
+                    },
+                  ),
+                ],
+              ),
+              AnimatedCrossFade(
+                firstChild: const SizedBox.shrink(),
+                secondChild: Padding(
+                  padding: const EdgeInsets.only(top: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '과거 당첨번호 제외',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: excludePastWinners
-                              ? colorScheme.tertiary
-                              : colorScheme.onSurface,
-                        ),
+                      Divider(
+                        height: 1,
+                        color: colorScheme.secondary.withValues(alpha: 0.3),
                       ),
+                      const SizedBox(height: 10),
+                      ...positionMethods.map((m) {
+                        final isFirst = m.code == 'FIRST_POSITION';
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 7, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: colorScheme.secondary
+                                      .withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  isFirst ? '1번째' : '6번째',
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: colorScheme.secondary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  isFirst
+                                      ? '가장 작은 번호 — ${m.name} 확률로 선택'
+                                      : '가장 큰 번호 — ${m.name} 확률로 선택',
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurface,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                      const SizedBox(height: 4),
                       Text(
-                        '지금까지 똑같은 당첨번호가 나온 적이 없어요. 혹시 추천번호가 과거 당첨번호와 같다면 다른 번호를 다시 추천해요.',
+                        '나머지 4개 번호는 선택한 분석 방법으로 결정됩니다.',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
-                          height: 1.4,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
-                Switch(
-                  value: excludePastWinners,
-                  onChanged: (value) {
-                    ref.read(excludePastWinnersProvider.notifier).state = value;
-                  },
-                ),
-              ],
-            ),
-          ],
+                crossFadeState: usePositionConstraint
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 200),
+              ),
+
+              const SizedBox(height: 8),
+              Divider(
+                height: 1,
+                color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+              ),
+              const SizedBox(height: 8),
+
+              // 서브 항목 2: 과거 당첨번호 제외
+              Row(
+                children: [
+                  Icon(
+                    Icons.history_toggle_off,
+                    size: 18,
+                    color: excludePastWinners
+                        ? colorScheme.tertiary
+                        : colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '과거 당첨번호 제외',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: excludePastWinners
+                                ? colorScheme.tertiary
+                                : colorScheme.onSurface,
+                          ),
+                        ),
+                        Text(
+                          '지금까지 똑같은 당첨번호가 나온 적이 없어요. 혹시 추천번호가 과거 당첨번호와 같다면 다른 번호를 다시 추천해요.',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            height: 1.4,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Switch(
+                    value: excludePastWinners,
+                    onChanged: (value) {
+                      ref.read(excludePastWinnersProvider.notifier).state =
+                          value;
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
