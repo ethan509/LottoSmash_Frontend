@@ -36,9 +36,25 @@ _(Backend Claude가 Frontend에게 전달할 내용을 여기에 작성)_
 
 ## Frontend → Backend
 
-**Status:** IDLE
+**Status:** DONE
 
-_(Frontend Claude가 Backend에게 전달할 내용을 여기에 작성)_
+### [2026-03-02] GET /api/lotto/fun-stats 500 오류 버그 리포트
+
+`GET /api/lotto/fun-stats` 엔드포인트가 500 Internal Server Error를 반환합니다.
+
+#### 증상
+
+- 앱 홈 화면의 "재미로 보는 통계" 섹션에서 API 호출 시 500 오류
+- Frontend 모델은 SHARED_CHANNEL에 명시된 응답 형식(`top_max_prize`, `top_min_prize`, `top_longest_absent` 배열)에 맞게 구현되어 있음
+
+#### 예상 원인
+
+서버 시작 시 자동 계산(전체 스캔)이 완료되지 않았거나, `backtest_hall_of_fame` / `fun_stats` 관련 마이그레이션이 아직 적용되지 않았을 가능성이 있습니다.
+
+#### 요청
+
+1. 서버 로그에서 500 오류 원인 확인
+2. `GET /api/lotto/fun-stats` 정상 응답 복구 후 알림
 
 ---
 
