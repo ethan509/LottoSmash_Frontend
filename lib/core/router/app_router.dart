@@ -20,6 +20,7 @@ import '../../features/stats/presentation/screens/color_stats_screen.dart';
 import '../../features/stats/presentation/screens/grid_stats_screen.dart';
 import '../../features/stats/presentation/screens/grid_pattern_screen.dart';
 import '../../features/stats/presentation/screens/grid_entropy_screen.dart';
+import '../../features/stats/presentation/screens/first_last_position_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_screen.dart';
 import '../../features/recommend/presentation/screens/recommend_history_screen.dart';
 import '../../features/backtest/presentation/screens/backtest_screen.dart';
@@ -157,6 +158,12 @@ final routerProvider = Provider<GoRouter>((ref) {
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) =>
                     const GridEntropyScreen(),
+              ),
+              GoRoute(
+                path: 'first-last',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) =>
+                    const FirstLastPositionScreen(),
               ),
             ],
           ),

@@ -64,6 +64,12 @@ final gridEntropyProvider = FutureProvider<GridEntropyResponse>((ref) async {
   return await repo.getGridEntropyPattern();
 });
 
+/// 첫번째/마지막 위치 통계
+final firstLastStatsProvider = FutureProvider<FirstLastResponse>((ref) async {
+  final repo = ref.watch(statsRepositoryProvider);
+  return await repo.getFirstLastStats();
+});
+
 /// 종합 통계 (개요)
 final overviewStatsProvider = FutureProvider<StatsResponse>((ref) async {
   final repo = ref.watch(statsRepositoryProvider);

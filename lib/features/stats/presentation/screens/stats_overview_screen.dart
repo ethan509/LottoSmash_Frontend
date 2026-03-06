@@ -62,6 +62,12 @@ class StatsOverviewScreen extends StatelessWidget {
             onTap: () => context.push('/stats/grid'),
           ),
           StatCard(
+            icon: Icons.swap_vert,
+            title: '위치 분포',
+            description: '첫·마지막 자리 번호 출현 확률',
+            onTap: () => context.push('/stats/first-last'),
+          ),
+          StatCard(
             icon: Icons.grid_view,
             title: '행/열 분포 히트맵',
             description: 'ROW_COL_DIST 격자 시각화',
