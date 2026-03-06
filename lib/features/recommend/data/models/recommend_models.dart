@@ -62,6 +62,7 @@ class RecommendRequest with _$RecommendRequest {
     @JsonKey(name: 'min_max_mode') String? minMaxMode,
     @JsonKey(name: 'include_bonus') @Default(false) bool includeBonus,
     @JsonKey(name: 'use_position_constraint') @Default(false) bool usePositionConstraint,
+    @JsonKey(name: 'exclude_past_winners') @Default(false) bool excludePastWinners,
     @Default(5) int count,
   }) = _RecommendRequest;
 

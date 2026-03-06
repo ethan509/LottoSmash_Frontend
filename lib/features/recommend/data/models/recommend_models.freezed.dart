@@ -933,6 +933,8 @@ mixin _$RecommendRequest {
   bool get includeBonus => throw _privateConstructorUsedError;
   @JsonKey(name: 'use_position_constraint')
   bool get usePositionConstraint => throw _privateConstructorUsedError;
+  @JsonKey(name: 'exclude_past_winners')
+  bool get excludePastWinners => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
 
   /// Serializes this RecommendRequest to a JSON map.
@@ -959,6 +961,7 @@ abstract class $RecommendRequestCopyWith<$Res> {
     @JsonKey(name: 'min_max_mode') String? minMaxMode,
     @JsonKey(name: 'include_bonus') bool includeBonus,
     @JsonKey(name: 'use_position_constraint') bool usePositionConstraint,
+    @JsonKey(name: 'exclude_past_winners') bool excludePastWinners,
     int count,
   });
 }
@@ -984,6 +987,7 @@ class _$RecommendRequestCopyWithImpl<$Res, $Val extends RecommendRequest>
     Object? minMaxMode = freezed,
     Object? includeBonus = null,
     Object? usePositionConstraint = null,
+    Object? excludePastWinners = null,
     Object? count = null,
   }) {
     return _then(
@@ -1012,6 +1016,10 @@ class _$RecommendRequestCopyWithImpl<$Res, $Val extends RecommendRequest>
                 ? _value.usePositionConstraint
                 : usePositionConstraint // ignore: cast_nullable_to_non_nullable
                       as bool,
+            excludePastWinners: null == excludePastWinners
+                ? _value.excludePastWinners
+                : excludePastWinners // ignore: cast_nullable_to_non_nullable
+                      as bool,
             count: null == count
                 ? _value.count
                 : count // ignore: cast_nullable_to_non_nullable
@@ -1038,6 +1046,7 @@ abstract class _$$RecommendRequestImplCopyWith<$Res>
     @JsonKey(name: 'min_max_mode') String? minMaxMode,
     @JsonKey(name: 'include_bonus') bool includeBonus,
     @JsonKey(name: 'use_position_constraint') bool usePositionConstraint,
+    @JsonKey(name: 'exclude_past_winners') bool excludePastWinners,
     int count,
   });
 }
@@ -1062,6 +1071,7 @@ class __$$RecommendRequestImplCopyWithImpl<$Res>
     Object? minMaxMode = freezed,
     Object? includeBonus = null,
     Object? usePositionConstraint = null,
+    Object? excludePastWinners = null,
     Object? count = null,
   }) {
     return _then(
@@ -1090,6 +1100,10 @@ class __$$RecommendRequestImplCopyWithImpl<$Res>
             ? _value.usePositionConstraint
             : usePositionConstraint // ignore: cast_nullable_to_non_nullable
                   as bool,
+        excludePastWinners: null == excludePastWinners
+            ? _value.excludePastWinners
+            : excludePastWinners // ignore: cast_nullable_to_non_nullable
+                  as bool,
         count: null == count
             ? _value.count
             : count // ignore: cast_nullable_to_non_nullable
@@ -1110,6 +1124,8 @@ class _$RecommendRequestImpl implements _RecommendRequest {
     @JsonKey(name: 'include_bonus') this.includeBonus = false,
     @JsonKey(name: 'use_position_constraint')
     this.usePositionConstraint = false,
+    @JsonKey(name: 'exclude_past_winners')
+    this.excludePastWinners = false,
     this.count = 5,
   }) : _methodCodes = methodCodes,
        _weights = weights;
@@ -1149,12 +1165,15 @@ class _$RecommendRequestImpl implements _RecommendRequest {
   @JsonKey(name: 'use_position_constraint')
   final bool usePositionConstraint;
   @override
+  @JsonKey(name: 'exclude_past_winners')
+  final bool excludePastWinners;
+  @override
   @JsonKey()
   final int count;
 
   @override
   String toString() {
-    return 'RecommendRequest(methodCodes: $methodCodes, combineCode: $combineCode, weights: $weights, minMaxMode: $minMaxMode, includeBonus: $includeBonus, usePositionConstraint: $usePositionConstraint, count: $count)';
+    return 'RecommendRequest(methodCodes: $methodCodes, combineCode: $combineCode, weights: $weights, minMaxMode: $minMaxMode, includeBonus: $includeBonus, usePositionConstraint: $usePositionConstraint, excludePastWinners: $excludePastWinners, count: $count)';
   }
 
   @override
@@ -1175,6 +1194,8 @@ class _$RecommendRequestImpl implements _RecommendRequest {
                 other.includeBonus == includeBonus) &&
             (identical(other.usePositionConstraint, usePositionConstraint) ||
                 other.usePositionConstraint == usePositionConstraint) &&
+            (identical(other.excludePastWinners, excludePastWinners) ||
+                other.excludePastWinners == excludePastWinners) &&
             (identical(other.count, count) || other.count == count));
   }
 
@@ -1188,6 +1209,7 @@ class _$RecommendRequestImpl implements _RecommendRequest {
     minMaxMode,
     includeBonus,
     usePositionConstraint,
+    excludePastWinners,
     count,
   );
 
@@ -1216,6 +1238,7 @@ abstract class _RecommendRequest implements RecommendRequest {
     @JsonKey(name: 'min_max_mode') final String? minMaxMode,
     @JsonKey(name: 'include_bonus') final bool includeBonus,
     @JsonKey(name: 'use_position_constraint') final bool usePositionConstraint,
+    @JsonKey(name: 'exclude_past_winners') final bool excludePastWinners,
     final int count,
   }) = _$RecommendRequestImpl;
 
@@ -1239,6 +1262,9 @@ abstract class _RecommendRequest implements RecommendRequest {
   @override
   @JsonKey(name: 'use_position_constraint')
   bool get usePositionConstraint;
+  @override
+  @JsonKey(name: 'exclude_past_winners')
+  bool get excludePastWinners;
   @override
   int get count;
 

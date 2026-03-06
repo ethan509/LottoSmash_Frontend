@@ -70,6 +70,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final randomIsOffline = ref.watch(randomIsOfflineProvider);
     final randomCount = ref.watch(randomRecommendCountProvider);
     final usePositionConstraint = ref.watch(usePositionConstraintProvider);
+    final excludePastWinners = ref.watch(excludePastWinnersProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -96,6 +97,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
             _buildPositionConstraintSection(
               theme: Theme.of(context),
               usePositionConstraint: usePositionConstraint,
+              excludePastWinners: excludePastWinners,
               positionMethods: methods.where((m) => m.category == 'position').toList(),
             ),
 
@@ -271,6 +273,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
   Widget _buildPositionConstraintSection({
     required ThemeData theme,
     required bool usePositionConstraint,
+    required bool excludePastWinners,
     required List<AnalysisMethod> positionMethods,
   }) {
     final colorScheme = theme.colorScheme;
@@ -409,6 +412,56 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   ? CrossFadeState.showSecond
                   : CrossFadeState.showFirst,
               duration: const Duration(milliseconds: 200),
+            ),
+
+            // 과거 당첨번호 제외 토글
+            const SizedBox(height: 8),
+            Divider(
+              height: 1,
+              color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Icon(
+                  Icons.history_toggle_off,
+                  size: 18,
+                  color: excludePastWinners
+                      ? colorScheme.tertiary
+                      : colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '과거 당첨번호 제외',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: excludePastWinners
+                              ? colorScheme.tertiary
+                              : colorScheme.onSurface,
+                        ),
+                      ),
+                      Text(
+                        '지금까지 똑같은 당첨번호가 나온 적이 없어요. 혹시 추천번호가 과거 당첨번호와 같다면 다른 번호를 다시 추천해요.',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Switch(
+                  value: excludePastWinners,
+                  onChanged: (value) {
+                    ref.read(excludePastWinnersProvider.notifier).state = value;
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -782,6 +835,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final includeBonus = ref.read(includeBonusProvider);
     final count = ref.read(recommendCountProvider);
     final usePositionConstraint = ref.read(usePositionConstraintProvider);
+    final excludePastWinners = ref.read(excludePastWinnersProvider);
 
     final request = RecommendRequest(
       methodCodes: selectedCodes,
@@ -790,6 +844,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
       minMaxMode: combineCode == 'MIN_MAX' ? minMaxMode : null,
       includeBonus: includeBonus,
       usePositionConstraint: usePositionConstraint,
+      excludePastWinners: excludePastWinners,
       count: count,
     );
 

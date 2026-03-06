@@ -86,6 +86,7 @@ _$RecommendRequestImpl _$$RecommendRequestImplFromJson(
   minMaxMode: json['min_max_mode'] as String?,
   includeBonus: json['include_bonus'] as bool? ?? false,
   usePositionConstraint: json['use_position_constraint'] as bool? ?? false,
+  excludePastWinners: json['exclude_past_winners'] as bool? ?? false,
   count: (json['count'] as num?)?.toInt() ?? 5,
 );
 
@@ -98,6 +99,7 @@ Map<String, dynamic> _$$RecommendRequestImplToJson(
   'min_max_mode': instance.minMaxMode,
   'include_bonus': instance.includeBonus,
   'use_position_constraint': instance.usePositionConstraint,
+  'exclude_past_winners': instance.excludePastWinners,
   'count': instance.count,
 };
 
