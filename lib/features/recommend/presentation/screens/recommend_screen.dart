@@ -69,6 +69,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final randomResultAsync = ref.watch(randomRecommendResultProvider);
     final randomIsOffline = ref.watch(randomIsOfflineProvider);
     final randomCount = ref.watch(randomRecommendCountProvider);
+    final usePositionConstraint = ref.watch(usePositionConstraintProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -107,7 +108,16 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               },
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+
+            // 위치 선행 조건 섹션
+            _buildPositionConstraintSection(
+              theme: Theme.of(context),
+              usePositionConstraint: usePositionConstraint,
+              positionMethods: methods.where((m) => m.category == 'position').toList(),
+            ),
+
+            const SizedBox(height: 16),
 
             // Step 2: 결합 방법 선택
             CombineMethodSelector(
@@ -252,6 +262,154 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
             ),
 
             const SizedBox(height: 32),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPositionConstraintSection({
+    required ThemeData theme,
+    required bool usePositionConstraint,
+    required List<AnalysisMethod> positionMethods,
+  }) {
+    final colorScheme = theme.colorScheme;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOutCubic,
+      decoration: BoxDecoration(
+        gradient: usePositionConstraint
+            ? LinearGradient(
+                colors: [
+                  colorScheme.secondary.withValues(alpha: 0.12),
+                  colorScheme.tertiary.withValues(alpha: 0.07),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        color: usePositionConstraint ? null : colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: usePositionConstraint
+              ? colorScheme.secondary.withValues(alpha: 0.6)
+              : colorScheme.outlineVariant.withValues(alpha: 0.5),
+          width: usePositionConstraint ? 1.5 : 1.0,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.swap_vert_circle_outlined,
+                  size: 20,
+                  color: usePositionConstraint
+                      ? colorScheme.secondary
+                      : colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '위치 선행 조건',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: usePositionConstraint
+                              ? colorScheme.secondary
+                              : colorScheme.onSurface,
+                        ),
+                      ),
+                      Text(
+                        '첫·마지막 번호를 위치 확률로 먼저 결정',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: usePositionConstraint,
+                  onChanged: (value) {
+                    ref.read(usePositionConstraintProvider.notifier).state =
+                        value;
+                  },
+                ),
+              ],
+            ),
+            AnimatedCrossFade(
+              firstChild: const SizedBox.shrink(),
+              secondChild: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Divider(
+                      height: 1,
+                      color: colorScheme.secondary.withValues(alpha: 0.3),
+                    ),
+                    const SizedBox(height: 10),
+                    ...positionMethods.map((m) {
+                      final isFirst = m.code == 'FIRST_POSITION';
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 7, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: colorScheme.secondary
+                                    .withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                isFirst ? '1번째' : '6번째',
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: colorScheme.secondary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                isFirst
+                                    ? '가장 작은 번호 — ${m.name} 확률로 선택'
+                                    : '가장 큰 번호 — ${m.name} 확률로 선택',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: colorScheme.onSurface,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                    const SizedBox(height: 4),
+                    Text(
+                      '나머지 4개 번호는 선택한 분석 방법으로 결정됩니다.',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              crossFadeState: usePositionConstraint
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 200),
+            ),
           ],
         ),
       ),
@@ -623,6 +781,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final minMaxMode = ref.read(minMaxModeProvider);
     final includeBonus = ref.read(includeBonusProvider);
     final count = ref.read(recommendCountProvider);
+    final usePositionConstraint = ref.read(usePositionConstraintProvider);
 
     final request = RecommendRequest(
       methodCodes: selectedCodes,
@@ -630,6 +789,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
       weights: combineCode == 'WEIGHTED_AVG' ? weights : null,
       minMaxMode: combineCode == 'MIN_MAX' ? minMaxMode : null,
       includeBonus: includeBonus,
+      usePositionConstraint: usePositionConstraint,
       count: count,
     );
 

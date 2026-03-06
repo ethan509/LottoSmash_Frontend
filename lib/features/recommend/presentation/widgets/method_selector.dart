@@ -53,7 +53,7 @@ class MethodSelector extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        ...methods.where((m) => m.isActive).map((method) {
+        ...methods.where((m) => m.isActive && m.category != 'position').map((method) {
           final isSelected = selectedCodes.contains(method.code);
           final canSelect = selectedCodes.length < 3 || isSelected;
           final desc = kMethodDescriptions[method.code];

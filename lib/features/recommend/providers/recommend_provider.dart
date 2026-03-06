@@ -31,6 +31,9 @@ final weightsProvider =
 /// MIN_MAX 모드
 final minMaxModeProvider = StateProvider<String>((ref) => 'MAX');
 
+/// 위치 선행 조건 사용 여부 (첫번째·마지막 번호를 FIRST/LAST_POSITION으로 결정)
+final usePositionConstraintProvider = StateProvider<bool>((ref) => false);
+
 /// 보너스 번호 포함 여부
 final includeBonusProvider = StateProvider<bool>((ref) => false);
 
