@@ -90,17 +90,19 @@ class RecommendRepository {
     );
   }
 
-  /// 추천 이력 조회
-  Future<RecommendationHistoryResponse> getRecommendationHistory({
-    int limit = 20,
-    int offset = 0,
-  }) async {
+  /// 추천 이력 조회 (섹션 구조)
+  Future<SectionedHistoryResponse> getRecommendationHistory() async {
     return apiCall(() async {
-      final response = await _dio.get(
-        ApiEndpoints.recommendations,
-        queryParameters: {'limit': limit, 'offset': offset},
-      );
-      return RecommendationHistoryResponse.fromJson(response.data);
+      final response = await _dio.get(ApiEndpoints.recommendations);
+      return SectionedHistoryResponse.fromJson(response.data);
+    });
+  }
+
+  /// 로그인 후 대기중 추천 일괄 당첨 체크
+  Future<int> checkPendingRecommendations() async {
+    return apiCall(() async {
+      final response = await _dio.post(ApiEndpoints.recommendationsCheck);
+      return (response.data['updated'] as int?) ?? 0;
     });
   }
 }

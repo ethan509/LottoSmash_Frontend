@@ -149,3 +149,27 @@ class RecommendationHistoryResponse with _$RecommendationHistoryResponse {
   factory RecommendationHistoryResponse.fromJson(Map<String, dynamic> json) =>
       _$RecommendationHistoryResponseFromJson(json);
 }
+
+/// 섹션별 추천 이력 응답 (최신 API 구조)
+@freezed
+class LatestRoundSection with _$LatestRoundSection {
+  const factory LatestRoundSection({
+    @JsonKey(name: 'draw_no') int? drawNo,
+    @Default([]) List<RecommendationHistory> items,
+  }) = _LatestRoundSection;
+
+  factory LatestRoundSection.fromJson(Map<String, dynamic> json) =>
+      _$LatestRoundSectionFromJson(json);
+}
+
+@freezed
+class SectionedHistoryResponse with _$SectionedHistoryResponse {
+  const factory SectionedHistoryResponse({
+    @JsonKey(name: 'latest_round') LatestRoundSection? latestRound,
+    @Default([]) List<RecommendationHistory> winners,
+    @JsonKey(name: 'no_prize') @Default([]) List<RecommendationHistory> noPrize,
+  }) = _SectionedHistoryResponse;
+
+  factory SectionedHistoryResponse.fromJson(Map<String, dynamic> json) =>
+      _$SectionedHistoryResponseFromJson(json);
+}
