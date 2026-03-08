@@ -3,6 +3,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'recommend_models.freezed.dart';
 part 'recommend_models.g.dart';
 
+/// details 맵 파싱 시 List 값(fixed_numbers 등)은 건너뜀
+Map<String, MethodDetail> _detailsFromJson(Map<String, dynamic> json) {
+  return {
+    for (final entry in json.entries)
+      if (entry.value is Map<String, dynamic>)
+        entry.key: MethodDetail.fromJson(entry.value as Map<String, dynamic>),
+  };
+}
+
 @freezed
 class AnalysisMethod with _$AnalysisMethod {
   const factory AnalysisMethod({
@@ -63,6 +72,7 @@ class RecommendRequest with _$RecommendRequest {
     @JsonKey(name: 'include_bonus') @Default(false) bool includeBonus,
     @JsonKey(name: 'use_position_constraint') @Default(false) bool usePositionConstraint,
     @JsonKey(name: 'exclude_past_winners') @Default(false) bool excludePastWinners,
+    @JsonKey(name: 'fixed_numbers') @Default(<int>[]) List<int> fixedNumbers,
     @Default(5) int count,
   }) = _RecommendRequest;
 
@@ -91,7 +101,7 @@ class Recommendation with _$Recommendation {
     @JsonKey(name: 'methods_used') required List<String> methodsUsed,
     @JsonKey(name: 'combine_method') required String combineMethod,
     required double confidence,
-    @Default({}) Map<String, MethodDetail> details,
+    @JsonKey(fromJson: _detailsFromJson) @Default({}) Map<String, MethodDetail> details,
   }) = _Recommendation;
 
   factory Recommendation.fromJson(Map<String, dynamic> json) =>

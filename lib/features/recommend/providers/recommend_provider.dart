@@ -37,6 +37,12 @@ final usePositionConstraintProvider = StateProvider<bool>((ref) => false);
 /// 과거 당첨번호와 동일한 조합 제외 여부
 final excludePastWinnersProvider = StateProvider<bool>((ref) => false);
 
+/// 고정 번호 설정 활성화 여부
+final fixedNumbersEnabledProvider = StateProvider<bool>((ref) => false);
+
+/// 고정 번호 목록 (1~5개)
+final fixedNumbersProvider = StateProvider<List<int>>((ref) => []);
+
 /// 보너스 번호 포함 여부
 final includeBonusProvider = StateProvider<bool>((ref) => false);
 
