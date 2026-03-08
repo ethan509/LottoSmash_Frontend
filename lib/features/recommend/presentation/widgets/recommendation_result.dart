@@ -7,10 +7,12 @@ const _setLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
 class RecommendationResult extends StatefulWidget {
   final RecommendResponse response;
+  final List<int> fixedNumbers;
 
   const RecommendationResult({
     super.key,
     required this.response,
+    this.fixedNumbers = const [],
   });
 
   @override
@@ -94,6 +96,47 @@ class _RecommendationResultState extends State<RecommendationResult> {
                 ),
               ),
             ],
+            if (widget.fixedNumbers.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  Icon(
+                    Icons.push_pin_rounded,
+                    size: 13,
+                    color: colorScheme.primary,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    '고정 번호: ',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  ...widget.fixedNumbers.map((n) => Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: AppColors.getBallColor(n),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '$n',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+            ],
 
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
@@ -116,12 +159,25 @@ class _RecommendationResultState extends State<RecommendationResult> {
             // 하단: 신뢰도 + 상세 토글
             Row(
               children: [
-                Text(
-                  '평균 신뢰도 ${(avgConfidence * 100).toStringAsFixed(1)}%',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: _confidenceColor(avgConfidence),
-                    fontWeight: FontWeight.w600,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '평균 신뢰도 ${(avgConfidence * 100).toStringAsFixed(1)}%',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: _confidenceColor(avgConfidence),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    if (widget.fixedNumbers.isNotEmpty)
+                      Text(
+                        '고정 번호 제외 나머지 번호 기준',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                  ],
                 ),
                 const Spacer(),
                 TextButton(

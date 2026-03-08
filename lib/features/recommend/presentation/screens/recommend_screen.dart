@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/network/api_exception.dart';
 import '../../../../shared/widgets/error_widget.dart';
@@ -71,6 +72,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final randomCount = ref.watch(randomRecommendCountProvider);
     final usePositionConstraint = ref.watch(usePositionConstraintProvider);
     final excludePastWinners = ref.watch(excludePastWinnersProvider);
+    final fixedNumbers = ref.watch(fixedNumbersProvider);
+    final fixedNumbersEnabled = ref.watch(fixedNumbersEnabledProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -98,6 +101,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               theme: Theme.of(context),
               usePositionConstraint: usePositionConstraint,
               excludePastWinners: excludePastWinners,
+              fixedNumbers: fixedNumbers,
+              fixedNumbersEnabled: fixedNumbersEnabled,
               positionMethods: methods.where((m) => m.category == 'position').toList(),
             ),
 
@@ -233,7 +238,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
             resultAsync.when(
               data: (result) {
                 if (result == null) return const SizedBox.shrink();
-                return RecommendationResult(response: result);
+                return RecommendationResult(
+                  response: result,
+                  fixedNumbers: fixedNumbers,
+                );
               },
               loading: () => const Center(
                 child: Padding(
@@ -274,11 +282,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     required ThemeData theme,
     required bool usePositionConstraint,
     required bool excludePastWinners,
+    required List<int> fixedNumbers,
+    required bool fixedNumbersEnabled,
     required List<AnalysisMethod> positionMethods,
   }) {
     final colorScheme = theme.colorScheme;
 
-    final isAnyActive = usePositionConstraint || excludePastWinners;
+    final isAnyActive = usePositionConstraint || excludePastWinners || fixedNumbers.isNotEmpty;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
@@ -332,47 +342,56 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               const SizedBox(height: 10),
 
               // 서브 항목 1: 1,6번째 번호 먼저 결정
-              Row(
-                children: [
-                  Icon(
-                    Icons.swap_vert_circle_outlined,
-                    size: 18,
-                    color: usePositionConstraint
-                        ? colorScheme.secondary
-                        : colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '1,6번째 번호 먼저 결정',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: usePositionConstraint
-                                ? colorScheme.secondary
-                                : colorScheme.onSurface,
-                          ),
-                        ),
-                        Text(
-                          '첫·마지막 번호를 위치 확률로 먼저 결정',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
+              Opacity(
+                opacity: fixedNumbers.isNotEmpty ? 0.4 : 1.0,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.swap_vert_circle_outlined,
+                      size: 18,
+                      color: usePositionConstraint
+                          ? colorScheme.secondary
+                          : colorScheme.onSurfaceVariant,
                     ),
-                  ),
-                  Switch(
-                    value: usePositionConstraint,
-                    onChanged: (value) {
-                      ref
-                          .read(usePositionConstraintProvider.notifier)
-                          .state = value;
-                    },
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '1,6번째 번호 먼저 결정',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: usePositionConstraint
+                                  ? colorScheme.secondary
+                                  : colorScheme.onSurface,
+                            ),
+                          ),
+                          Text(
+                            fixedNumbers.isNotEmpty
+                                ? '고정 숫자 설정 시 사용 불가'
+                                : '첫·마지막 번호를 위치 확률로 먼저 결정',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: fixedNumbers.isNotEmpty
+                                  ? colorScheme.error.withValues(alpha: 0.7)
+                                  : colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Switch(
+                      value: usePositionConstraint,
+                      onChanged: fixedNumbers.isNotEmpty
+                          ? null
+                          : (value) {
+                              ref
+                                  .read(usePositionConstraintProvider.notifier)
+                                  .state = value;
+                            },
+                    ),
+                  ],
+                ),
               ),
               AnimatedCrossFade(
                 firstChild: const SizedBox.shrink(),
@@ -492,9 +511,209 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   ),
                 ],
               ),
+
+              const SizedBox(height: 8),
+              Divider(
+                height: 1,
+                color: colorScheme.outlineVariant.withValues(alpha: 0.4),
+              ),
+              const SizedBox(height: 8),
+
+              // 서브 항목 3: 고정 숫자 설정
+              _buildFixedNumbersSection(
+                theme: theme,
+                fixedNumbers: fixedNumbers,
+                fixedNumbersEnabled: fixedNumbersEnabled,
+                colorScheme: colorScheme,
+              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildFixedNumbersSection({
+    required ThemeData theme,
+    required List<int> fixedNumbers,
+    required bool fixedNumbersEnabled,
+    required ColorScheme colorScheme,
+  }) {
+    final isDisabled = ref.watch(usePositionConstraintProvider);
+    final isActive = fixedNumbersEnabled && !isDisabled;
+
+    return Opacity(
+      opacity: isDisabled ? 0.4 : 1.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 헤더 + 스위치
+          Row(
+            children: [
+              Icon(
+                Icons.push_pin_outlined,
+                size: 18,
+                color: isActive
+                    ? colorScheme.primary
+                    : colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '고정 숫자 설정',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isActive
+                            ? colorScheme.primary
+                            : colorScheme.onSurface,
+                      ),
+                    ),
+                    Text(
+                      isDisabled
+                          ? '1,6번째 번호 먼저 결정 시 사용 불가'
+                          : '1~5개 번호를 직접 선택하고, 나머지를 분석으로 채워요',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: isDisabled
+                            ? colorScheme.error.withValues(alpha: 0.7)
+                            : colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Switch(
+                value: fixedNumbersEnabled,
+                onChanged: isDisabled
+                    ? null
+                    : (value) {
+                        ref
+                            .read(fixedNumbersEnabledProvider.notifier)
+                            .state = value;
+                        if (!value) {
+                          ref.read(fixedNumbersProvider.notifier).state = [];
+                        }
+                      },
+              ),
+            ],
+          ),
+
+          // 번호 선택 그리드 (스위치 ON일 때만 표시)
+          AnimatedCrossFade(
+            firstChild: const SizedBox.shrink(),
+            secondChild: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Divider(
+                    height: 1,
+                    color: colorScheme.primary.withValues(alpha: 0.3),
+                  ),
+                  const SizedBox(height: 10),
+                  // 초기화 버튼 (번호 선택 시)
+                  if (fixedNumbers.isNotEmpty)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          ref.read(fixedNumbersProvider.notifier).state = [];
+                        },
+                        style: TextButton.styleFrom(
+                          visualDensity: VisualDensity.compact,
+                          foregroundColor: colorScheme.error,
+                        ),
+                        child: const Text('초기화'),
+                      ),
+                    ),
+                  // 번호 그리드 (1~45)
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: List.generate(45, (index) {
+                      final num = index + 1;
+                      final isSelected = fixedNumbers.contains(num);
+                      final isFull =
+                          fixedNumbers.length >= 5 && !isSelected;
+                      return GestureDetector(
+                        onTap: isFull
+                            ? null
+                            : () {
+                                final current = List<int>.from(
+                                    ref.read(fixedNumbersProvider));
+                                if (isSelected) {
+                                  current.remove(num);
+                                } else {
+                                  current.add(num);
+                                  current.sort();
+                                }
+                                ref
+                                    .read(fixedNumbersProvider.notifier)
+                                    .state = current;
+                              },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isSelected
+                                ? AppColors.getBallColor(num)
+                                : isFull
+                                    ? AppColors.getBallColor(num)
+                                        .withValues(alpha: 0.15)
+                                    : AppColors.getBallColor(num)
+                                        .withValues(alpha: 0.3),
+                            border: Border.all(
+                              color: isSelected
+                                  ? AppColors.getBallColor(num)
+                                  : AppColors.getBallColor(num)
+                                      .withValues(alpha: isFull ? 0.2 : 0.5),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '$num',
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: isSelected
+                                    ? Colors.white
+                                    : isFull
+                                        ? colorScheme.onSurface
+                                            .withValues(alpha: 0.25)
+                                        : colorScheme.onSurface
+                                            .withValues(alpha: 0.75),
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  if (fixedNumbers.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      '고정: ${fixedNumbers.join(', ')} — 나머지 ${6 - fixedNumbers.length}개를 분석으로 결정',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            crossFadeState: isActive
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            duration: const Duration(milliseconds: 200),
+          ),
+        ],
       ),
     );
   }
@@ -866,6 +1085,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final count = ref.read(recommendCountProvider);
     final usePositionConstraint = ref.read(usePositionConstraintProvider);
     final excludePastWinners = ref.read(excludePastWinnersProvider);
+    final fixedNumbers = ref.read(fixedNumbersProvider);
 
     final request = RecommendRequest(
       methodCodes: selectedCodes,
@@ -875,6 +1095,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
       includeBonus: includeBonus,
       usePositionConstraint: usePositionConstraint,
       excludePastWinners: excludePastWinners,
+      fixedNumbers: fixedNumbers,
       count: count,
     );
 

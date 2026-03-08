@@ -87,6 +87,11 @@ _$RecommendRequestImpl _$$RecommendRequestImplFromJson(
   includeBonus: json['include_bonus'] as bool? ?? false,
   usePositionConstraint: json['use_position_constraint'] as bool? ?? false,
   excludePastWinners: json['exclude_past_winners'] as bool? ?? false,
+  fixedNumbers:
+      (json['fixed_numbers'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList() ??
+      const <int>[],
   count: (json['count'] as num?)?.toInt() ?? 5,
 );
 
@@ -100,6 +105,7 @@ Map<String, dynamic> _$$RecommendRequestImplToJson(
   'include_bonus': instance.includeBonus,
   'use_position_constraint': instance.usePositionConstraint,
   'exclude_past_winners': instance.excludePastWinners,
+  'fixed_numbers': instance.fixedNumbers,
   'count': instance.count,
 };
 
@@ -132,12 +138,9 @@ _$RecommendationImpl _$$RecommendationImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       combineMethod: json['combine_method'] as String,
       confidence: (json['confidence'] as num).toDouble(),
-      details:
-          (json['details'] as Map<String, dynamic>?)?.map(
-            (k, e) =>
-                MapEntry(k, MethodDetail.fromJson(e as Map<String, dynamic>)),
-          ) ??
-          const {},
+      details: json['details'] == null
+          ? const {}
+          : _detailsFromJson(json['details'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$RecommendationImplToJson(

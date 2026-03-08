@@ -935,6 +935,8 @@ mixin _$RecommendRequest {
   bool get usePositionConstraint => throw _privateConstructorUsedError;
   @JsonKey(name: 'exclude_past_winners')
   bool get excludePastWinners => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fixed_numbers')
+  List<int> get fixedNumbers => throw _privateConstructorUsedError;
   int get count => throw _privateConstructorUsedError;
 
   /// Serializes this RecommendRequest to a JSON map.
@@ -962,6 +964,7 @@ abstract class $RecommendRequestCopyWith<$Res> {
     @JsonKey(name: 'include_bonus') bool includeBonus,
     @JsonKey(name: 'use_position_constraint') bool usePositionConstraint,
     @JsonKey(name: 'exclude_past_winners') bool excludePastWinners,
+    @JsonKey(name: 'fixed_numbers') List<int> fixedNumbers,
     int count,
   });
 }
@@ -988,6 +991,7 @@ class _$RecommendRequestCopyWithImpl<$Res, $Val extends RecommendRequest>
     Object? includeBonus = null,
     Object? usePositionConstraint = null,
     Object? excludePastWinners = null,
+    Object? fixedNumbers = null,
     Object? count = null,
   }) {
     return _then(
@@ -1020,6 +1024,10 @@ class _$RecommendRequestCopyWithImpl<$Res, $Val extends RecommendRequest>
                 ? _value.excludePastWinners
                 : excludePastWinners // ignore: cast_nullable_to_non_nullable
                       as bool,
+            fixedNumbers: null == fixedNumbers
+                ? _value.fixedNumbers
+                : fixedNumbers // ignore: cast_nullable_to_non_nullable
+                      as List<int>,
             count: null == count
                 ? _value.count
                 : count // ignore: cast_nullable_to_non_nullable
@@ -1047,6 +1055,7 @@ abstract class _$$RecommendRequestImplCopyWith<$Res>
     @JsonKey(name: 'include_bonus') bool includeBonus,
     @JsonKey(name: 'use_position_constraint') bool usePositionConstraint,
     @JsonKey(name: 'exclude_past_winners') bool excludePastWinners,
+    @JsonKey(name: 'fixed_numbers') List<int> fixedNumbers,
     int count,
   });
 }
@@ -1072,6 +1081,7 @@ class __$$RecommendRequestImplCopyWithImpl<$Res>
     Object? includeBonus = null,
     Object? usePositionConstraint = null,
     Object? excludePastWinners = null,
+    Object? fixedNumbers = null,
     Object? count = null,
   }) {
     return _then(
@@ -1104,6 +1114,10 @@ class __$$RecommendRequestImplCopyWithImpl<$Res>
             ? _value.excludePastWinners
             : excludePastWinners // ignore: cast_nullable_to_non_nullable
                   as bool,
+        fixedNumbers: null == fixedNumbers
+            ? _value._fixedNumbers
+            : fixedNumbers // ignore: cast_nullable_to_non_nullable
+                  as List<int>,
         count: null == count
             ? _value.count
             : count // ignore: cast_nullable_to_non_nullable
@@ -1124,11 +1138,13 @@ class _$RecommendRequestImpl implements _RecommendRequest {
     @JsonKey(name: 'include_bonus') this.includeBonus = false,
     @JsonKey(name: 'use_position_constraint')
     this.usePositionConstraint = false,
-    @JsonKey(name: 'exclude_past_winners')
-    this.excludePastWinners = false,
+    @JsonKey(name: 'exclude_past_winners') this.excludePastWinners = false,
+    @JsonKey(name: 'fixed_numbers')
+    final List<int> fixedNumbers = const <int>[],
     this.count = 5,
   }) : _methodCodes = methodCodes,
-       _weights = weights;
+       _weights = weights,
+       _fixedNumbers = fixedNumbers;
 
   factory _$RecommendRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecommendRequestImplFromJson(json);
@@ -1167,13 +1183,22 @@ class _$RecommendRequestImpl implements _RecommendRequest {
   @override
   @JsonKey(name: 'exclude_past_winners')
   final bool excludePastWinners;
+  final List<int> _fixedNumbers;
+  @override
+  @JsonKey(name: 'fixed_numbers')
+  List<int> get fixedNumbers {
+    if (_fixedNumbers is EqualUnmodifiableListView) return _fixedNumbers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fixedNumbers);
+  }
+
   @override
   @JsonKey()
   final int count;
 
   @override
   String toString() {
-    return 'RecommendRequest(methodCodes: $methodCodes, combineCode: $combineCode, weights: $weights, minMaxMode: $minMaxMode, includeBonus: $includeBonus, usePositionConstraint: $usePositionConstraint, excludePastWinners: $excludePastWinners, count: $count)';
+    return 'RecommendRequest(methodCodes: $methodCodes, combineCode: $combineCode, weights: $weights, minMaxMode: $minMaxMode, includeBonus: $includeBonus, usePositionConstraint: $usePositionConstraint, excludePastWinners: $excludePastWinners, fixedNumbers: $fixedNumbers, count: $count)';
   }
 
   @override
@@ -1196,6 +1221,10 @@ class _$RecommendRequestImpl implements _RecommendRequest {
                 other.usePositionConstraint == usePositionConstraint) &&
             (identical(other.excludePastWinners, excludePastWinners) ||
                 other.excludePastWinners == excludePastWinners) &&
+            const DeepCollectionEquality().equals(
+              other._fixedNumbers,
+              _fixedNumbers,
+            ) &&
             (identical(other.count, count) || other.count == count));
   }
 
@@ -1210,6 +1239,7 @@ class _$RecommendRequestImpl implements _RecommendRequest {
     includeBonus,
     usePositionConstraint,
     excludePastWinners,
+    const DeepCollectionEquality().hash(_fixedNumbers),
     count,
   );
 
@@ -1239,6 +1269,7 @@ abstract class _RecommendRequest implements RecommendRequest {
     @JsonKey(name: 'include_bonus') final bool includeBonus,
     @JsonKey(name: 'use_position_constraint') final bool usePositionConstraint,
     @JsonKey(name: 'exclude_past_winners') final bool excludePastWinners,
+    @JsonKey(name: 'fixed_numbers') final List<int> fixedNumbers,
     final int count,
   }) = _$RecommendRequestImpl;
 
@@ -1265,6 +1296,9 @@ abstract class _RecommendRequest implements RecommendRequest {
   @override
   @JsonKey(name: 'exclude_past_winners')
   bool get excludePastWinners;
+  @override
+  @JsonKey(name: 'fixed_numbers')
+  List<int> get fixedNumbers;
   @override
   int get count;
 
@@ -1527,6 +1561,7 @@ mixin _$Recommendation {
   @JsonKey(name: 'combine_method')
   String get combineMethod => throw _privateConstructorUsedError;
   double get confidence => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _detailsFromJson)
   Map<String, MethodDetail> get details => throw _privateConstructorUsedError;
 
   /// Serializes this Recommendation to a JSON map.
@@ -1552,7 +1587,7 @@ abstract class $RecommendationCopyWith<$Res> {
     @JsonKey(name: 'methods_used') List<String> methodsUsed,
     @JsonKey(name: 'combine_method') String combineMethod,
     double confidence,
-    Map<String, MethodDetail> details,
+    @JsonKey(fromJson: _detailsFromJson) Map<String, MethodDetail> details,
   });
 }
 
@@ -1625,7 +1660,7 @@ abstract class _$$RecommendationImplCopyWith<$Res>
     @JsonKey(name: 'methods_used') List<String> methodsUsed,
     @JsonKey(name: 'combine_method') String combineMethod,
     double confidence,
-    Map<String, MethodDetail> details,
+    @JsonKey(fromJson: _detailsFromJson) Map<String, MethodDetail> details,
   });
 }
 
@@ -1690,6 +1725,7 @@ class _$RecommendationImpl implements _Recommendation {
     @JsonKey(name: 'methods_used') required final List<String> methodsUsed,
     @JsonKey(name: 'combine_method') required this.combineMethod,
     required this.confidence,
+    @JsonKey(fromJson: _detailsFromJson)
     final Map<String, MethodDetail> details = const {},
   }) : _numbers = numbers,
        _methodsUsed = methodsUsed,
@@ -1724,7 +1760,7 @@ class _$RecommendationImpl implements _Recommendation {
   final double confidence;
   final Map<String, MethodDetail> _details;
   @override
-  @JsonKey()
+  @JsonKey(fromJson: _detailsFromJson)
   Map<String, MethodDetail> get details {
     if (_details is EqualUnmodifiableMapView) return _details;
     // ignore: implicit_dynamic_type
@@ -1790,6 +1826,7 @@ abstract class _Recommendation implements Recommendation {
     @JsonKey(name: 'methods_used') required final List<String> methodsUsed,
     @JsonKey(name: 'combine_method') required final String combineMethod,
     required final double confidence,
+    @JsonKey(fromJson: _detailsFromJson)
     final Map<String, MethodDetail> details,
   }) = _$RecommendationImpl;
 
@@ -1809,6 +1846,7 @@ abstract class _Recommendation implements Recommendation {
   @override
   double get confidence;
   @override
+  @JsonKey(fromJson: _detailsFromJson)
   Map<String, MethodDetail> get details;
 
   /// Create a copy of Recommendation

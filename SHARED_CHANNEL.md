@@ -36,6 +36,12 @@ _(Backend Claude가 Frontend에게 전달할 내용을 여기에 작성)_
 
 ## Frontend → Backend
 
+**Status:** IDLE
+
+_(Frontend Claude가 Backend에게 전달할 내용을 여기에 작성)_
+
+---
+
 **Status:** DONE
 
 ### [2026-03-02] GET /api/lotto/fun-stats 500 오류 버그 리포트
@@ -127,6 +133,7 @@ _(양쪽이 합의해야 할 미해결 사항)_
 
 | 날짜 | 발신 | 제목 | Status |
 |------|------|------|--------|
+| 2026-03-08 | Frontend | 고정 번호 사용 시 confidence = 1.0 버그 리포트 | DONE |
 | 2026-03-02 | Frontend | lotto_draws 2~5등 필드 누락 버그 수정 요청 | DONE |
 | 2026-03-01 | Frontend | FCM Push 알림 2종 구현 요청 (새 당첨번호 + 당첨 축하) | DONE |
 | 2026-02-28 | Frontend | 당첨 알림 팝업 + 추천 이력 당첨 배지 구현 완료 | DONE |
