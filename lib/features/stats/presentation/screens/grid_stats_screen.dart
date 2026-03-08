@@ -33,7 +33,7 @@ class GridStatsScreen extends ConsumerWidget {
               tabs: [
                 Tab(text: '행(Row) 분포'),
                 Tab(text: '열(Col) 분포'),
-                Tab(text: '패턴 보기'),
+                Tab(text: '추천번호 패턴 보기'),
               ],
             ),
             Expanded(

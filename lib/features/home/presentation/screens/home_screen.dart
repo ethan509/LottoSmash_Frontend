@@ -1192,7 +1192,7 @@ class _FunStatDrawModal extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              draw.drawDate,
+                              AppDateUtils.formatDateString(draw.drawDate),
                               style: theme.textTheme.labelSmall?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
