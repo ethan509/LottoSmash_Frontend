@@ -70,7 +70,7 @@ class AppStrings {
   static const String includeBonus = '보너스 번호 포함';
   static const String setCount = '추천 세트 수';
   static const String generateRecommend = '번호 추천받기';
-  static const String confidence = '신뢰도';
+  static const String confidence = '분석 점수';
   static const String recommendHistory = '추천 이력';
 
   // Zam

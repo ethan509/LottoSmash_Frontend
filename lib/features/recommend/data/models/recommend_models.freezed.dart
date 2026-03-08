@@ -2711,3 +2711,456 @@ abstract class _RecommendationHistoryResponse
   >
   get copyWith => throw _privateConstructorUsedError;
 }
+
+LatestRoundSection _$LatestRoundSectionFromJson(Map<String, dynamic> json) {
+  return _LatestRoundSection.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LatestRoundSection {
+  @JsonKey(name: 'draw_no')
+  int? get drawNo => throw _privateConstructorUsedError;
+  List<RecommendationHistory> get items => throw _privateConstructorUsedError;
+
+  /// Serializes this LatestRoundSection to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of LatestRoundSection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $LatestRoundSectionCopyWith<LatestRoundSection> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LatestRoundSectionCopyWith<$Res> {
+  factory $LatestRoundSectionCopyWith(
+    LatestRoundSection value,
+    $Res Function(LatestRoundSection) then,
+  ) = _$LatestRoundSectionCopyWithImpl<$Res, LatestRoundSection>;
+  @useResult
+  $Res call({
+    @JsonKey(name: 'draw_no') int? drawNo,
+    List<RecommendationHistory> items,
+  });
+}
+
+/// @nodoc
+class _$LatestRoundSectionCopyWithImpl<$Res, $Val extends LatestRoundSection>
+    implements $LatestRoundSectionCopyWith<$Res> {
+  _$LatestRoundSectionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of LatestRoundSection
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? drawNo = freezed, Object? items = null}) {
+    return _then(
+      _value.copyWith(
+            drawNo: freezed == drawNo
+                ? _value.drawNo
+                : drawNo // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            items: null == items
+                ? _value.items
+                : items // ignore: cast_nullable_to_non_nullable
+                      as List<RecommendationHistory>,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$LatestRoundSectionImplCopyWith<$Res>
+    implements $LatestRoundSectionCopyWith<$Res> {
+  factory _$$LatestRoundSectionImplCopyWith(
+    _$LatestRoundSectionImpl value,
+    $Res Function(_$LatestRoundSectionImpl) then,
+  ) = __$$LatestRoundSectionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    @JsonKey(name: 'draw_no') int? drawNo,
+    List<RecommendationHistory> items,
+  });
+}
+
+/// @nodoc
+class __$$LatestRoundSectionImplCopyWithImpl<$Res>
+    extends _$LatestRoundSectionCopyWithImpl<$Res, _$LatestRoundSectionImpl>
+    implements _$$LatestRoundSectionImplCopyWith<$Res> {
+  __$$LatestRoundSectionImplCopyWithImpl(
+    _$LatestRoundSectionImpl _value,
+    $Res Function(_$LatestRoundSectionImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of LatestRoundSection
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? drawNo = freezed, Object? items = null}) {
+    return _then(
+      _$LatestRoundSectionImpl(
+        drawNo: freezed == drawNo
+            ? _value.drawNo
+            : drawNo // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        items: null == items
+            ? _value._items
+            : items // ignore: cast_nullable_to_non_nullable
+                  as List<RecommendationHistory>,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LatestRoundSectionImpl implements _LatestRoundSection {
+  const _$LatestRoundSectionImpl({
+    @JsonKey(name: 'draw_no') this.drawNo,
+    final List<RecommendationHistory> items = const [],
+  }) : _items = items;
+
+  factory _$LatestRoundSectionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LatestRoundSectionImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'draw_no')
+  final int? drawNo;
+  final List<RecommendationHistory> _items;
+  @override
+  @JsonKey()
+  List<RecommendationHistory> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  String toString() {
+    return 'LatestRoundSection(drawNo: $drawNo, items: $items)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LatestRoundSectionImpl &&
+            (identical(other.drawNo, drawNo) || other.drawNo == drawNo) &&
+            const DeepCollectionEquality().equals(other._items, _items));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    drawNo,
+    const DeepCollectionEquality().hash(_items),
+  );
+
+  /// Create a copy of LatestRoundSection
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LatestRoundSectionImplCopyWith<_$LatestRoundSectionImpl> get copyWith =>
+      __$$LatestRoundSectionImplCopyWithImpl<_$LatestRoundSectionImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LatestRoundSectionImplToJson(this);
+  }
+}
+
+abstract class _LatestRoundSection implements LatestRoundSection {
+  const factory _LatestRoundSection({
+    @JsonKey(name: 'draw_no') final int? drawNo,
+    final List<RecommendationHistory> items,
+  }) = _$LatestRoundSectionImpl;
+
+  factory _LatestRoundSection.fromJson(Map<String, dynamic> json) =
+      _$LatestRoundSectionImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'draw_no')
+  int? get drawNo;
+  @override
+  List<RecommendationHistory> get items;
+
+  /// Create a copy of LatestRoundSection
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LatestRoundSectionImplCopyWith<_$LatestRoundSectionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SectionedHistoryResponse _$SectionedHistoryResponseFromJson(
+  Map<String, dynamic> json,
+) {
+  return _SectionedHistoryResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SectionedHistoryResponse {
+  @JsonKey(name: 'latest_round')
+  LatestRoundSection? get latestRound => throw _privateConstructorUsedError;
+  List<RecommendationHistory> get winners => throw _privateConstructorUsedError;
+  @JsonKey(name: 'no_prize')
+  List<RecommendationHistory> get noPrize => throw _privateConstructorUsedError;
+
+  /// Serializes this SectionedHistoryResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SectionedHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SectionedHistoryResponseCopyWith<SectionedHistoryResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SectionedHistoryResponseCopyWith<$Res> {
+  factory $SectionedHistoryResponseCopyWith(
+    SectionedHistoryResponse value,
+    $Res Function(SectionedHistoryResponse) then,
+  ) = _$SectionedHistoryResponseCopyWithImpl<$Res, SectionedHistoryResponse>;
+  @useResult
+  $Res call({
+    @JsonKey(name: 'latest_round') LatestRoundSection? latestRound,
+    List<RecommendationHistory> winners,
+    @JsonKey(name: 'no_prize') List<RecommendationHistory> noPrize,
+  });
+
+  $LatestRoundSectionCopyWith<$Res>? get latestRound;
+}
+
+/// @nodoc
+class _$SectionedHistoryResponseCopyWithImpl<
+  $Res,
+  $Val extends SectionedHistoryResponse
+>
+    implements $SectionedHistoryResponseCopyWith<$Res> {
+  _$SectionedHistoryResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SectionedHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? latestRound = freezed,
+    Object? winners = null,
+    Object? noPrize = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            latestRound: freezed == latestRound
+                ? _value.latestRound
+                : latestRound // ignore: cast_nullable_to_non_nullable
+                      as LatestRoundSection?,
+            winners: null == winners
+                ? _value.winners
+                : winners // ignore: cast_nullable_to_non_nullable
+                      as List<RecommendationHistory>,
+            noPrize: null == noPrize
+                ? _value.noPrize
+                : noPrize // ignore: cast_nullable_to_non_nullable
+                      as List<RecommendationHistory>,
+          )
+          as $Val,
+    );
+  }
+
+  /// Create a copy of SectionedHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $LatestRoundSectionCopyWith<$Res>? get latestRound {
+    if (_value.latestRound == null) {
+      return null;
+    }
+
+    return $LatestRoundSectionCopyWith<$Res>(_value.latestRound!, (value) {
+      return _then(_value.copyWith(latestRound: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$SectionedHistoryResponseImplCopyWith<$Res>
+    implements $SectionedHistoryResponseCopyWith<$Res> {
+  factory _$$SectionedHistoryResponseImplCopyWith(
+    _$SectionedHistoryResponseImpl value,
+    $Res Function(_$SectionedHistoryResponseImpl) then,
+  ) = __$$SectionedHistoryResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    @JsonKey(name: 'latest_round') LatestRoundSection? latestRound,
+    List<RecommendationHistory> winners,
+    @JsonKey(name: 'no_prize') List<RecommendationHistory> noPrize,
+  });
+
+  @override
+  $LatestRoundSectionCopyWith<$Res>? get latestRound;
+}
+
+/// @nodoc
+class __$$SectionedHistoryResponseImplCopyWithImpl<$Res>
+    extends
+        _$SectionedHistoryResponseCopyWithImpl<
+          $Res,
+          _$SectionedHistoryResponseImpl
+        >
+    implements _$$SectionedHistoryResponseImplCopyWith<$Res> {
+  __$$SectionedHistoryResponseImplCopyWithImpl(
+    _$SectionedHistoryResponseImpl _value,
+    $Res Function(_$SectionedHistoryResponseImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SectionedHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? latestRound = freezed,
+    Object? winners = null,
+    Object? noPrize = null,
+  }) {
+    return _then(
+      _$SectionedHistoryResponseImpl(
+        latestRound: freezed == latestRound
+            ? _value.latestRound
+            : latestRound // ignore: cast_nullable_to_non_nullable
+                  as LatestRoundSection?,
+        winners: null == winners
+            ? _value._winners
+            : winners // ignore: cast_nullable_to_non_nullable
+                  as List<RecommendationHistory>,
+        noPrize: null == noPrize
+            ? _value._noPrize
+            : noPrize // ignore: cast_nullable_to_non_nullable
+                  as List<RecommendationHistory>,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SectionedHistoryResponseImpl implements _SectionedHistoryResponse {
+  const _$SectionedHistoryResponseImpl({
+    @JsonKey(name: 'latest_round') this.latestRound,
+    final List<RecommendationHistory> winners = const [],
+    @JsonKey(name: 'no_prize')
+    final List<RecommendationHistory> noPrize = const [],
+  }) : _winners = winners,
+       _noPrize = noPrize;
+
+  factory _$SectionedHistoryResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SectionedHistoryResponseImplFromJson(json);
+
+  @override
+  @JsonKey(name: 'latest_round')
+  final LatestRoundSection? latestRound;
+  final List<RecommendationHistory> _winners;
+  @override
+  @JsonKey()
+  List<RecommendationHistory> get winners {
+    if (_winners is EqualUnmodifiableListView) return _winners;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_winners);
+  }
+
+  final List<RecommendationHistory> _noPrize;
+  @override
+  @JsonKey(name: 'no_prize')
+  List<RecommendationHistory> get noPrize {
+    if (_noPrize is EqualUnmodifiableListView) return _noPrize;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_noPrize);
+  }
+
+  @override
+  String toString() {
+    return 'SectionedHistoryResponse(latestRound: $latestRound, winners: $winners, noPrize: $noPrize)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SectionedHistoryResponseImpl &&
+            (identical(other.latestRound, latestRound) ||
+                other.latestRound == latestRound) &&
+            const DeepCollectionEquality().equals(other._winners, _winners) &&
+            const DeepCollectionEquality().equals(other._noPrize, _noPrize));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    latestRound,
+    const DeepCollectionEquality().hash(_winners),
+    const DeepCollectionEquality().hash(_noPrize),
+  );
+
+  /// Create a copy of SectionedHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SectionedHistoryResponseImplCopyWith<_$SectionedHistoryResponseImpl>
+  get copyWith =>
+      __$$SectionedHistoryResponseImplCopyWithImpl<
+        _$SectionedHistoryResponseImpl
+      >(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SectionedHistoryResponseImplToJson(this);
+  }
+}
+
+abstract class _SectionedHistoryResponse implements SectionedHistoryResponse {
+  const factory _SectionedHistoryResponse({
+    @JsonKey(name: 'latest_round') final LatestRoundSection? latestRound,
+    final List<RecommendationHistory> winners,
+    @JsonKey(name: 'no_prize') final List<RecommendationHistory> noPrize,
+  }) = _$SectionedHistoryResponseImpl;
+
+  factory _SectionedHistoryResponse.fromJson(Map<String, dynamic> json) =
+      _$SectionedHistoryResponseImpl.fromJson;
+
+  @override
+  @JsonKey(name: 'latest_round')
+  LatestRoundSection? get latestRound;
+  @override
+  List<RecommendationHistory> get winners;
+  @override
+  @JsonKey(name: 'no_prize')
+  List<RecommendationHistory> get noPrize;
+
+  /// Create a copy of SectionedHistoryResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SectionedHistoryResponseImplCopyWith<_$SectionedHistoryResponseImpl>
+  get copyWith => throw _privateConstructorUsedError;
+}
