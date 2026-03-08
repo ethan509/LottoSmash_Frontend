@@ -163,7 +163,7 @@ class _RecommendationResultState extends State<RecommendationResult> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '평균 신뢰도 ${(avgConfidence * 100).toStringAsFixed(1)}%',
+                      '평균 분석 점수 ${(avgConfidence * 100).toStringAsFixed(1)}%',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: _confidenceColor(avgConfidence),
                         fontWeight: FontWeight.w600,

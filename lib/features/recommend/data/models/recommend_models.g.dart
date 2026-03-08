@@ -226,3 +226,52 @@ Map<String, dynamic> _$$RecommendationHistoryResponseImplToJson(
   'recommendations': instance.recommendations,
   'count': instance.totalCount,
 };
+
+_$LatestRoundSectionImpl _$$LatestRoundSectionImplFromJson(
+  Map<String, dynamic> json,
+) => _$LatestRoundSectionImpl(
+  drawNo: (json['draw_no'] as num?)?.toInt(),
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map(
+            (e) => RecommendationHistory.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
+);
+
+Map<String, dynamic> _$$LatestRoundSectionImplToJson(
+  _$LatestRoundSectionImpl instance,
+) => <String, dynamic>{'draw_no': instance.drawNo, 'items': instance.items};
+
+_$SectionedHistoryResponseImpl _$$SectionedHistoryResponseImplFromJson(
+  Map<String, dynamic> json,
+) => _$SectionedHistoryResponseImpl(
+  latestRound: json['latest_round'] == null
+      ? null
+      : LatestRoundSection.fromJson(
+          json['latest_round'] as Map<String, dynamic>,
+        ),
+  winners:
+      (json['winners'] as List<dynamic>?)
+          ?.map(
+            (e) => RecommendationHistory.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
+  noPrize:
+      (json['no_prize'] as List<dynamic>?)
+          ?.map(
+            (e) => RecommendationHistory.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
+);
+
+Map<String, dynamic> _$$SectionedHistoryResponseImplToJson(
+  _$SectionedHistoryResponseImpl instance,
+) => <String, dynamic>{
+  'latest_round': instance.latestRound,
+  'winners': instance.winners,
+  'no_prize': instance.noPrize,
+};

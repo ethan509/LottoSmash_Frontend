@@ -9,39 +9,11 @@ import '../../../auth/providers/auth_provider.dart';
 import '../../data/models/recommend_models.dart';
 import '../../providers/recommend_provider.dart';
 
-class RecommendHistoryScreen extends ConsumerStatefulWidget {
+class RecommendHistoryScreen extends ConsumerWidget {
   const RecommendHistoryScreen({super.key});
 
   @override
-  ConsumerState<RecommendHistoryScreen> createState() =>
-      _RecommendHistoryScreenState();
-}
-
-class _RecommendHistoryScreenState
-    extends ConsumerState<RecommendHistoryScreen> {
-  final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      ref.read(recommendHistoryProvider.notifier).loadMore();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final userAsync = ref.watch(currentUserProvider);
 
     return Scaffold(
@@ -52,45 +24,77 @@ class _RecommendHistoryScreenState
         data: (user) {
           final isGuest =
               user?.tier?.code == 'GUEST' || user?.email == null;
-          return isGuest ? _buildGuestBlock(context) : _buildHistoryList();
+          return isGuest ? _buildGuestBlock(context) : _buildHistoryBody(ref);
         },
       ),
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
-    final theme = Theme.of(context);
+  Widget _buildHistoryBody(WidgetRef ref) {
+    final historyAsync = ref.watch(recommendHistoryProvider);
+
+    return historyAsync.when(
+      loading: () => const ShimmerList(itemCount: 6, itemHeight: 140),
+      error: (error, _) => AppErrorWidget(
+        message: error.toString(),
+        onRetry: () => ref.read(recommendHistoryProvider.notifier).refresh(),
+      ),
+      data: (data) {
+        final latestItems = data.latestRound?.items ?? [];
+        final winners = data.winners;
+        final noPrize = data.noPrize;
+        final isEmpty =
+            latestItems.isEmpty && winners.isEmpty && noPrize.isEmpty;
+
+        if (isEmpty) return _buildEmptyState(ref);
+
+        return RefreshIndicator(
+          onRefresh: () =>
+              ref.read(recommendHistoryProvider.notifier).refresh(),
+          child: ListView(
+            padding:
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            children: [
+              if (latestItems.isNotEmpty) ...[
+                _SectionHeader(
+                  label: '최신 추천',
+                  drawNo: data.latestRound?.drawNo,
+                ),
+                ...latestItems.map((item) => _HistoryCard(item: item)),
+              ],
+              if (winners.isNotEmpty) ...[
+                const _SectionHeader(label: '당첨 이력'),
+                ...winners.map((item) => _HistoryCard(item: item)),
+              ],
+              if (noPrize.isNotEmpty) ...[
+                const _SectionHeader(label: '꽝 이력'),
+                ...noPrize.map((item) => _HistoryCard(item: item)),
+              ],
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEmptyState(WidgetRef ref) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.history_rounded,
-              size: 64,
-              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
-            ),
+            const Icon(Icons.history_rounded, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               '아직 추천 이력이 없습니다',
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               '번호 추천을 받으면 이곳에 자동으로 저장됩니다.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
               textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            OutlinedButton.icon(
-              onPressed: () => context.pop(),
-              icon: const Icon(Icons.auto_awesome, size: 18),
-              label: const Text('추천 받으러 가기'),
             ),
           ],
         ),
@@ -99,31 +103,21 @@ class _RecommendHistoryScreenState
   }
 
   Widget _buildGuestBlock(BuildContext context) {
-    final theme = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.lock_outline,
-              size: 64,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+            const Icon(Icons.lock_outline, size: 64),
             const SizedBox(height: 16),
-            Text(
+            const Text(
               '정회원만 이용 가능합니다',
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               '회원가입 후 추천 이력을 확인할 수 있습니다.',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -137,41 +131,48 @@ class _RecommendHistoryScreenState
       ),
     );
   }
+}
 
-  Widget _buildHistoryList() {
-    final historyAsync = ref.watch(recommendHistoryProvider);
+class _SectionHeader extends StatelessWidget {
+  final String label;
+  final int? drawNo;
 
-    return historyAsync.when(
-      loading: () => const ShimmerList(itemCount: 6, itemHeight: 140),
-      error: (error, _) => AppErrorWidget(
-        message: error.toString(),
-        onRetry: () =>
-            ref.read(recommendHistoryProvider.notifier).refresh(),
-      ),
-      data: (state) {
-        if (state.items.isEmpty) {
-          return _buildEmptyState(context);
-        }
+  const _SectionHeader({required this.label, this.drawNo});
 
-        return RefreshIndicator(
-          onRefresh: () =>
-              ref.read(recommendHistoryProvider.notifier).refresh(),
-          child: ListView.builder(
-            controller: _scrollController,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            itemCount: state.items.length + (state.hasMore ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index >= state.items.length) {
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-              return _HistoryCard(item: state.items[index]);
-            },
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.primary,
+            ),
           ),
-        );
-      },
+          if (drawNo != null) ...[
+            const SizedBox(width: 6),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '$drawNo회',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }
@@ -193,7 +194,7 @@ class _HistoryCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 상단: 날짜 + 대상회차 + 당첨배지 + 신뢰도
+            // 상단: 날짜 + 대상회차 + 당첨배지
             Row(
               children: [
                 Text(
@@ -213,22 +214,6 @@ class _HistoryCard extends StatelessWidget {
                 ],
                 const Spacer(),
                 _PrizeRankBadge(prizeRank: item.prizeRank),
-                const SizedBox(width: 6),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    '${AppStrings.confidence} ${(item.confidence * 100).toStringAsFixed(1)}%',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ],
             ),
             const SizedBox(height: 12),

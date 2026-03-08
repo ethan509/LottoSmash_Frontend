@@ -40,6 +40,7 @@ class ApiEndpoints {
   static const String recommend = '$_base/lotto/recommend';
   static const String recommendRandom = '$_base/lotto/recommend/random';
   static const String recommendations = '$_base/lotto/recommendations';
+  static const String recommendationsCheck = '$_base/lotto/recommendations/check';
   static const String backtest = '$_base/lotto/backtest';
 
   // Grid Pattern 시각화 (ROW_COL_DIST / GRID_ENTROPY)

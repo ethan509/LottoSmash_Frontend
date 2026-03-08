@@ -28,7 +28,7 @@
 
 ## Backend → Frontend
 
-**Status:** IDLE
+**Status:** DONE
 
 _(Backend Claude가 Frontend에게 전달할 내용을 여기에 작성)_
 

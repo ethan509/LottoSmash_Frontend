@@ -7,6 +7,7 @@ import '../../../core/network/api_exception.dart';
 import '../../../core/network/auth_interceptor.dart';
 import '../../../core/network/dio_client.dart';
 import '../../../core/services/fcm_service.dart';
+import '../../recommend/data/repositories/recommend_repository.dart';
 import '../data/models/auth_models.dart';
 import '../data/repositories/auth_repository.dart';
 
@@ -97,10 +98,18 @@ class AuthStateNotifier extends AsyncNotifier<bool> {
       await _saveTokens(auth);
       ref.invalidate(currentUserProvider);
       state = const AsyncData(true);
+      // 대기중 추천 일괄 체크 (정회원 이상, best-effort)
+      _checkPendingRecommendations();
     } catch (e, st) {
       state = AsyncError(e, st);
       rethrow;
     }
+  }
+
+  void _checkPendingRecommendations() {
+    try {
+      ref.read(recommendRepositoryProvider).checkPendingRecommendations();
+    } catch (_) {}
   }
 
   /// 로그아웃
